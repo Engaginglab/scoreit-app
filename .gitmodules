@@ -7,3 +7,6 @@
 [submodule "lib/layout"]
 	path = lib/layout
 	url = https://github.com/enyojs/layout.git
+[submodule "lib/scoreit-api"]
+	path = lib/scoreit-api
+	url = https://MaKleSoft@github.com/Engaginglab/scoreit-js-client.git
