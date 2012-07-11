@@ -136,8 +136,8 @@ enyo.kind({
 		{kind: "FittableRows", classes: "prepview-inner", components: [
 			{kind: "onyx.Groupbox", components: [
 				{kind: "onyx.GroupboxHeader", content: "Allgemein"},
-				{kind: "onyx.InputDecorator", components: [
-					{kind: "onyx.Input", name: "number", style: "width: 480px"}, {classes: "label", content: "Spielnummer"}
+				{kind: "onyx.InputDecorator", classes: "input-fill", components: [
+					{kind: "onyx.Input", name: "number"}, {classes: "label", content: "Spielnummer"}
 				]},
 				{kind: "onyx.custom.SelectDecorator", name: "unionSelectDecorator", disabled: true, components: [
 					{kind: "Select", name: "unionSelect", onchange: "unionChanged", components: [

@@ -1,0 +1,42 @@
+body {
+	font-family: Asap, Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+	background-image: url(../../assets/images/light_wool.png);
+	text-align: center;
+	box-sizing: border-box;
+}
+
+.scoreit-header-big {
+	background: url(../../assets/images/logo_big.png) no-repeat center center;
+	height: 130px;
+	text-align: left;
+	padding: 10px;
+}
+
+.scoreit-header {
+	background: url(../../assets/images/logo_small.png) no-repeat center center;
+	height: 60px;
+	text-align: left;
+	padding: 10px;
+}
+
+.header-font {
+	font-family: 'Signika Negative';
+}
+
+.ellipsis {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.popup-padded {
+	padding: 10px;
+}
+
+.popup-padded * {
+	margin: 5px;
+}
+
+.scoreit-app {
+	margin: 0px auto;
+}

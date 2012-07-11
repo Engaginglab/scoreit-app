@@ -1,0 +1,149 @@
+.reportview {
+	padding: 0px 20px 20px 20px;
+	max-width: 1024px;
+	max-height: 768px;
+	margin: 0px auto;
+	box-sizing: border-box;
+}
+
+.reportview-sidecolumn-header {
+	text-align: center;
+	padding: 0px 15px 15px 15px;
+	font-size: 23pt;
+}
+
+.reportview-sidecolumn-list-wrapper {
+	width: 320px;
+	position: relative;
+}
+
+.reportview-sidecolumn-list {
+	box-sizing: border-box;
+	width: 350px;
+	border-radius: 15px;
+	box-shadow:	inset 0 0 10px #000000;
+	padding: 5px;
+	background-image: url(../images/snow.png);
+}
+
+.reportview-sidecolumn-list-highlighted {
+	position: absolute;
+	z-index: 11;
+}
+
+.reportview-scoreboard {
+	margin: 50px 0px;
+	font-size: 20pt;
+}
+
+.reportview-scoreboard-field {
+	width: 60px;
+	text-align: center;
+}
+
+.reportview-scoreboard-seperator {
+	padding: 50px 5px 5px 5px;
+}
+
+.reportview .reportview-stopwatch {
+	width: 250px;
+	height: 70px;
+	margin: 50px auto 10px auto;
+	padding-left: 50px;
+}
+
+.reportview-scoreboard-header {
+	padding: 10px;
+	font-size: 15pt;
+}
+
+.reportview-timer-controls {
+	margin-bottom: 50px;
+}
+
+.reportview-timer-controls .onyx-button.reportview-timer-controls-toggle {
+	padding: 5px 5px 5px 8px;
+	width: 80px;
+	height: 80px;
+	margin: 5px;
+	border-radius: 100px;
+	background-color: Green;
+}
+
+.reportview-timer-controls .onyx-button.reportview-timer-controls-toggle.pause {
+	background-color: Orange;
+	padding: 5px;
+}
+
+.reportview-timer-controls .onyx-button.reportview-timer-controls-toggle .pause-image {
+	display: none;
+}
+
+.reportview-timer-controls .onyx-button.reportview-timer-controls-toggle.pause .pause-image {
+	display: inline-block;
+}
+
+.reportview-timer-controls .onyx-button.reportview-timer-controls-toggle.pause .play-image {
+	display: none;
+}
+
+.reportview-timer-controls .reportview-timer-controls-reset {
+	padding: 5px;
+	margin: 0px 5px 5px 5px;
+	width: 70px;
+	height: 45px;
+	font-size: 15pt;
+	position: relative;
+	top: 15px;
+}
+
+.reportview-scoreboard-controls {
+	padding-top: 38px;
+	margin: 0px 5px 0px 5px;
+}
+
+.reportview-scoreboard-controls .onyx-button {
+	display: block;
+}
+
+.logo-header {
+	width: 250px;
+	display: block;
+	margin: 20px auto;
+}
+
+.reportview-goal-button {
+	font-size: 15pt;
+	width: 190px;
+}
+
+.reportview-goal-button img {
+	width: 80px;
+}
+
+.scrim.reportview-scrim {
+	padding-top: 200px;
+	color: inherit;
+	font-size: inherit;
+	font-family: Asap;
+}
+
+.scrim.reportview-scrim.reportview-scrim-lists {
+	background-color: Transparent;
+	opacity: 1;
+}
+
+.scrim.reportview-scrim .reportview-scrim-text {
+	color: white;
+}
+
+.reportview-penalty-controls {
+	padding: 10px;
+	height: 60px;
+}
+
+.reportview-penalty-controls button {
+	margin: 2px;
+	padding: 5px;
+	width: 60px;
+}
