@@ -68,7 +68,6 @@ enyo.kind({
 		this.$.awaySelectDecorator.render();
 	},
 	teamChanged: function(sender, event) {
-		this.$.homeTeamList.destroyComponents();
 		var index = sender.getValue();
 		var team = sender.team;
 		if (index != -1) {
@@ -78,8 +77,8 @@ enyo.kind({
 	},
 	populateTeamMembers: function(team) {
 		var players = this[team + "Team"].players;
-		var select = this[team + "TeamMemberSelect"];
-		var selectDecorator = this[team + "TeamMemberSelectDecorator"];
+		var select = this.$[team + "PlayerSelect"];
+		var selectDecorator = this.$[team + "PlayerSelectDecorator"];
 		select.destroyComponents();
 		//this.$.homeTeamMemberSelect.createComponent({content: "Spieler hinzufügen", value: -1});
 		for (var i = 0; i < players.length; i++) {
@@ -95,7 +94,7 @@ enyo.kind({
 		this.$[team + "TeamList"].render();
 		this.$.doneButton.setDisabled(!this.homeTeam || !this.homeTeam.players || !this.awayTeam || !this.awayTeam.players);
 	},
-	memberChanged: function(sender, event) {
+	playerChanged: function(sender, event) {
 		var index = sender.getValue();
 		var team = sender.team;
 		var players = this[team + "Players"];
@@ -110,7 +109,7 @@ enyo.kind({
 		}
 	},
 	setupPlayerItem: function(sender, event) {
-		this.$[sender.team + "PlayerItem"].setPlayer(this[sender.team + "Players"][i]);
+		this.$[sender.team + "PlayerItem"].setPlayer(this[sender.team + "Players"][event.index]);
 	},
 	startGame: function() {
 		this.doStartGame({home: this.homeTeam, away: this.awayTeam, number: this.$.number.getValue(), union: this.selectedUnion, gameClass: this.selectedClass});
@@ -146,7 +145,7 @@ enyo.kind({
 					]}
 				]},
 				{kind: "onyx.custom.SelectDecorator", name: "leagueSelectDecorator", disabled: true, components: [
-					{kind: "Select", name: "leagueSelect", onchange: "classChanged", components: [
+					{kind: "Select", name: "leagueSelect", onchange: "leagueChanged", components: [
 						{content: "Klasse wählen", value: -1}
 					]}
 				]}
@@ -163,8 +162,8 @@ enyo.kind({
 						{name: "homeTeamList", kind: "FlyweightRepeater", team: "home", onSetupItem: "setupPlayerItem", classes: "prepview-teamlist", components: [
 							{kind: "PrepPlayerItem", name: "homePlayerItem"}
 						]},
-						{kind: "onyx.custom.SelectDecorator", showing: false, name: "homeTeamMemberSelectDecorator", disabled: true, components: [
-							{kind: "Select", name: "homeTeamMemberSelect", team: "home", onchange: "teamMemberChanged", components: [
+						{kind: "onyx.custom.SelectDecorator", showing: false, name: "homePlayerSelectDecorator", disabled: true, components: [
+							{kind: "Select", name: "homePlayerSelect", team: "home", onchange: "playerChanged", components: [
 								{content: "Spieler hinzufügen", value: -1}
 							]}
 						]}
@@ -181,8 +180,8 @@ enyo.kind({
 						{name: "awayTeamList", kind: "FlyweightRepeater", team: "away", onSetupItem: "setupPlayerItem", classes: "prepview-teamlist", components: [
 							{kind: "PrepPlayerItem", name: "awayPlayerItem"}
 						]},
-						{kind: "onyx.custom.SelectDecorator", showing: false, name: "awayTeamMemberSelectDecorator", disabled: true, components: [
-							{kind: "Select", name: "awayTeamMemberSelect", team: "away", onchange: "teamMemberChanged", components: [
+						{kind: "onyx.custom.SelectDecorator", showing: false, name: "awayPlayerSelectDecorator", disabled: true, components: [
+							{kind: "Select", name: "awayPlayerSelect", team: "away", onchange: "playerChanged", components: [
 								{content: "Spieler hinzufügen", value: -1}
 							]}
 						]}
@@ -207,17 +206,19 @@ enyo.kind({
 		this.inherited(arguments);
 		this.playerChanged();
 	},
-	memberChanged: function() {
-		this.$.name.setContent(this.player.first_name + " " + this.player.last_name);
-		this.$.number.setValue(this.player.shirt_number || "");
+	playerChanged: function() {
+		if (this.player) {
+			this.$.name.setContent(this.player.first_name + " " + this.player.last_name);
+			this.$.number.setValue(this.player.shirt_number || "");
+		}
 	},
-	teamNumberChanged: function() {
+	shirtNumberChanged: function() {
 		this.player.shirt_number = this.$.number.getValue();
 	},
 	components: [
-		{name: "memberName", classes: "prepview-member-item-name"},
+		{name: "name", classes: "prepview-member-item-name"},
 		{kind: "onyx.InputDecorator", classes: "prepview-member-item-input", components: [
-			{kind: "onyx.Input", name: "number", style: "width: 40px; text-align: center", onchange: "teamNumberChanged", placeholder: "Tr-#"}
+			{kind: "onyx.Input", name: "number", style: "width: 40px; text-align: center", onchange: "shirtNumberChanged", placeholder: "Tr-#"}
 		]}
 	]
 });

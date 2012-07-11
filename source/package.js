@@ -1,6 +1,8 @@
 enyo.depends(
 	"$lib/layout",
 	"$lib/onyx",
-	"App.css",
-	"App.js"
+	"$lib/scoreit-api",
+	"css/",
+	"SelectDecorator/",
+	"ReportPrepView.js"
 );
