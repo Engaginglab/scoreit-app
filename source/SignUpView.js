@@ -100,6 +100,13 @@ enyo.kind({
 	allValid: function() {
 		return usernameValid && emailValid && passNumberValid && checkPassword();
 	},
+	submit: function() {
+		scoreit.signUp(this.$.username.getValue(), this.$.password1.getValue(), this.$.email.getValue(), this.$.firstName.getValue(),
+			this.$.lastName.getValue(), this.$.gender.getValue(), this.$.passNumber.getValue(), this.$.address.getValue(), this.$.city.getValue(),
+			this.$.zipCode.getValue(), this.$.mobileNumber.getValue(), null, enyo.bind(this, function() {
+				this.log("success!!");
+			}));
+	},
 	components: [
 		{kind: "onyx.Groupbox", components: [
 			{kind: "onyx.GroupboxHeader", content: "Allgemein"},
