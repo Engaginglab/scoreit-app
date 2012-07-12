@@ -4,5 +4,7 @@ enyo.depends(
 	"$lib/scoreit-api",
 	"css/",
 	"SelectDecorator/",
-	"ReportPrepView.js"
+	"ReportPrepView.js",
+	"SignUpView.js",
+	"FormField.js"
 );

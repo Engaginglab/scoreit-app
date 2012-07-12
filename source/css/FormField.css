@@ -1,0 +1,20 @@
+.formfield-checkmark {
+	width: 24px;
+	height: 24px;
+	background: url(../../assets/images/check.png) no-repeat center center;
+	float: left;
+	margin: 0 5px;
+	display: none;
+}
+
+.formfield-valid .formfield-checkmark {
+	display: block;
+}
+
+.formfield-invalid .onyx-input-decorator {
+	background-color: Red;
+}
+
+.formfield-required .label {
+	font-weight: bold;
+}
