@@ -20,7 +20,9 @@ enyo.kind({
 		var firstName = this.$.firstName.getValue();
 		var lastName = this.$.lastName.getValue();
 		scoreit.person.list([['first_name', firstName], ['last_name', lastName], ['user', true, 'isnull']], enyo.bind(this, function(sender, response) {
-			this.log(JSON.stringify(response));
+			this.profiles = response.objects;
+			this.$.profileList.setCount(this.profiles.length);
+			this.$.profileList.render();
 		}));
 	},
 	checkUsername: function() {
@@ -103,9 +105,26 @@ enyo.kind({
 	submit: function() {
 		scoreit.signUp(this.$.username.getValue(), this.$.password1.getValue(), this.$.email.getValue(), this.$.firstName.getValue(),
 			this.$.lastName.getValue(), this.$.gender.getValue(), this.$.passNumber.getValue(), this.$.address.getValue(), this.$.city.getValue(),
-			this.$.zipCode.getValue(), this.$.mobileNumber.getValue(), null, enyo.bind(this, function() {
-				this.log("success!!");
+			this.$.zipCode.getValue(), this.$.mobileNumber.getValue(), this.profile.id, enyo.bind(this, function(sender, response) {
+				this.log(JSON.stringify(response));
+			}), enyo.bind(this, function(sender, response) {
+				this.log(JSON.stringify(response));
 			}));
+	},
+	setupProfiles: function(sender, event) {
+		var profile = this.profiles[event.index];
+
+		this.$.playerName.setContent(profile.first_name + " " + profile.last_name);
+		this.$.checkmark.setShowing(this.profile == profile);
+	},
+	profileTapped: function(sender, event) {
+		this.profile = this.profiles[event.index];
+		this.$.passNumber.setValue(this.profile.pass_number);
+		this.$.address.setValue(this.profile.address);
+		this.$.city.setValue(this.profile.city);
+		this.$.zipCode.setValue(this.profile.zip_code);
+		this.$.mobileNumber.setValue(this.profile.mobile_number);
+		this.$.profileList.render();
 	},
 	components: [
 		{kind: "onyx.Groupbox", components: [
@@ -116,6 +135,15 @@ enyo.kind({
 			{kind: "FormField", name: "username", label: "Benutzername", required: true, onchange: "checkUsername"},
 			{kind: "FormField", name: "password1", type: "password", label: "Passwort", required: true, onchange: "checkPassword"},
 			{kind: "FormField", name: "password2", type: "password", label: "Passwort wiederholen", required: true, onchange: "checkPassword"}
+		]},
+		{kind: "onyx.Groupbox", components: [
+			{kind: "onyx.GroupboxHeader", content: "Bist du einer der folgenden Spieler?"},
+			{kind: "FlyweightRepeater", name: "profileList", onSetupItem: "setupProfiles", components: [
+				{kind: "onyx.Item", ontap: "profileTapped", components: [
+					{name: "checkmark", classes: "item-checkmark"},
+					{name: "playerName"}
+				]}
+			]}
 		]},
 		{kind: "onyx.Groupbox", components: [
 			{kind: "onyx.GroupboxHeader", content: "Spielerprofil"},

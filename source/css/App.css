@@ -5,6 +5,10 @@ body {
 	box-sizing: border-box;
 }
 
+body > * {
+	text-align: left;
+}
+
 .scoreit-header-big {
 	background: url(../../assets/images/logo_big.png) no-repeat center center;
 	height: 130px;
@@ -39,4 +43,12 @@ body {
 
 .scoreit-app {
 	margin: 0px auto;
+}
+
+.item-checkmark {
+	width: 24px;
+	height: 24px;
+	background: url(../../assets/images/check.png) no-repeat center center;
+	float: right;
+	margin: 0 5px;
 }
