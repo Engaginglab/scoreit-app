@@ -1,0 +1,54 @@
+.textfieldselector {
+}
+
+.textfieldselector-repeater {
+	display: inline-block;
+}
+
+.textfieldselector-item {
+	border-radius: 5px;
+	background-color: Gray;
+	color: white;
+	display: inline-block;
+	padding: 5px;
+	margin: 2px;
+}
+
+.textfieldselector-item-label {
+	display: inline;
+}
+
+.textfieldselector-removebutton {
+	color: Blue;
+	display: inline;
+	border-radius: 3px;
+	margin: 0 0 0 5px;
+	padding: 0 5px;
+	box-sizing: border-box;
+}
+
+.textfieldselector-removebutton.active {
+	color: white;
+	background-color: Blue;
+}
+
+.textfieldselector-removebutton:active:hover {
+	color: white;
+	background-color: Blue;
+}
+
+
+.textfieldselector-popup {
+	border-radius: 5px;
+	background-color: White;
+	border: solid 1px Gray;
+	color: inherit;
+}
+
+.textfieldselector-listitem {
+
+}
+
+.textfieldselector-listitem.selected {
+	background-color: Gray;
+}

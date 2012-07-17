@@ -11,4 +11,5 @@ enyo.depends(
 	"FilteredSelector.js",
 	"UnionSelector.js",
 	"FilteredList.js",
+	"TextFieldSelector.js"
 );
