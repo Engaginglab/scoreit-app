@@ -3,5 +3,6 @@ enyo.depends(
 	"App.css",
 	"PrepView.css",
 	"FormField.css",
+	"FilteredSelector.css",
 	"theme.css"
 );

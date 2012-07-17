@@ -7,4 +7,7 @@ enyo.depends(
 	"ReportPrepView.js",
 	"SignUpView.js",
 	"FormField.js"
+	"FilteredSelector.js",
+	"UnionSelector.js",
+	"FilteredList.js",
 );
