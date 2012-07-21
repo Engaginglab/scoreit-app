@@ -2,13 +2,12 @@
 	width: 24px;
 	height: 24px;
 	background: url(../../assets/images/check.png) no-repeat center center;
-	float: left;
 	margin: 0 5px;
 	display: none;
 }
 
 .formfield-valid .formfield-checkmark {
-	display: block;
+	display: inline;
 }
 
 .formfield-invalid .onyx-input-decorator {
@@ -17,4 +16,10 @@
 
 .formfield-required .label {
 	font-weight: bold;
+}
+
+.formfield-errormessage {
+	display: block;
+	width: 100%;
+	color: red;
 }

@@ -16,8 +16,9 @@ enyo.kind({
 		this.refreshList();
 	},
 	refreshList: function() {
+		this.filteredItems = this.filteredItems || [];
 		this.$.client.setCount(this.filteredItems.length);
-		this.$.client.reset();
+		this.$.client.render();
 	},
 	filter: function() {
 		var searchString = this.$.searchInput.getValue();
@@ -56,9 +57,12 @@ enyo.kind({
 		return selected;
 	},
 	components: [
-		{kind: "onyx.InputDecorator", components: [
-			{kind: "onyx.Input", name: "searchInput", onkeyup: "filter"}
+		{kind: "onyx.InputDecorator", name: "searchInputDecorator", classes: "input-fill", components: [
+			{kind: "onyx.Input", name: "searchInput", onkeyup: "filter", defaultFocus: true},
+			{kind: "Image", src: "assets/images/search-input-search.png", classes: "label"}
 		]},
-		{kind: "List", fit: true, onSetupItem: "setupItem", name: "client"}
+		{kind: "Scroller", components: [
+			{kind: "FlyweightRepeater", onSetupItem: "setupItem", name: "client"}
+		]}
 	]
 });

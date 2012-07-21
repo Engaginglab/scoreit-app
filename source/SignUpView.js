@@ -10,11 +10,11 @@ enyo.kind({
 	},
 	checkFirstName: function() {
 		this.$.firstName.setValid(this.$.firstName.getValue() !== "");
-		this.checkProfiles();
+		// this.checkProfiles();
 	},
 	checkLastName: function() {
 		this.$.lastName.setValid(this.$.lastName.getValue() !== "");
-		this.checkProfiles();
+		// this.checkProfiles();
 	},
 	checkProfiles: function() {
 		var firstName = this.$.firstName.getValue();
@@ -90,7 +90,7 @@ enyo.kind({
 			this.$.password1.setValid(false);
 			this.$.password2.setValid(false);
 			this.$.password1.setErrorMessage("Bitte ein Passwort eingeben!");
-		} else if (!same) {
+		} else if (this.$.password1.getValue() && this.$.password2.getValue() && !same) {
 			this.$.password1.setValid(false);
 			this.$.password2.setValid(false);
 			this.$.password1.setErrorMessage("Passwörter stimmen nicht überein!");
@@ -103,62 +103,66 @@ enyo.kind({
 		return usernameValid && emailValid && passNumberValid && checkPassword();
 	},
 	submit: function() {
+		var profileId = this.profile ? this.profile.id : undefined;
 		scoreit.signUp(this.$.username.getValue(), this.$.password1.getValue(), this.$.email.getValue(), this.$.firstName.getValue(),
-			this.$.lastName.getValue(), this.$.gender.getValue(), this.$.passNumber.getValue(), this.$.address.getValue(), this.$.city.getValue(),
-			this.$.zipCode.getValue(), this.$.mobileNumber.getValue(), this.profile.id, enyo.bind(this, function(sender, response) {
+			this.$.lastName.getValue(), profileId, enyo.bind(this, function(sender, response) {
 				this.log(JSON.stringify(response));
 			}), enyo.bind(this, function(sender, response) {
 				this.log(JSON.stringify(response));
 			}));
 	},
-	setupProfiles: function(sender, event) {
-		var profile = this.profiles[event.index];
+	// setupProfiles: function(sender, event) {
+	// 	var profile = this.profiles[event.index];
 
-		this.$.playerName.setContent(profile.first_name + " " + profile.last_name);
-		this.$.checkmark.setShowing(this.profile == profile);
-	},
-	profileTapped: function(sender, event) {
-		this.profile = this.profiles[event.index];
-		this.$.passNumber.setValue(this.profile.pass_number);
-		this.$.address.setValue(this.profile.address);
-		this.$.city.setValue(this.profile.city);
-		this.$.zipCode.setValue(this.profile.zip_code);
-		this.$.mobileNumber.setValue(this.profile.mobile_number);
-		this.$.profileList.render();
-	},
+	// 	this.$.playerName.setContent(profile.first_name + " " + profile.last_name);
+	// 	this.$.checkmark.setShowing(this.profile == profile);
+	// },
+	// profileTapped: function(sender, event) {
+	// 	this.profile = this.profiles[event.index];
+	// 	this.$.passNumber.setValue(this.profile.pass_number);
+	// 	this.$.address.setValue(this.profile.address);
+	// 	this.$.city.setValue(this.profile.city);
+	// 	this.$.zipCode.setValue(this.profile.zip_code);
+	// 	this.$.mobileNumber.setValue(this.profile.mobile_number);
+	// 	this.$.profileList.render();
+	// },
 	components: [
 		{kind: "onyx.Groupbox", components: [
-			{kind: "onyx.GroupboxHeader", content: "Allgemein"},
-			{kind: "FormField", name: "firstName", label: "Vorname", required: true, onchange: "checkFirstName", errorMessage: "Bitte gib deinen Namen ein!"},
-			{kind: "FormField", name: "lastName", label: "Nachname", required: true, onchange: "checkLastName", errorMessage: "Bitte gib deinen Namen ein!"},
-			{kind: "FormField", name: "email", label: "Email", required: true, onchange: "checkEmail"},
-			{kind: "FormField", name: "username", label: "Benutzername", required: true, onchange: "checkUsername"},
-			{kind: "FormField", name: "password1", type: "password", label: "Passwort", required: true, onchange: "checkPassword"},
-			{kind: "FormField", name: "password2", type: "password", label: "Passwort wiederholen", required: true, onchange: "checkPassword"}
+			{kind: "FormField", name: "firstName", placeholder: "Vorname", required: true, onchange: "checkFirstName", errorMessage: "Bitte gib deinen Namen ein!"},
+			{kind: "FormField", name: "lastName", placeholder: "Nachname", required: true, onchange: "checkLastName", errorMessage: "Bitte gib deinen Namen ein!"},
+			{kind: "FormField", name: "email", placeholder: "Email", required: true, onchange: "checkEmail"},
+			{kind: "FormField", name: "username", placeholder: "Benutzername", required: true, onchange: "checkUsername"},
+			{kind: "FormField", name: "password1", type: "password", placeholder: "Passwort", required: true, onchange: "checkPassword"},
+			{kind: "FormField", name: "password2", type: "password", placeholder: "Passwort wiederholen", required: true, onchange: "checkPassword"}
 		]},
-		{kind: "onyx.Groupbox", components: [
-			{kind: "onyx.GroupboxHeader", content: "Bist du einer der folgenden Spieler?"},
-			{kind: "FlyweightRepeater", name: "profileList", onSetupItem: "setupProfiles", components: [
-				{kind: "onyx.Item", ontap: "profileTapped", components: [
-					{name: "checkmark", classes: "item-checkmark"},
-					{name: "playerName"}
-				]}
-			]}
-		]},
-		{kind: "onyx.Groupbox", components: [
-			{kind: "onyx.GroupboxHeader", content: "Spielerprofil"},
-			{kind: "onyx.custom.SelectDecorator", components: [
-				{kind: "Select", name: "gender", components: [
-					{content: "Männlich", value: "male"},
-					{content: "Weiblich", value: "female"}
-				]}
-			]},
-			{kind: "FormField", name: "passNumber", label: "Passnummer", onchange: "checkPassNumber"},
-			{kind: "FormField", name: "address", label: "Adresse"},
-			{kind: "FormField", name: "city", label: "Stadt"},
-			{kind: "FormField", name: "zipCode", label: "Postleitzahl"},
-			{kind: "FormField", name: "mobileNumber", label: "Handynummer"}
-		]},
-		{kind: "onyx.Button", content: "Abschicken", ontap: "submit"}
+		// {kind: "onyx.Groupbox", components: [
+		// 	{kind: "onyx.GroupboxHeader", content: "Bist du einer der folgenden Spieler?"},
+		// 	{kind: "FlyweightRepeater", name: "profileList", onSetupItem: "setupProfiles", components: [
+		// 		{kind: "onyx.Item", ontap: "profileTapped", components: [
+		// 			{name: "checkmark", classes: "item-checkmark"},
+		// 			{name: "playerName"}
+		// 		]}
+		// 	]}
+		// ]},
+		// {kind: "onyx.Groupbox", components: [
+		// 	{kind: "onyx.GroupboxHeader", content: "Spielerprofil"},
+		// 	{classes: "buttongroup", components: [
+		// 		{kind: "FilteredSelector", caption: "Verein", displayProperty: "display_name", filterProperties: ["display_name"], uniqueProperty: "id",
+		// 			style: "width: 90%;"},
+		// 		{kind: "onyx.Button", content: "+", style: "width: 10%"}
+		// 	]},
+		// 	{kind: "onyx.custom.SelectDecorator", components: [
+		// 		{kind: "Select", name: "gender", components: [
+		// 			{content: "Männlich", value: "male"},
+		// 			{content: "Weiblich", value: "female"}
+		// 		]}
+		// 	]},
+		// 	{kind: "FormField", name: "passNumber", placeholder: "Passnummer", onchange: "checkPassNumber"},
+		// 	{kind: "FormField", name: "address", placeholder: "Adresse"},
+		// 	{kind: "FormField", name: "city", placeholder: "Stadt"},
+		// 	{kind: "FormField", name: "zipCode", placeholder: "Postleitzahl"},
+		// 	{kind: "FormField", name: "mobileNumber", placeholder: "Handynummer"}
+		// ]},
+		{kind: "onyx.Button", content: "Abschicken", ontap: "submit", style: "width: 100%;"}
 	]
 });

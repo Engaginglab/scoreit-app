@@ -1,11 +1,14 @@
 enyo.kind({
 	name: "FormField",
+	kind: "onyx.InputDecorator",
+	classes: "formfield input-fill",
 	published: {
 		type: "",
 		required: false,
-		label: "",
+		//label: "",
 		valid: null,
-		errorMessage: ""
+		errorMessage: "",
+		placeholder: ""
 	},
 	requiredChanged: function() {
 		this.addRemoveClass("formfield-required", this.required);
@@ -13,8 +16,11 @@ enyo.kind({
 	typeChanged: function() {
 		this.$.input.setType(this.type);
 	},
-	labelChanged: function() {
-		this.$.label.setContent(this.label);
+	// labelChanged: function() {
+	// 	this.$.label.setContent(this.label);
+	// },
+	placeholderChanged: function() {
+		this.$.input.setPlaceholder(this.placeholder);
 	},
 	validChanged: function() {
 		this.addRemoveClass("formfield-invalid", this.valid === false);
@@ -28,7 +34,8 @@ enyo.kind({
 		this.inherited(arguments);
 		this.requiredChanged();
 		this.typeChanged();
-		this.labelChanged();
+		// this.labelChanged();
+		this.placeholderChanged();
 		this.validChanged();
 		this.errorMessageChanged();
 	},
@@ -40,12 +47,7 @@ enyo.kind({
 	},
 	components: [
 		{name: "errorMessage", classes: "formfield-errormessage", showing: false},
-		{kind: "onyx.InputDecorator", classes: "input-fill", components: [
-			{kind: "onyx.Input", name: "input"},
-			{classes: "label", components: [
-				{classes: "formfield-checkmark"},
-				{name: "label", style: "float: right"}
-			]}
-		]}
+		{kind: "onyx.Input", name: "input"},
+		{classes: "formfield-checkmark label"}
 	]
 });

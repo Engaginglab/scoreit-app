@@ -47,24 +47,22 @@ enyo.kind({
 		this.$.listItem.addRemoveClass("selected", event.index == this.selected);
 		this.$.listItem.setContent(item[this.displayProperty]);
 	},
-	keydownHandler: function(sender, event) {
+	keyupHandler: function(sender, event) {
 		if (event.keyCode == 40) {
 			this.selected = this.selected < this.filteredItems.length-1 ? this.selected+1 : this.filteredItems.length-1;
 			event.preventDefault();
-			this.$.list.render();
+            this.refreshList();
 		} else if (event.keyCode == 38) {
 			this.selected = this.selected ? this.selected-1 : 0;
 			event.preventDefault();
-			this.$.list.render();
+            this.refreshList();
 		} else if (event.keyCode == 13) {
 			var item = this.filteredItems[this.selected];
 			if (item) {
 				this.selectItem(item);
 			}
-		} else if (event.keyCode == 8) {
-			if (!this.$.searchInput.getValue()) {
-				this.popItem();
-			}
+		} else if (event.keyCode == 8 && !this.$.searchInput.getValue()) {
+			this.popItem();
 		} else {
 			var searchString = this.$.searchInput.getValue();
 			this.filteredItems = this.items.filter(enyo.bind(this, function(item) {
@@ -81,17 +79,24 @@ enyo.kind({
 		}
 	},
 	showPopup: function() {
-		this.$.list.render();
 		this.$.popup.show();
-		this.$.popup.applyStyle("height", this.$.list.getBounds().height + "px");
+		// this.$.popup.applyStyle("height", this.$.list.getBounds().height + "px");
 		var inputBounds = this.$.searchInput.getBounds();
 		this.$.popup.applyStyle("top", inputBounds.top + 20 + "px");
 		this.$.popup.applyStyle("left", inputBounds.left + "px");
+        this.refreshList();
 	},
 	filterByProps: function(item, searchString, props) {
 		var pattern = new RegExp(searchString, "i");
 		for (var i=0; i<props.length; i++) {
-			if (item[props[i]].match(pattern)) {
+			var value = item[props[i]];
+			if (value === undefined || value === null) {
+				continue;
+			}
+			if (typeof(value) != "string") {
+				value = value.toString();
+			}
+			if (value.match(pattern)) {
 				return true;
 			}
 		}
@@ -120,6 +125,12 @@ enyo.kind({
 			this.deselectItem(item);
 		}
 	},
+    refreshList: function() {
+        this.$.list.render();
+        this.$.list.performOnRow(this.selected, function() {
+            this.$.scroller.scrollIntoView(this.$.listItem);
+        }, this);
+    },
 	refreshItems: function() {
 		this.selectedItemsArray = this.getSelectedItems();
 		this.$.itemRepeater.setCount(this.selectedItemsArray.length);
@@ -136,23 +147,13 @@ enyo.kind({
 				{classes: "textfieldselector-removebutton", content: "x", ontap: "removeItemTapped"}
 			]}
 		]},
-		{kind: "onyx.Input", name: "searchInput", onkeydown: "keydownHandler"},
-        {kind: "enyo.Popup", floating: false, style: "width: 200px;", classes: "textfieldselector-popup", components: [
-            {kind: "Scroller", classes: "enyo-fill", components: [
+		{kind: "onyx.Input", name: "searchInput", onkeyup: "keyupHandler"},
+        {kind: "enyo.Popup", style: "width: 200px; max-height: 200px;", classes: "textfieldselector-popup", components: [
+            {kind: "Scroller", style: "max-height: inherit;", components: [
                 {kind: "FlyweightRepeater", name: "list", onSetupItem: "listSetupItem", components: [
                     {kind: "onyx.Item", tapHighlight: true, ontap: "itemClick", name: "listItem", classes: "textfieldselector-listitem"}
                 ]}
             ]}
         ]}
-	]
-});
-
-enyo.kind({
-	name: "TextFieldSelectorTest",
-	fit: true,
-	components: [
-		{kind: "TextFieldSelector", style: "width: 300px", displayProperty: "name", filterProperties: ["name"], items:[
-			{name: "test"}, {name: "another test"}, {name: "look, a test!"}
-		]}
 	]
 });

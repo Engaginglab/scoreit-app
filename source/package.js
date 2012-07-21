@@ -6,10 +6,10 @@ enyo.depends(
 	"SelectDecorator/",
 	"ReportPrepView.js",
 	"SignUpView.js",
-	"FormField.js"
 	"FormField.js",
+	"CreateTeamView.js",
 	"FilteredSelector.js",
-	"UnionSelector.js",
+	"EditClubView.js",
 	"FilteredList.js",
 	"TextFieldSelector.js"
 );
