@@ -1,0 +1,42 @@
+@font-face {
+  font-family: 'Asap';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Asap Bold'), local('Asap-Bold'), url('../../assets/fonts/QGN0GG0540fyG6NL_PpOpgLUuEpTyoUstqEm5AMlJo4.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Signika Negative';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Signika Negative Light'), local('SignikaNegative-Light'), url('../../assets/fonts/q5TOjIw4CenPw6C-TW06FrSCqyzKJANNqhjQyS0Fx0E.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Asap';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Asap Italic'), local('Asap-Italic'), url('../../assets/fonts/QnZU7dKCBgkkMBlac2djsOvvDin1pK8aKteLpeZ5c0A.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Asap';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Asap'), local('Asap-Regular'), url('../../assets/fonts/nvGvEwsMAvkIa6w2U-PXffesZW2xOQ-xsNqO47m55DA.woff') format('woff');
+}
+
+/*
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Droid Sans'), local('DroidSans'), url('http://themes.googleusercontent.com/static/fonts/droidsans/v3/s-BiyweUPV0v-yRb-cjciL3hpw3pgy2gAi-Ip7WPMi0.woff') format('woff');
+}
+@font-face {
+  font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: bold;
+  src: local('Droid Sans Bold'), local('DroidSans-Bold'), url('http://themes.googleusercontent.com/static/fonts/droidsans/v3/EFpQQyG9GqCrobXxL-KRMXbFhgvWbfSbdVg11QabG8w.woff') format('woff');
+}
+*/

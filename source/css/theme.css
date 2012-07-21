@@ -1,0 +1,33 @@
+.scoreit-app .onyx-button {
+	background-color: Transparent;
+}
+
+.scoreit-app .onyx-groupbox-header {
+	font-family: Asap;
+	font-weight: normal;
+	background-color: #005f4e;
+}
+
+.onyx-input-decorator.input-fill > input,
+.onyx-input-decorator.input-fill > .enyo-richtext {
+    width: 100%;
+}
+
+.onyx-input-decorator.input-fill > .label {
+    position: absolute;
+    right: 10px;
+}
+
+.label {
+	color: rgb(0, 200, 255);
+	float: right;
+	padding: 2px;
+}
+
+.onyx-groupbox > .select-decorator {
+	display: block;
+}
+
+.rounded-input {
+	border-radius: 20px;
+}

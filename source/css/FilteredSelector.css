@@ -1,17 +1,21 @@
-.filtered-selector {
+.filteredselector {
 	text-align: left;
 	padding: 5px 5px 5px 10px;
 	font-size: inherit;
 }
 
-.filtered-selector-value {
+.filteredselector-value {
 	line-height: 20px;
 }
 
-.filtered-selector-arrow {
+.filteredselector-arrow {
 	float: right;
 	margin-left: 7px;
 	width: 21px;
 	height: 21px;
 	background: url(../../assets/images/menu-arrow.png) no-repeat center center;
+}
+
+.filteredselector-item.selected {
+	background-color: Gray;
 }
