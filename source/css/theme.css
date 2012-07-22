@@ -31,3 +31,7 @@
 .rounded-input {
 	border-radius: 20px;
 }
+
+.scoreit-app .onyx-popup {
+	background-color: #e1e1e1;
+}
