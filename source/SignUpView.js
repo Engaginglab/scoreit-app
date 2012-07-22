@@ -3,35 +3,28 @@ enyo.kind({
 	usernameValid: false,
 	emailValid: false,
 	passNumberValid: false,
-	checkUnique: function() {
-		scoreit.isUnique(this.$.username.getValue(), this.$.email.getValue(), this.$.passNumber.getValue(), enyo.bind(this, function(sender, response){
-			this.log(JSON.stringify(response));
-		}));
-	},
 	checkFirstName: function() {
 		this.$.firstName.setValid(this.$.firstName.getValue() !== "");
-		// this.checkProfiles();
 	},
 	checkLastName: function() {
 		this.$.lastName.setValid(this.$.lastName.getValue() !== "");
-		// this.checkProfiles();
 	},
-	checkProfiles: function() {
-		var firstName = this.$.firstName.getValue();
-		var lastName = this.$.lastName.getValue();
-		scoreit.person.list([['first_name', firstName], ['last_name', lastName], ['user', true, 'isnull']], enyo.bind(this, function(sender, response) {
-			this.profiles = response.objects;
-			this.$.profileList.setCount(this.profiles.length);
-			this.$.profileList.render();
-		}));
-	},
+	// checkProfiles: function() {
+	// 	var firstName = this.$.firstName.getValue();
+	// 	var lastName = this.$.lastName.getValue();
+	// 	scoreit.handball.person.list([['first_name', firstName], ['last_name', lastName], ['user', true, 'isnull']], enyo.bind(this, function(sender, response) {
+	// 		this.profiles = response.objects;
+	// 		this.$.profileList.setCount(this.profiles.length);
+	// 		this.$.profileList.render();
+	// 	}));
+	// },
 	checkUsername: function() {
 		if (!this.$.username.getValue) {
 			this.$.username.setValid(false);
 			this.$.username.setErrorMessage("Bitte gib einen Benutzernamen ein!");
 		} else {
 			this.$.username.setValid(null);
-			scoreit.isUnique(this.$.username.getValue(), null, null, enyo.bind(this, function(sender, response){
+			scoreit.auth.user.isUnique({user_name: this.$.username.getValue()}, enyo.bind(this, function(sender, response){
 				if (response.user_name) {
 					this.$.username.setValid(true);
 				} else {
@@ -53,7 +46,7 @@ enyo.kind({
 			this.$.email.setErrorMessage("Bitte gib eine korrekte Emailadresse ein!");
 		} else {
 			this.$.email.setValid(null);
-			scoreit.isUnique(null, this.$.email.getValue(), null, enyo.bind(this, function(sender, response){
+			scoreit.auth.user.isUnique({email: this.$.email.getValue()}, enyo.bind(this, function(sender, response){
 				if (response.email) {
 					this.$.email.setValid(true);
 				} else {
@@ -63,26 +56,26 @@ enyo.kind({
 			}));
 		}
 	},
-	checkPassNumber: function() {
-		var passNumber = this.$.passNumber.getValue();
+	// checkPassNumber: function() {
+	// 	var passNumber = this.$.passNumber.getValue();
 
-		if (!passNumber) {
-			this.$.passNumber.setValid(null);
-		} else if (isNaN(parseInt(passNumber, 10))) {
-			this.$.passNumber.setValid(false);
-			this.$.passNumber.setErrorMessage("Die Passnummer muss eine ganze Zahl sein!");
-		} else {
-			this.$.passNumber.setValid(null);
-			scoreit.isUnique(null, null, this.$.passNumber.getValue(), enyo.bind(this, function(sender, response){
-				if (response.pass_number) {
-					this.$.passNumber.setValid(true);
-				} else {
-					this.$.passNumber.setValid(false);
-					this.$.passNumber.setErrorMessage("Es gibt bereits einen Spieler mit dieser Passnummer!");
-				}
-			}));
-		}
-	},
+	// 	if (!passNumber) {
+	// 		this.$.passNumber.setValid(null);
+	// 	} else if (isNaN(parseInt(passNumber, 10))) {
+	// 		this.$.passNumber.setValid(false);
+	// 		this.$.passNumber.setErrorMessage("Die Passnummer muss eine ganze Zahl sein!");
+	// 	} else {
+	// 		this.$.passNumber.setValid(null);
+	// 		scoreit.isUnique(null, null, this.$.passNumber.getValue(), enyo.bind(this, function(sender, response){
+	// 			if (response.pass_number) {
+	// 				this.$.passNumber.setValid(true);
+	// 			} else {
+	// 				this.$.passNumber.setValid(false);
+	// 				this.$.passNumber.setErrorMessage("Es gibt bereits einen Spieler mit dieser Passnummer!");
+	// 			}
+	// 		}));
+	// 	}
+	// },
 	checkPassword: function() {
 		var same = this.$.password1.getValue() == this.$.password2.getValue();
 
@@ -103,9 +96,8 @@ enyo.kind({
 		return usernameValid && emailValid && passNumberValid && checkPassword();
 	},
 	submit: function() {
-		var profileId = this.profile ? this.profile.id : undefined;
 		scoreit.signUp(this.$.username.getValue(), this.$.password1.getValue(), this.$.email.getValue(), this.$.firstName.getValue(),
-			this.$.lastName.getValue(), profileId, enyo.bind(this, function(sender, response) {
+			this.$.lastName.getValue(), enyo.bind(this, function(sender, response) {
 				this.log(JSON.stringify(response));
 			}), enyo.bind(this, function(sender, response) {
 				this.log(JSON.stringify(response));
