@@ -11,7 +11,8 @@ enyo.kind({
 		caption: "",
 		displayProperty: "",
 		uniqueProperty: "",
-		selectedItem: null
+		selectedItem: null,
+		placeholder: "Tap to select an item..."
 	},
 	handlers: {
 		ontap: "openPopup"
@@ -21,7 +22,6 @@ enyo.kind({
 		this.itemsChanged();
 		this.selectedItemChanged();
 		this.filterPropertiesChanged();
-		this.captionChanged();
 	},
 	itemsChanged: function() {
 		this.$.filteredList.setItems(this.items);
@@ -29,13 +29,12 @@ enyo.kind({
 	selectedItemChanged: function() {
 		if (this.selectedItem) {
 			this.$.label.setContent(this.selectedItem[this.displayProperty]);
+		} else {
+			this.$.label.setContent(this.placeholder);
 		}
 	},
 	filterPropertiesChanged: function() {
 		this.$.filteredList.setFilterProperties(this.filterProperties);
-	},
-	captionChanged: function() {
-		this.$.caption.setContent(this.caption);
 	},
 	setupItem: function(sender, event) {
 		var keyProp = this.uniqueProperty || this.displayProperty;
@@ -54,14 +53,14 @@ enyo.kind({
 		this.$.filteredList.render();
 	},
 	components: [
-		{classes: "label", content: "test", components: [
-			{name: "caption", style: "float:left"},
-			{classes: "filteredselector-arrow"}
-		]},
+		// {classes: "label", components: [
+		// 	{name: "caption", style: "float:left"},
+		// 	{classes: "filteredselector-arrow"}
+		// ]},
 		{name: "label", classes: "filteredselector-value"},
-		{kind: "onyx.Popup", style: "width: 300px;", name: "selectPopup", components: [
+		{kind: "onyx.Popup", classes: "onyx-menu onyx-picker filteredselector-popup", style: "width: 300px;", name: "selectPopup", components: [
 			{kind: "FilteredList", onSetupItem: "setupItem", onItemSelected: "itemSelected", components: [
-				{kind: "onyx.Item", name: "item", ontap: "tapHandler", classes: "filteredselector-item"}
+				{kind: "onyx.Item", name: "item", ontap: "tapHandler", classes: "onyx-menu-item filteredselector-item"}
 			]}
 		]}
 	]

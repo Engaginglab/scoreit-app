@@ -1,13 +1,20 @@
 .filteredselector {
 	text-align: left;
-	padding: 5px 5px 5px 10px;
 	font-size: inherit;
+	min-height: 40px;
 }
 
 .filteredselector-value {
 	line-height: 20px;
 }
 
+.filteredselector-popup {
+	padding: 3px;
+	top: auto;
+	left: auto;
+}
+
+/*
 .filteredselector-arrow {
 	float: right;
 	margin-left: 7px;
@@ -19,3 +26,4 @@
 .filteredselector-item.selected {
 	background-color: Gray;
 }
+*/
