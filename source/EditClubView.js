@@ -11,13 +11,13 @@ enyo.kind({
     },
     create: function() {
         this.inherited(arguments);
-        scoreit.district.list([], enyo.bind(this, function(sender, response) {
+        scoreit.handball.district.list([], enyo.bind(this, function(sender, response) {
             this.updateDistricts(response.objects);
         }));
-        scoreit.person.list([], enyo.bind(this, function(sender, response) {
+        scoreit.handball.person.list([], enyo.bind(this, function(sender, response) {
             this.updateManagers(response.objects);
         }));
-        // scoreit.union.list([], enyo.bind(this, function(sender, response) {
+        // scoreit.handball.union.list([], enyo.bind(this, function(sender, response) {
         //     this.$.unionSelector.setItems(response.objects);
         // }));
     },
@@ -50,23 +50,22 @@ enyo.kind({
             this.log(response);
         });
         if (this.club) {
-            scoreit.club.put(this.club.id, params, callback);
+            scoreit.handball.club.put(this.club.id, params, callback);
         } else {
-            scoreit.club.create(params, callback);
+            scoreit.handball.club.create(params, callback);
         }
     },
     components: [
         {kind: "onyx.Groupbox", components: [
             {kind: "onyx.InputDecorator", classes: "input-fill", components: [
-                {kind: "onyx.Input", name: "clubName"},
-                {classes: "label", content: "Name"}
+                {kind: "onyx.Input", name: "clubName", placeholder: "Name"}
             ]},
             {kind: "onyx.PickerDecorator", components: [
-                {style: "width: 100%; text-align: left;"},
+                {style: "width: 100%; text-align: left;", content: "Bezirk auswählen..."},
                 {kind: "onyx.Picker", name: "districtPicker"}
             ]},
             {kind: "onyx.GroupboxHeader", content: "Manager"},
-            {kind: "TextFieldSelector", displayProperty:"display_name", uniqueProperty: "id", name: "managerSelector", filterProperties: ["first_name", "last_name", "pass_number"]}
+            {kind: "TextFieldSelector", displayProperty: "display_name", uniqueProperty: "id", name: "managerSelector", filterProperties: ["first_name", "last_name", "pass_number"]}
         ]},
         {kind: "onyx.Button", content: "Speichern", ontap: "save", style: "width: 50%;"},
         {kind: "onyx.Button", content: "Abbrechen", ontap: "doCancel", style: "width: 50%;"}
