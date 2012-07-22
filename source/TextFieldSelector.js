@@ -4,12 +4,16 @@ enyo.kind({
 	classes: "textfieldselector",
 	selectedItems: {},
 	selectedItemsArray: [],
+	events: {
+		onNewItem: ""
+	},
 	published: {
 		items: [],
 		uniqueProperty: "",
 		displayProperty: "",
 		filterProperties: [],
-		hint: "Type to select an item!"
+		hint: "Type to select an item!",
+		allowNewItem: false
 	},
 	create: function() {
 		this.inherited(arguments);
@@ -18,9 +22,13 @@ enyo.kind({
 	hintChanged: function() {
 		this.$.searchInput.setPlaceholder(this.hint);
 	},
+	getKeyProp: function(item) {
+		return (this.uniqueProperty && item[this.uniqueProperty]) ? this.uniqueProperty : this.displayProperty;
+	},
 	setSelectedItems: function(items) {
-		var keyProp = this.uniqueProperty || this.displayProperty;
+		this.selectedItems = {};
 		for (var i=0; i<items.length; i++) {
+			var keyProp = this.getKeyProp(items[i]);
 			this.selectedItems[items[i][keyProp]] = items[i];
 		}
 		this.refreshItems();
@@ -33,7 +41,7 @@ enyo.kind({
 		return items;
 	},
 	isSelected: function(item) {
-		var keyProp = this.uniqueProperty || this.displayProperty;
+		var keyProp = this.getKeyProp(item);
 		var found = this.selectedItems[item[keyProp]];
 		return found !== undefined && found !== null;
 	},
@@ -60,6 +68,8 @@ enyo.kind({
 			var item = this.filteredItems[this.selected];
 			if (item) {
 				this.selectItem(item);
+			} else {
+				this.newItem();
 			}
 		} else if (event.keyCode == 8 && !this.$.searchInput.getValue()) {
 			this.popItem();
@@ -77,6 +87,13 @@ enyo.kind({
 				this.$.popup.hide();
 			}
 		}
+	},
+	newItem: function() {
+		var item = {};
+		item[this.displayProperty] = this.$.searchInput.getValue();
+		this.items.push(item);
+		this.selectItem(item);
+		this.doNewItem({item: item});
 	},
 	showPopup: function() {
 		this.$.popup.show();
@@ -107,14 +124,14 @@ enyo.kind({
 		this.$.searchInput.focus();
 	},
 	selectItem: function(item) {
-		var keyProp = this.uniqueProperty || this.displayProperty;
+		var keyProp = this.getKeyProp(item);
 		this.selectedItems[item[keyProp]] = item;
 		this.refreshItems();
 		this.$.popup.hide();
 		this.$.searchInput.setValue("");
 	},
 	deselectItem: function(item) {
-		var keyProp = this.uniqueProperty || this.displayProperty;
+		var keyProp = this.getKeyProp(item);
 		delete this.selectedItems[item[keyProp]];
 		this.refreshItems();
 	},
@@ -148,10 +165,10 @@ enyo.kind({
 			]}
 		]},
 		{kind: "onyx.Input", name: "searchInput", onkeyup: "keyupHandler"},
-        {kind: "enyo.Popup", style: "width: 200px; max-height: 200px;", classes: "textfieldselector-popup", components: [
+        {kind: "enyo.Popup", style: "width: 200px; max-height: 200px;", classes: "textfieldselector-popup onyx-menu onyx-picker", components: [
             {kind: "Scroller", style: "max-height: inherit;", components: [
                 {kind: "FlyweightRepeater", name: "list", onSetupItem: "listSetupItem", components: [
-                    {kind: "onyx.Item", tapHighlight: true, ontap: "itemClick", name: "listItem", classes: "textfieldselector-listitem"}
+                    {kind: "onyx.Item", tapHighlight: true, ontap: "itemClick", name: "listItem", classes: "textfieldselector-listitem onyx-menu-item"}
                 ]}
             ]}
         ]}
