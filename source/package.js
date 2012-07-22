@@ -7,7 +7,7 @@ enyo.depends(
 	"ReportPrepView.js",
 	"SignUpView.js",
 	"FormField.js",
-	"CreateTeamView.js",
+	"EditTeamView.js",
 	"FilteredSelector.js",
 	"EditClubView.js",
 	"FilteredList.js",
