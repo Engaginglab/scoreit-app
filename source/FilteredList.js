@@ -34,7 +34,7 @@ enyo.kind({
 	filterByProps: function(item, searchString, props) {
 		var pattern = new RegExp(searchString, "i");
 		for (var i=0; i<props.length; i++) {
-			if (item[props[i]].match(pattern)) {
+			if (item[props[i]] && item[props[i]].match(pattern)) {
 				return true;
 			}
 		}

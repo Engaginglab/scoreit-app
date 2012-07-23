@@ -56,26 +56,6 @@ enyo.kind({
 			}));
 		}
 	},
-	// checkPassNumber: function() {
-	// 	var passNumber = this.$.passNumber.getValue();
-
-	// 	if (!passNumber) {
-	// 		this.$.passNumber.setValid(null);
-	// 	} else if (isNaN(parseInt(passNumber, 10))) {
-	// 		this.$.passNumber.setValid(false);
-	// 		this.$.passNumber.setErrorMessage("Die Passnummer muss eine ganze Zahl sein!");
-	// 	} else {
-	// 		this.$.passNumber.setValid(null);
-	// 		scoreit.isUnique(null, null, this.$.passNumber.getValue(), enyo.bind(this, function(sender, response){
-	// 			if (response.pass_number) {
-	// 				this.$.passNumber.setValid(true);
-	// 			} else {
-	// 				this.$.passNumber.setValid(false);
-	// 				this.$.passNumber.setErrorMessage("Es gibt bereits einen Spieler mit dieser Passnummer!");
-	// 			}
-	// 		}));
-	// 	}
-	// },
 	checkPassword: function() {
 		var same = this.$.password1.getValue() == this.$.password2.getValue();
 
@@ -135,25 +115,6 @@ enyo.kind({
 		// 			{name: "playerName"}
 		// 		]}
 		// 	]}
-		// ]},
-		// {kind: "onyx.Groupbox", components: [
-		// 	{kind: "onyx.GroupboxHeader", content: "Spielerprofil"},
-		// 	{classes: "buttongroup", components: [
-		// 		{kind: "FilteredSelector", caption: "Verein", displayProperty: "display_name", filterProperties: ["display_name"], uniqueProperty: "id",
-		// 			style: "width: 90%;"},
-		// 		{kind: "onyx.Button", content: "+", style: "width: 10%"}
-		// 	]},
-		// 	{kind: "onyx.custom.SelectDecorator", components: [
-		// 		{kind: "Select", name: "gender", components: [
-		// 			{content: "Männlich", value: "male"},
-		// 			{content: "Weiblich", value: "female"}
-		// 		]}
-		// 	]},
-		// 	{kind: "FormField", name: "passNumber", placeholder: "Passnummer", onchange: "checkPassNumber"},
-		// 	{kind: "FormField", name: "address", placeholder: "Adresse"},
-		// 	{kind: "FormField", name: "city", placeholder: "Stadt"},
-		// 	{kind: "FormField", name: "zipCode", placeholder: "Postleitzahl"},
-		// 	{kind: "FormField", name: "mobileNumber", placeholder: "Handynummer"}
 		// ]},
 		{kind: "onyx.Button", content: "Abschicken", ontap: "submit", style: "width: 100%;"}
 	]

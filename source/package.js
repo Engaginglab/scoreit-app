@@ -11,5 +11,6 @@ enyo.depends(
 	"FilteredSelector.js",
 	"EditClubView.js",
 	"FilteredList.js",
-	"TextFieldSelector.js"
+	"TextFieldSelector.js",
+	"EditProfileView.js"
 );

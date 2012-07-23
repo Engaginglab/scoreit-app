@@ -118,7 +118,7 @@ enyo.kind({
 			{kind: "TextFieldSelector", name: "managerSelector", displayProperty: "display_name", uniqueProperty: "id",
 				filterProperties: ["display_name"], hint: "Namen eingeben...", allowNewItem: false}
 		]},
-		{kind: "onyx.Button", style: "width: 50%;", content: "Speichern", ontap: "save"},
-		{kind: "onyx.Button", style: "width: 50%;", content: "Abbrechen", ontap: "doCancel"}
+		{kind: "onyx.Button", style: "width: 50%;", content: "Abbrechen", ontap: "doCancel"},
+		{kind: "onyx.Button", style: "width: 50%;", content: "Speichern", ontap: "save", classes: "onyx-affirmative"}
 	]
 });
