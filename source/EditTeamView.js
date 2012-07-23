@@ -9,6 +9,7 @@ enyo.kind({
 	teamChanged: function() {
 		if (this.team) {
 			this.$.teamName.setValue(this.team.name);
+			this.club = this.team.club;
 		}
 	},
 	create: function() {
@@ -29,11 +30,11 @@ enyo.kind({
 		}));
 	},
 	clubSelected: function() {
-		this.team.club = this.$.clubSelector.getSelectedItem();
+		this.club = this.$.clubSelector.getSelectedItem();
 		this.loadClubMembers();
 	},
 	loadClubMembers: function() {
-		scoreit.handball.person.list([['clubs', this.team.club.id]], enyo.bind(this, function(sender, response) {
+		scoreit.handball.person.list([['clubs', this.club.id]], enyo.bind(this, function(sender, response) {
 			this.$.playerSelector.setItems(response.objects);
 			this.$.managerSelector.setItems(response.objects);
 			this.$.coachSelector.setItems(response.objects);
@@ -60,28 +61,32 @@ enyo.kind({
 			}));
 		}
 	},
+	getParamArray: function(array) {
+		var paramArray = [];
+		for (var i=0; i<array.length; i++) {
+			if (array[i].resource_uri) {
+				paramArray.push(array[i].resource_uri);
+			} else {
+				var cut = array[i].display_name.lastIndexOf(" ");
+				paramArray.push({
+					first_name: array[i].display_name.substring(0, cut),
+					last_name: array[i].display_name.substring(cut+1)
+				});
+			}
+		}
+		return paramArray;
+	},
 	save: function() {
-		var players = this.$.playerSelector.getSelectedItems();
-		var playersUris = [];
-		for (var i=0; i<players.length; i++) {
-			playersUris.push(players[i]["resource_uri"]);
-		}
-		var coaches = this.$.coachSelector.getSelectedItems();
-		var coachesUris = [];
-		for (var i=0; i<coaches.length; i++) {
-			coachesUris.push(coaches[i]["resource_uri"]);
-		}
-		var managers = this.$.managerSelector.getSelectedItems();
-		var managersUris = [];
-		for (var i=0; i<managers.length; i++) {
-			managersUris.push(managers[i]["resource_uri"]);
-		}
+		var players = this.getParamArray(this.$.playerSelector.getSelectedItems());
+		var coaches = this.getParamArray(this.$.coachSelector.getSelectedItems());
+		var managers = this.getParamArray(this.$.managerSelector.getSelectedItems());
+
 		var params = {
 			name: this.$.teamName.getValue(),
-			club: this.$.clubSelector.getSelectedItem().resource_uri,
-			players: playersUris,
-			coaches: coachesUris,
-			managers: managersUris
+			club: this.club.resource_uri,
+			players: players,
+			coaches: coaches,
+			managers: managers
 		};
 
 		if (this.team && this.team.id) {
