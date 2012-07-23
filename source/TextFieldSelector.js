@@ -2,8 +2,6 @@ enyo.kind({
 	name: "TextFieldSelector",
 	kind: "onyx.InputDecorator",
 	classes: "textfieldselector",
-	selectedItems: {},
-	selectedItemsArray: [],
 	events: {
 		onNewItem: ""
 	},
@@ -18,6 +16,8 @@ enyo.kind({
 	create: function() {
 		this.inherited(arguments);
 		this.hintChanged();
+		this.selectedItems = {};
+		this.selectedItemsArray= [];
 	},
 	hintChanged: function() {
 		this.$.searchInput.setPlaceholder(this.hint);
@@ -68,15 +68,13 @@ enyo.kind({
 			var item = this.filteredItems[this.selected];
 			if (item) {
 				this.selectItem(item);
-			} else {
+			} else if (this.allowNewItem) {
 				this.newItem();
 			}
-		} else if (event.keyCode == 8 && !this.$.searchInput.getValue()) {
-			this.popItem();
-		} else {
+		}  else {
 			var searchString = this.$.searchInput.getValue();
 			this.filteredItems = this.items.filter(enyo.bind(this, function(item) {
-				return !this.isSelected(item) && this.filterByProps(item, searchString, this.filterProperties);
+				return searchString && !this.isSelected(item) && this.filterByProps(item, searchString, this.filterProperties);
 			}));
 			this.$.list.setCount(this.filteredItems.length);
 			this.selected = 0;
@@ -88,10 +86,15 @@ enyo.kind({
 			}
 		}
 	},
+	keydownHandler: function(sender, event) {
+		if (event.keyCode == 8 && !this.$.searchInput.getValue()) {
+			this.popItem();
+		}
+	},
 	newItem: function() {
 		var item = {};
 		item[this.displayProperty] = this.$.searchInput.getValue();
-		this.items.push(item);
+		// this.items.push(item);
 		this.selectItem(item);
 		this.doNewItem({item: item});
 	},
@@ -164,7 +167,7 @@ enyo.kind({
 				{classes: "textfieldselector-removebutton", content: "x", ontap: "removeItemTapped"}
 			]}
 		]},
-		{kind: "onyx.Input", name: "searchInput", onkeyup: "keyupHandler"},
+		{kind: "onyx.Input", name: "searchInput", onkeyup: "keyupHandler", onkeydown: "keydownHandler"},
         {kind: "enyo.Popup", style: "width: 200px; max-height: 200px;", classes: "textfieldselector-popup onyx-menu onyx-picker", components: [
             {kind: "Scroller", style: "max-height: inherit;", components: [
                 {kind: "FlyweightRepeater", name: "list", onSetupItem: "listSetupItem", components: [
