@@ -23,8 +23,8 @@ enyo.kind({
 		this.$.input.setPlaceholder(this.placeholder);
 	},
 	validChanged: function() {
-		this.addRemoveClass("formfield-invalid", this.valid === false);
-		this.addRemoveClass("formfield-valid", this.valid === true);
+		this.addRemoveClass("invalid", this.valid === false);
+		this.addRemoveClass("valid", this.valid === true);
 		this.$.errorMessage.setShowing(this.valid === false);
 	},
 	errorMessageChanged: function() {
@@ -48,6 +48,6 @@ enyo.kind({
 	components: [
 		{name: "errorMessage", classes: "formfield-errormessage", showing: false},
 		{kind: "onyx.Input", name: "input"},
-		{classes: "formfield-checkmark label"}
+		{classes: "formfield-checkmark"}
 	]
 });

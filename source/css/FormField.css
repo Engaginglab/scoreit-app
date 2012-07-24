@@ -1,18 +1,37 @@
+.formfield {
+	position: relative;
+}
+
 .formfield-checkmark {
 	width: 24px;
 	height: 24px;
 	background: url(../../assets/images/check.png) no-repeat center center;
-	margin: 0 5px;
+	margin: 0;
 	display: none;
+	position: absolute;
+	right: 5px;
 }
 
-.formfield-valid .formfield-checkmark {
+.formfield.valid {
+	background-color: #91BA07;
+}
+
+.formfield.invalid {
+	background-color: #C51616;
+}
+
+.formfield.valid > input,
+.formfield.invalid > input {
+	color: #F1F1F1;
+}
+
+/*.formfield-valid .formfield-checkmark {
 	display: inline;
 }
 
 .formfield-invalid .onyx-input-decorator {
 	background-color: Red;
-}
+}*/
 
 .formfield-required .label {
 	font-weight: bold;
@@ -21,5 +40,5 @@
 .formfield-errormessage {
 	display: block;
 	width: 100%;
-	color: red;
+	color: #F1F1F1;
 }
