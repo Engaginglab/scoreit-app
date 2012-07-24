@@ -8,19 +8,24 @@ enyo.kind({
         onCancel: ""
     },
     clubChanged: function() {
-        this.$.clubName.setValue(this.club.name);
+        if (this.club) {
+            this.$.clubName.setValue(this.club.name);
+            this.$.managerSelector.setSelectedItems(this.club.managers);
+            this.loadClubMembers();
+            this.$.managerSelectorGroup.show();
+        } else {
+            this.$.managerSelectorGroup.hide();
+        }
     },
     create: function() {
         this.inherited(arguments);
+        this.clubChanged();
+        this.loadDistricts();
+    },
+    loadDistricts: function() {
         scoreit.handball.district.list([], enyo.bind(this, function(sender, response) {
             this.updateDistricts(response.objects);
         }));
-        scoreit.handball.person.list([], enyo.bind(this, function(sender, response) {
-            this.updateManagers(response.objects);
-        }));
-        // scoreit.handball.union.list([], enyo.bind(this, function(sender, response) {
-        //     this.$.unionSelector.setItems(response.objects);
-        // }));
     },
     updateDistricts: function(districts) {
         this.districts = districts;
@@ -34,11 +39,10 @@ enyo.kind({
         }
         this.$.districtPicker.render();
     },
-    updateManagers: function(managers) {
-        this.$.managerSelector.setItems(managers);
-        if (this.club) {
-            this.$.managerSelector.setSelectedItems(this.club.managers);
-        }
+    loadClubMembers: function() {
+        scoreit.handball.person.list([["clubs", this.club.id]], enyo.bind(this, function(sender, response) {
+            this.$.managerSelector.setItems(managers);
+        }));
     },
     save: function() {
         var params = {
@@ -64,7 +68,7 @@ enyo.kind({
             {style: "width: 100%; text-align: left;", content: "Bezirk auswählen..."},
             {kind: "onyx.Picker", name: "districtPicker"}
         ]},
-        {kind: "onyx.Groupbox", components: [
+        {kind: "onyx.Groupbox", name: "managerSelectorGroup", components: [
             {kind: "onyx.GroupboxHeader", content: "Manager"},
             {kind: "TextFieldSelector", hint: "Namen eingeben...", displayProperty: "display_name", uniqueProperty: "id", name: "managerSelector", filterProperties: ["first_name", "last_name", "pass_number"]}
         ]},
