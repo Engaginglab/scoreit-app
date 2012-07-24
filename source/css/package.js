@@ -5,5 +5,8 @@ enyo.depends(
 	"FormField.css",
 	"FilteredSelector.css",
 	"TextFieldSelector.css",
+	"TopBar.css",
+	"FrontMatter.css",
+	"LoadingPopup.css",
 	"theme.css"
 );

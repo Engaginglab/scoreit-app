@@ -1,0 +1,7 @@
+.frontmatter {
+	margin: 0 auto;
+	background: url(../../assets/images/player_red.png) no-repeat left 50px;
+	background-size: 400px;
+	padding: 30px;
+	position: relative;
+}

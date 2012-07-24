@@ -35,6 +35,7 @@
 
 .scoreit .onyx-popup {
 	background-color: #e1e1e1;
+	color: inherit;
 }
 
 .onyx-input-decorator.always-focused {

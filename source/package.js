@@ -3,6 +3,7 @@ enyo.depends(
 	"$lib/onyx",
 	"$lib/scoreit-api",
 	"css/",
+	"App.js",
 	"SelectDecorator/",
 	"ReportPrepView.js",
 	"SignUpForm.js",
@@ -14,5 +15,7 @@ enyo.depends(
 	"TextFieldSelector.js",
 	"EditProfileView.js",
 	"LoginView.js",
-	"FrontMatter.js"
+	"TopBar.js",
+	"FrontMatter.js",
+	"LoadingPopup.js"
 );
