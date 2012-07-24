@@ -1,11 +1,12 @@
-.scoreit-app .onyx-button {
+.scoreit .onyx-button {
 	background-color: Transparent;
 }
 
-.scoreit-app .onyx-groupbox-header {
+.scoreit .onyx-groupbox-header {
 	font-family: Asap;
 	font-weight: normal;
-	background-color: #005f4e;
+	background-color: #C51616;
+	color: #F1F1F1;
 }
 
 .onyx-input-decorator.input-fill > input,
@@ -32,6 +33,16 @@
 	border-radius: 20px;
 }
 
-.scoreit-app .onyx-popup {
+.scoreit .onyx-popup {
 	background-color: #e1e1e1;
+}
+
+.onyx-input-decorator.always-focused {
+	box-shadow: inset 0px 1px 4px rgba(0,0,0,0.3);
+	border-color: rgba(0,0,0,0.3);
+	background-color: white;
+}
+
+.scoreit .onyx-menu-item.selected {
+	background-color: #BDE515;
 }

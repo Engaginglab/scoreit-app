@@ -1,5 +1,6 @@
 enyo.kind({
 	name: "EditTeamView",
+	classes: "scoreit-form",
 	published: {
 		team: null
 	},
@@ -101,19 +102,22 @@ enyo.kind({
 		this.log(params);
 	},
 	components: [
+		{kind: "onyx.InputDecorator", classes: "input-fill", components: [
+			{kind: "onyx.Input", name: "teamName", placeholder: "Mannschaftsname"}
+		]},
+		{kind: "FilteredSelector", name: "clubSelector", displayProperty: "name", uniqueProperty: "id", filterProperties: ["name"],
+			placeholder: "Verein auswählen...", style: "width: 100%;", onItemSelected: "clubSelected"},
 		{kind: "onyx.Groupbox", components: [
-			//{kind: "onyx.GroupboxHeader", content: "Info"},
-			{kind: "onyx.InputDecorator", classes: "input-fill", components: [
-				{kind: "onyx.Input", name: "teamName", placeholder: "Mannschaftsname"}
-			]},
-			{kind: "FilteredSelector", name: "clubSelector", displayProperty: "name", uniqueProperty: "id", filterProperties: ["name"],
-				placeholder: "Verein auswählen...", style: "width: 100%;", onItemSelected: "clubSelected"},
 			{kind: "onyx.GroupboxHeader", content: "Spieler"},
 			{kind: "TextFieldSelector", name: "playerSelector", displayProperty: "display_name", uniqueProperty: "id",
-				filterProperties: ["display_name"], hint: "Namen eingeben...", allowNewItem: true},
+				filterProperties: ["display_name"], hint: "Namen eingeben...", allowNewItem: true}
+		]},
+		{kind: "onyx.Groupbox", components: [
 			{kind: "onyx.GroupboxHeader", content: "Trainer"},
 			{kind: "TextFieldSelector", name: "coachSelector", displayProperty: "display_name", uniqueProperty: "id",
-				filterProperties: ["display_name"], hint: "Namen eingeben...", allowNewItem: false},
+				filterProperties: ["display_name"], hint: "Namen eingeben...", allowNewItem: false}
+		]},
+		{kind: "onyx.Groupbox", components: [
 			{kind: "onyx.GroupboxHeader", content: "Manager"},
 			{kind: "TextFieldSelector", name: "managerSelector", displayProperty: "display_name", uniqueProperty: "id",
 				filterProperties: ["display_name"], hint: "Namen eingeben...", allowNewItem: false}

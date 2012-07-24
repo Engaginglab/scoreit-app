@@ -57,7 +57,7 @@ enyo.kind({
 		return selected;
 	},
 	components: [
-		{kind: "onyx.InputDecorator", name: "searchInputDecorator", classes: "input-fill", components: [
+		{kind: "onyx.InputDecorator", style: "width: 100%", name: "searchInputDecorator", classes: "input-fill", components: [
 			{kind: "onyx.Input", name: "searchInput", onkeyup: "filter", defaultFocus: true},
 			{kind: "Image", src: "assets/images/search-input-search.png", classes: "label"}
 		]},

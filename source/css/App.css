@@ -3,6 +3,8 @@ body {
 	background-image: url(../../assets/images/light_wool.png);
 	text-align: center;
 	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
 }
 
 body > * {
@@ -12,13 +14,6 @@ body > * {
 .scoreit-header-big {
 	background: url(../../assets/images/logo_big.png) no-repeat center center;
 	height: 130px;
-	text-align: left;
-	padding: 10px;
-}
-
-.scoreit-header {
-	background: url(../../assets/images/logo_small.png) no-repeat center center;
-	height: 60px;
 	text-align: left;
 	padding: 10px;
 }
@@ -43,6 +38,7 @@ body > * {
 
 .scoreit-app {
 	margin: 0px auto;
+	padding: 0;
 }
 
 .item-checkmark {
@@ -51,4 +47,28 @@ body > * {
 	background: url(../../assets/images/check.png) no-repeat center center;
 	float: right;
 	margin: 0 5px;
+}
+
+/*
+.date-picker-row > * {
+	display: inline-block;
+	margin-left: 10px;
+}
+
+.date-picker-row .onyx-button {
+}
+*/
+
+.scoreit-form {
+	box-sizing: border-box;
+}
+
+.scoreit-form > .onyx-input-decorator,
+.scoreit-form > .onyx-picker-decorator > .onyx-button,
+.scoreit-form > .filteredselector,
+.scoreit-form > .onyx-groupbox {
+	box-sizing: border-box;
+	display: block;
+	width: 100%;
+	margin: 5px 0;
 }

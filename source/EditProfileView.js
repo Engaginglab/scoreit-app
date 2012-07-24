@@ -1,5 +1,6 @@
 enyo.kind({
 	name: "EditProfileView",
+	classes: "scoreit-form",
 	published: {
 		user: null,
 		profile: null
@@ -100,45 +101,42 @@ enyo.kind({
 			}));
 		}
 	},
-	components: [
-		{kind: "onyx.Groupbox", components: [
-			{kind: "onyx.InputDecorator", classes: "input-fill", components: [
-				{kind: "onyx.Input", name: "firstName", placeholder: "Vorname", disabled: true}
-			]},
-			{kind: "onyx.InputDecorator", classes: "input-fill", components: [
-				{kind: "onyx.Input", name: "lastName", placeholder: "Nachname", disabled: true}
-			]},
-			{kind: "FilteredSelector", name: "clubSelector", placeholder: "Verein auswählen...", displayProperty: "name", filterProperties: ["name"],
-				uniqueProperty: "id", style: "width: 100%;"},
-			{kind: "onyx.PickerDecorator", components: [
-				{style: "width: 100%; text-align: left; border-radius: 0; border: none;"},
-				{kind: "onyx.Picker", name: "genderPicker", components: [
-					{name: "maleOption", content: "männlich", value: "male", active: true},
-					{name: "femaleOption", content: "weiblich", value: "female"}
-				]}
-			]},
-			// {classes: "date-picker-row", components: [
-			// 	{content: "Geburtstag"},
-			// 	{kind: "onyx.PickerDecorator", components: [
-			// 		{},
-			// 		{kind: "onyx.Picker", name: "birthdayDayPicker"}
-			// 	]},
-			// 	{kind: "onyx.PickerDecorator", components: [
-			// 		{},
-			// 		{kind: "onyx.Picker", name: "birthdayMonthPicker"}
-			// 	]},
-			// 	{kind: "onyx.PickerDecorator", components: [
-			// 		{},
-			// 		{kind: "onyx.Picker", name: "birthdayYearPicker"}
-			// 	]}
-			// ]},
-			{kind: "FormField", name: "passNumber", placeholder: "Passnummer", onchange: "checkPassNumber"},
-			{kind: "FormField", name: "address", placeholder: "Adresse"},
-			{kind: "FormField", name: "zipCode", placeholder: "Postleitzahl"},
-			{kind: "FormField", name: "city", placeholder: "Stadt"},
-			{kind: "FormField", name: "mobileNumber", placeholder: "Handynummer"},
-			{}
+	components: [		{kind: "onyx.InputDecorator", classes: "input-fill", components: [
+			{kind: "onyx.Input", name: "firstName", placeholder: "Vorname", disabled: true}
 		]},
+		{kind: "onyx.InputDecorator", classes: "input-fill", components: [
+			{kind: "onyx.Input", name: "lastName", placeholder: "Nachname", disabled: true}
+		]},
+		{kind: "FilteredSelector", name: "clubSelector", placeholder: "Verein auswählen...", displayProperty: "name", filterProperties: ["name"],
+			uniqueProperty: "id", style: "width: 100%;"},
+		{kind: "onyx.PickerDecorator", components: [
+			{style: "text-align: left;"},
+			{kind: "onyx.Picker", name: "genderPicker", components: [
+				{name: "maleOption", content: "männlich", value: "male", active: true},
+				{name: "femaleOption", content: "weiblich", value: "female"}
+			]}
+		]},
+		// {classes: "date-picker-row", components: [
+		// 	{content: "Geburtstag"},
+		// 	{kind: "onyx.PickerDecorator", components: [
+		// 		{},
+		// 		{kind: "onyx.Picker", name: "birthdayDayPicker"}
+		// 	]},
+		// 	{kind: "onyx.PickerDecorator", components: [
+		// 		{},
+		// 		{kind: "onyx.Picker", name: "birthdayMonthPicker"}
+		// 	]},
+		// 	{kind: "onyx.PickerDecorator", components: [
+		// 		{},
+		// 		{kind: "onyx.Picker", name: "birthdayYearPicker"}
+		// 	]}
+		// ]},
+		{kind: "FormField", name: "passNumber", placeholder: "Passnummer", onchange: "checkPassNumber"},
+		{kind: "FormField", name: "address", placeholder: "Adresse"},
+		{kind: "FormField", name: "zipCode", placeholder: "Postleitzahl"},
+		{kind: "FormField", name: "city", placeholder: "Stadt"},
+		{kind: "FormField", name: "mobileNumber", placeholder: "Handynummer"},
+		//]},
 		{kind: "onyx.Button", content: "Abbrechen", ontap: "doCancel", style: "width: 50%;"},
 		{kind: "onyx.Button", content: "Speichern", ontap: "save", classes: "onyx-affirmative", style: "width: 50%;"}
 	]

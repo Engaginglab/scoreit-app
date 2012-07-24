@@ -1,0 +1,23 @@
+.scoreit-topbar {
+	height: 50px;
+	background-color: #BDE515;
+	background: url(../../assets/images/header.png) repeat-x;
+	width: 100%;
+	padding: 11px;
+	box-sizing: border-box;
+	border-bottom: solid 1px #aaa;
+}
+
+.scoreit-topbar .onyx-input-decorator {
+	padding: 3px;
+	margin-right: 3px;
+}
+
+.scoreit-topbar .onyx-input {
+	font-size: 11pt;
+}
+
+.scoreit-topbar .onyx-button {
+	font-size: 10pt;
+	margin: 0 2px;
+}

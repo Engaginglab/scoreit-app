@@ -1,5 +1,6 @@
 enyo.kind({
 	name: "SignUpView",
+	classes: "scoreit-form",
 	usernameValid: false,
 	emailValid: false,
 	passNumberValid: false,
@@ -99,14 +100,14 @@ enyo.kind({
 	// 	this.$.profileList.render();
 	// },
 	components: [
-		{kind: "onyx.Groupbox", components: [
+		// {kind: "onyx.Groupbox", components: [
 			{kind: "FormField", name: "firstName", placeholder: "Vorname", required: true, onchange: "checkFirstName", errorMessage: "Bitte gib deinen Namen ein!"},
 			{kind: "FormField", name: "lastName", placeholder: "Nachname", required: true, onchange: "checkLastName", errorMessage: "Bitte gib deinen Namen ein!"},
 			{kind: "FormField", name: "email", placeholder: "Email", required: true, onchange: "checkEmail"},
 			{kind: "FormField", name: "username", placeholder: "Benutzername", required: true, onchange: "checkUsername"},
 			{kind: "FormField", name: "password1", type: "password", placeholder: "Passwort", required: true, onchange: "checkPassword"},
-			{kind: "FormField", name: "password2", type: "password", placeholder: "Passwort wiederholen", required: true, onchange: "checkPassword"}
-		]},
+			{kind: "FormField", name: "password2", type: "password", placeholder: "Passwort wiederholen", required: true, onchange: "checkPassword"},
+		// ]},
 		// {kind: "onyx.Groupbox", components: [
 		// 	{kind: "onyx.GroupboxHeader", content: "Bist du einer der folgenden Spieler?"},
 		// 	{kind: "FlyweightRepeater", name: "profileList", onSetupItem: "setupProfiles", components: [
@@ -116,6 +117,6 @@ enyo.kind({
 		// 		]}
 		// 	]}
 		// ]},
-		{kind: "onyx.Button", content: "Abschicken", ontap: "submit", style: "width: 100%;"}
+		{kind: "onyx.Button", content: "Abschicken", ontap: "submit", classes: "onyx-affirmative", style: "width: 100%;"}
 	]
 });
