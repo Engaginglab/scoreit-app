@@ -37,7 +37,7 @@ enyo.kind({
 		this.$.filteredList.setFilterProperties(this.filterProperties);
 	},
 	setupItem: function(sender, event) {
-		var keyProp = this.uniqueProperty || this.displayProperty;
+		var keyProp = this.uniqueProperty && event.item[this.uniqueProperty] !== undefined ? this.uniqueProperty : this.displayProperty;
 		this.$.item.setContent(event.item.name);
 		this.$.item.addRemoveClass("selected", this.selectedItem && event.item[keyProp] == this.selectedItem[keyProp]);
 	},
