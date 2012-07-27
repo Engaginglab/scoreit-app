@@ -44,6 +44,7 @@
 	background-color: white;
 }
 
-.scoreit .onyx-menu-item.selected {
+.scoreit .onyx-menu-item.selected,
+.scoreit .onyx-highlight {
 	background-color: #BDE515;
 }

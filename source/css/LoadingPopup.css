@@ -1,0 +1,14 @@
+.scoreit .onyx-popup.loadingpopup {
+	/*top: 10px;
+	right: 10px;*/
+	border-radius: 100px;
+	background-color: #BDE515;
+}
+
+.loadingpopup-spinner {
+	float: left; margin: 8px;
+}
+
+.loadingpopup-text {
+	font-size: 18pt; padding: 10px;
+}

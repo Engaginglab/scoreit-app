@@ -8,5 +8,6 @@ enyo.depends(
 	"TopBar.css",
 	"FrontMatter.css",
 	"LoadingPopup.css",
+	"GetStartedView.css",
 	"theme.css"
 );
