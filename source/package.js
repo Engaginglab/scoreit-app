@@ -10,12 +10,13 @@ enyo.depends(
 	"FormField.js",
 	"EditTeamView.js",
 	"FilteredSelector.js",
-	"EditClubView.js",
+	"ClubForm.js",
 	"FilteredList.js",
 	"TextFieldSelector.js",
-	"EditProfileView.js",
+	"ProfileForm.js",
 	"LoginView.js",
 	"TopBar.js",
 	"FrontMatter.js",
-	"LoadingPopup.js"
+	"LoadingPopup.js",
+	"GetStartedView.js"
 );
