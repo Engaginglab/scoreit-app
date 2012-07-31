@@ -38,7 +38,7 @@ enyo.kind({
 	},
 	setupItem: function(sender, event) {
 		var keyProp = this.uniqueProperty && event.item[this.uniqueProperty] !== undefined ? this.uniqueProperty : this.displayProperty;
-		this.$.item.setContent(event.item.name);
+		this.$.item.setContent(event.item[this.displayProperty]);
 		this.$.item.addRemoveClass("selected", this.selectedItem && event.item[keyProp] == this.selectedItem[keyProp]);
 	},
 	tapHandler: function(sender, event) {
@@ -58,9 +58,9 @@ enyo.kind({
 		// 	{classes: "filteredselector-arrow"}
 		// ]},
 		{name: "label", classes: "filteredselector-value"},
-		{kind: "onyx.Popup", classes: "onyx-menu onyx-picker filteredselector-popup", style: "width: 300px;", name: "selectPopup", components: [
+		{kind: "onyx.Popup", classes: "onyx-menu onyx-picker filteredselector-popup", name: "selectPopup", components: [
 			{kind: "FilteredList", onSetupItem: "setupItem", onItemSelected: "itemSelected", components: [
-				{kind: "onyx.Item", name: "item", ontap: "tapHandler", classes: "onyx-menu-item filteredselector-item"}
+				{kind: "onyx.Item", name: "item", ontap: "tapHandler", classes: "onyx-menu-item filteredselector-item ellipsis"}
 			]}
 		]}
 	]
