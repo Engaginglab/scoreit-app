@@ -1,0 +1,9 @@
+.timer {
+	text-align: center;
+}
+
+.timer-digit {
+	display: inline;
+	font-size: 40pt;
+	padding: 5px;
+}

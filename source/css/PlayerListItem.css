@@ -1,0 +1,39 @@
+.player-list-item {
+	padding: 15px;
+	font-size: 15pt;
+}
+
+.player-list-item.disabled {
+	opacity: 0.5;
+}
+
+.player-list-item * {
+	display: inline-block;
+}
+
+.player-list-item-name {
+	max-width: 200px;
+}
+
+.player-list-item-number {
+	padding-right: 10px;
+}
+
+.player-list-item-cards, .player-list-item-timer, .player-list-item-goals {
+	float: right;
+}
+
+.player-list-item-goals-text {
+	font-size: 14pt;
+	padding: 3px;
+	position: relative;
+	top: -4px;
+}
+
+.player-list-item-goals img {
+	width: 25px;
+}
+
+.player-list-item-timer {
+	padding: 0px 3px;
+}

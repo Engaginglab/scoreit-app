@@ -45,6 +45,7 @@
 }
 
 .scoreit .onyx-menu-item.selected,
+.onyx-menu-item:hover,
 .scoreit .onyx-highlight {
 	background-color: #BDE515;
 }

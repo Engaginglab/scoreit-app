@@ -1,7 +1,6 @@
 enyo.depends(
 	"fonts.css",
 	"App.css",
-	"PrepView.css",
 	"FormField.css",
 	"FilteredSelector.css",
 	"TextFieldSelector.css",
@@ -9,5 +8,8 @@ enyo.depends(
 	"FrontMatter.css",
 	"LoadingPopup.css",
 	"GetStartedView.css",
+	"ReportView.css",
+	"PlayerListItem.css",
+	"Timer.css",
 	"theme.css"
 );

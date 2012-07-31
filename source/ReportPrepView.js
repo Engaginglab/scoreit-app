@@ -1,224 +1,191 @@
 enyo.kind({
-	name: "ReportPrepView",
-	classes: "prepview",
-	events: {
-		onStartGame: ""
-	},
-	rendered: function() {
-		this.inherited(arguments);
-		this.loadUnions();
-		this.$.number.setValue(Math.floor(Math.random()*10000000));
-	},
-	loadUnions: function() {
-		scoreit.union.list([], enyo.bind(this, this.gotUnions));
-	},
-	gotUnions: function(sender, response) {
-		this.unions = response.objects;
+    name: "ReportPrepView",
+    classes: "scoreit-form",
+    create: function() {
+        this.inherited(arguments);
+        this.setupTimePicker();
+        this.loadSites();
+        this.loadGameTypes();
+        this.loadUnions();
+    },
+    setupTimePicker: function() {
+        var now = new Date();
+        for (var i=1; i<=31; i++) {
+            this.$.dayPicker.createComponent({
+                content: i,
+                active: now.getDate() == i
+            });
+        }
+        for (var i=1; i<=12; i++) {
+            this.$.monthPicker.createComponent({
+                content: i,
+                active: now.getMonth() == i
+            });
+        }
+        for (var i=now.getFullYear()-5; i<=now.getFullYear()+5; i++) {
+            this.$.yearPicker.createComponent({
+                content: i,
+                active: now.getFullYear() == i
+            });
+        }
+        for (var i=0; i<=23; i++) {
+            this.$.hourPicker.createComponent({
+                content: i < 10 ? "0" + i : i,
+                active: now.getHours() == i
+            });
+        }
+        for (var i=0; i<=59; i++) {
+            this.$.minutePicker.createComponent({
+                content: i < 10 ? "0" + i : i,
+                active: now.getMinutes() == i
+            });
+        }
+    },
+    loadSites: function() {
+        scoreit.handball.site.list([], enyo.bind(this, function(sender, response) {
+            this.$.siteSelector.setItems(response.objects);
+        }));
+    },
+    loadGameTypes: function() {
+        scoreit.handball.gametype.list([], enyo.bind(this, function(sender, response) {
+            this.populatePicker(this.$.gameTypePicker, response.objects, "name");
+        }));
+    },
+    loadUnions: function() {
+        scoreit.handball.union.list([], enyo.bind(this, function(sender, response) {
+            this.populatePicker(this.$.unionPicker, response.objects, "name");
+        }));
+    },
+    unionSelected: function() {
+        this.loadDistricts();
+    },
+    loadDistricts: function() {
+        var union = this.$.unionPicker.getSelected().value;
+        scoreit.handball.district.list([["union", union.id]], enyo.bind(this, function(sender, response) {
+            this.populatePicker(this.$.districtPicker, response.objects, "name");
+            this.$.districtPickerButton.setDisabled(false);
+        }));
+    },
+    districtSelected: function() {
+        this.loadLeagues();
+        this.loadTeams();
+    },
+    loadLeagues: function() {
+        var district = this.$.districtPicker.getSelected().value;
+        scoreit.handball.league.list([["district", district.id]], enyo.bind(this, function(sender, response) {
+            this.populatePicker(this.$.leaguePicker, response.objects, "display_name");
+            this.$.leaguePickerButton.setDisabled(false);
+        }));
+    },
+    leagueSelected: function() {
+        this.loadGroups();
+    },
+    loadGroups: function() {
+        var league = this.$.leaguePicker.getSelected().value;
+        scoreit.handball.group.list([["league", league.id]], enyo.bind(this, function(sender, response) {
+            this.populatePicker(this.$.groupPicker, response.objects, "name");
+            this.$.groupPickerButton.setDisabled(false);
+        }));
+    },
+    populatePicker: function(picker, items, displayProperty) {
+        picker.destroyClientControls();
+        for (var i=0; i<items.length; i++) {
+            picker.createComponent({
+                content: items[i][displayProperty],
+                value: items[i]
+            });
+        }
+    },
+    loadTeams: function() {
+        var district = this.$.districtPicker.getSelected().value;
+        scoreit.handball.team.list([['club__district', district.id]], enyo.bind(this, function(sender, reponse) {
+            this.$.homeTeamSelector.setItems(reponse.objects);
+            this.$.awayTeamSelector.setItems(reponse.objects);
+            this.$.homeTeamSelector.setDisabled(false);
+            this.$.awayTeamSelector.setDisabled(false);
+        }));
+    },
+    teamChanged: function(sender, event) {
+        var side = sender.side;
+        var team = this.$[side + "TeamSelector"].getSelectedItem();
 
-		this.$.unionSelect.destroyComponents();
-		//this.$.unionSelect.createComponent({content: "Verband wählen", value: -1});
-		for (var i = 0; i < this.unions.length; i++) {
-			this.$.unionSelect.createComponent({content: this.unions[i].name, value: i});
-		}
-
-		this.$.unionSelectDecorator.setDisabled(false);
-		this.$.unionSelectDecorator.render();
-	},
-	unionChanged: function(sender, event) {
-		var index = sender.getValue();
-		if (index != -1) {
-			this.selectedUnion = this.unions[index];
-			scoreit.league.list([["league", this.selectedUnion.id]], enyo.bind(this, this.gotLeagues));
-		}
-	},
-	gotLeagues: function(sender, response) {
-		this.leagues = response.objects;
-
-		this.$.leagueSelect.destroyComponents();
-		//this.$.leagueSelect.createComponent({content: "Klasse wählen", value: -1});
-		for (var i = 0; i < this.leagues.length; i++) {
-			this.$.leagueSelect.createComponent({content: this.leagues[i].name, value: i});
-		}
-
-		this.$.leagueSelectDecorator.setDisabled(false);
-		this.$.leagueSelectDecorator.render();
-	},
-	leagueChanged: function(sender, event) {
-		var index = sender.getValue();
-		if (index != -1) {
-			this.selectedLeague = this.leagues[index];
-			scoreit.team.list([["union", this.selectedUnion.id], ["league", this.selectedLeague.id]], enyo.bind(this, this.gotTeams));
-		}
-	},
-	gotTeams: function(sender, response) {
-		this.teams = response.objects;
-
-		this.$.homeSelect.destroyComponents();
-		this.$.awaySelect.destroyComponents();
-		//this.$.homeSelect.createComponent({content: "Mannschaft wählen", value: -1});
-		//this.$.awaySelect.createComponent({content: "Mannschaft wählen", value: -1});
-		for (var i = 0; i < this.teams.length; i++) {
-			this.$.homeSelect.createComponent({content: this.teams[i].name, value: i});
-			this.$.awaySelect.createComponent({content: this.teams[i].name, value: i});
-		}
-
-		this.$.homeSelectDecorator.setDisabled(false);
-		this.$.awaySelectDecorator.setDisabled(false);
-		this.$.homeSelectDecorator.render();
-		this.$.awaySelectDecorator.render();
-	},
-	teamChanged: function(sender, event) {
-		var index = sender.getValue();
-		var team = sender.team;
-		if (index != -1) {
-			this[team + "Team"] = this.teams[index];
-			this.populateTeamMembers(team);
-		}
-	},
-	populateTeamMembers: function(team) {
-		var players = this[team + "Team"].players;
-		var select = this.$[team + "PlayerSelect"];
-		var selectDecorator = this.$[team + "PlayerSelectDecorator"];
-		select.destroyComponents();
-		//this.$.homeTeamMemberSelect.createComponent({content: "Spieler hinzufügen", value: -1});
-		for (var i = 0; i < players.length; i++) {
-			select.createComponent({content: players[i].first_name + " " + players[i].last_name, value: i});
-		}
-
-		selectDecorator.setDisabled(false);
-		selectDecorator.render();
-
-		this[team + "Players"] = players;
-
-		this.$[team + "TeamList"].setCount(players.length);
-		this.$[team + "TeamList"].render();
-		this.$.doneButton.setDisabled(!this.homeTeam || !this.homeTeam.players || !this.awayTeam || !this.awayTeam.players);
-	},
-	playerChanged: function(sender, event) {
-		var index = sender.getValue();
-		var team = sender.team;
-		var players = this[team + "Players"];
-
-		if (index != -1) {
-			var player = this[team + "Team"].players[index];
-
-			players = players || [];
-			players.push(player);
-			this.$[team + "TeamList"].render();
-			this.$[team + "TeamMemberSelect"].setSelected(0);
-		}
-	},
-	setupPlayerItem: function(sender, event) {
-		this.$[sender.team + "PlayerItem"].setPlayer(this[sender.team + "Players"][event.index]);
-	},
-	startGame: function() {
-		this.doStartGame({home: this.homeTeam, away: this.awayTeam, number: this.$.number.getValue(), union: this.selectedUnion, gameClass: this.selectedClass});
-	},
-	reset: function() {
-		this.$.unionSelect.setSelected(0);
-		this.$.leagueSelect.setSelected(0);
-		this.$.leagueSelectDecorator.setDisabled(true);
-		this.$.homeSelect.setSelected(0);
-		this.$.homeSelectDecorator.setDisabled(true);
-		this.$.awaySelect.setSelected(0);
-		this.$.awaySelectDecorator.setDisabled(true);
-
-		this.homeTeam = null;
-		this.awayTeam = null;
-		this.homePlayers = [];
-		this.awayPlayers = [];
-		this.homeTeamList.render();
-		this.awayTeamList.render();
-
-		this.$.doneButton.setDisabled(true);
-	},
-	components: [
-		{kind: "FittableRows", classes: "prepview-inner", components: [
-			{kind: "onyx.Groupbox", components: [
-				{kind: "onyx.GroupboxHeader", content: "Allgemein"},
-				{kind: "onyx.InputDecorator", classes: "input-fill", components: [
-					{kind: "onyx.Input", name: "number"}, {classes: "label", content: "Spielnummer"}
-				]},
-				{kind: "onyx.custom.SelectDecorator", name: "unionSelectDecorator", disabled: true, components: [
-					{kind: "Select", name: "unionSelect", onchange: "unionChanged", components: [
-						{content: "Verband wählen", value: -1}
-					]}
-				]},
-				{kind: "onyx.custom.SelectDecorator", name: "leagueSelectDecorator", disabled: true, components: [
-					{kind: "Select", name: "leagueSelect", onchange: "leagueChanged", components: [
-						{content: "Klasse wählen", value: -1}
-					]}
-				]}
-			]},
-			{kind: "FittableColumns", fit: true, components: [
-				{kind: "onyx.Groupbox", layoutKind: "FittableRowsLayout", style: "width: 50%", components: [
-					{kind: "onyx.GroupboxHeader", content: "Heim"},
-					{kind: "onyx.custom.SelectDecorator", name: "homeSelectDecorator", disabled: true, components: [
-						{kind: "Select", name: "homeSelect", team: "home", onchange: "teamChanged", components: [
-							{content: "Mannschaft wählen", value: -1}
-						]}
-					]},
-					{fit: true, kind: "Scroller", components: [
-						{name: "homeTeamList", kind: "FlyweightRepeater", team: "home", onSetupItem: "setupPlayerItem", classes: "prepview-teamlist", components: [
-							{kind: "PrepPlayerItem", name: "homePlayerItem"}
-						]},
-						{kind: "onyx.custom.SelectDecorator", showing: false, name: "homePlayerSelectDecorator", disabled: true, components: [
-							{kind: "Select", name: "homePlayerSelect", team: "home", onchange: "playerChanged", components: [
-								{content: "Spieler hinzufügen", value: -1}
-							]}
-						]}
-					]}
-				]},
-				{kind: "onyx.Groupbox", layoutKind: "FittableRowsLayout", style: "width: 50%", components: [
-					{kind: "onyx.GroupboxHeader", content: "Gast"},
-					{kind: "onyx.custom.SelectDecorator", name: "awaySelectDecorator", disabled: true, components: [
-						{kind: "Select", name: "awaySelect", team: "away", onchange: "teamChanged", components: [
-							{content: "Mannschaft wählen", value: -1}
-						]}
-					]},
-					{fit: true, kind: "Scroller", components: [
-						{name: "awayTeamList", kind: "FlyweightRepeater", team: "away", onSetupItem: "setupPlayerItem", classes: "prepview-teamlist", components: [
-							{kind: "PrepPlayerItem", name: "awayPlayerItem"}
-						]},
-						{kind: "onyx.custom.SelectDecorator", showing: false, name: "awayPlayerSelectDecorator", disabled: true, components: [
-							{kind: "Select", name: "awayPlayerSelect", team: "away", onchange: "playerChanged", components: [
-								{content: "Spieler hinzufügen", value: -1}
-							]}
-						]}
-					]}
-				]}
-			]},
-			// {kind: "onyx.Groupbox", components: [
-			// 	{kind: "onyx.GroupboxHeader", content: "Zeitnehmer / Sekretär / Schiedsrichter"}
-			// ]},
-			{kind: "onyx.Button", content: "Spiel Starten", classes: "prepview-done-button", onclick: "startGame", disabled: true, name: "doneButton"}
-		]}
-	]
-});
-
-enyo.kind({
-	name: "PrepPlayerItem",
-	kind: "onyx.Item",
-	published: {
-		player: null
-	},
-	rendered: function() {
-		this.inherited(arguments);
-		this.playerChanged();
-	},
-	playerChanged: function() {
-		if (this.player) {
-			this.$.name.setContent(this.player.first_name + " " + this.player.last_name);
-			this.$.number.setValue(this.player.shirt_number || "");
-		}
-	},
-	shirtNumberChanged: function() {
-		this.player.shirt_number = this.$.number.getValue();
-	},
-	components: [
-		{name: "name", classes: "prepview-member-item-name"},
-		{kind: "onyx.InputDecorator", classes: "prepview-member-item-input", components: [
-			{kind: "onyx.Input", name: "number", style: "width: 40px; text-align: center", onchange: "shirtNumberChanged", placeholder: "Tr-#"}
-		]}
-	]
+        this.$[side + "PlayerSelector"].setItems(team.players);
+        this.$[side + "PlayerSelector"].setSelectedItems(team.players);
+    },
+    newSite: function() {
+        this.$.siteForm.setSite(null);
+        this.$.sitePopup.show();
+    },
+    newSiteConfirm: function() {
+        var site = this.$.siteForm.getData();
+        this.$.siteSelector.setSelectedItem(site);
+    },
+    components: [
+        {kind: "onyx.InputDecorator", components: [
+            {kind: "onyx.Input", name: "gameNumber", placeholder: "Spielnummer"}
+        ]},
+        {kind: "onyx.PickerDecorator", components: [
+            {content: "Spielart auswählen...", style: "text-align: left;"},
+            {kind: "onyx.Picker", name: "gameTypePicker"}
+        ]},
+        {classes: "time-picker-row", components: [
+            {classes: "time-picker-label", content: "Spielbeginn"},
+            {kind: "onyx.PickerDecorator", components: [
+                {},
+                {kind: "onyx.Picker", name: "dayPicker"}
+            ]},
+            {content: "."},
+            {kind: "onyx.PickerDecorator", components: [
+                {},
+                {kind: "onyx.Picker", name: "monthPicker"}
+            ]},
+            {content: "."},
+            {kind: "onyx.PickerDecorator", components: [
+                {},
+                {kind: "onyx.Picker", name: "yearPicker"}
+            ]},
+            {content: " "},
+            {kind: "onyx.PickerDecorator", components: [
+                {},
+                {kind: "onyx.Picker", name: "hourPicker"}
+            ]},
+            {content: ":"},
+            {kind: "onyx.PickerDecorator", components: [
+                {},
+                {kind: "onyx.Picker", name: "minutePicker"}
+            ]}
+        ]},
+        {kind: "FittableColumns", components: [
+            {kind: "FilteredSelector", name: "siteSelector", placeholder: "Halle auswählen...", displayProperty: "display_name", filterProperties: ["display_name"],
+                uniqueProperty: "id", style: "width: 100%;", fit: true},
+            {kind: "onyx.Button", content: "+", style: "font-size: 18pt; height: 40px; padding-top: 2px;", ontap: "newSite"}
+        ]},
+        {kind: "onyx.Popup", name: "sitePopup", style: "right: 0;", components: [
+            {kind: "SiteForm"},
+            //{kind: "onyx.Button", content: "Schließen", ontap: "clubPopupClose", style: "width: 48%; margin: 1%;"},
+            {kind: "onyx.Button", content: "Speichern", ontap: "newSiteConfirm", style: "width: 100%;", classes: "onyx-affirmative"}
+        ]},
+        {kind: "onyx.PickerDecorator", components: [
+            {content: "Verband auswählen...", style: "text-align: left;"},
+            {kind: "onyx.Picker", name: "unionPicker", onChange: "unionSelected"}
+        ]},
+        {kind: "onyx.PickerDecorator", components: [
+            {content: "Bezirk auswählen...", style: "text-align: left;", name: "districtPickerButton", disabled: true},
+            {kind: "onyx.Picker", name: "districtPicker", onChange: "districtSelected"}
+        ]},
+        {kind: "onyx.PickerDecorator", components: [
+            {content: "Klasse auswählen...", style: "text-align: left;", name: "leaguePickerButton", disabled: true},
+            {kind: "onyx.Picker", name: "leaguePicker", onChange: "leagueSelected"}
+        ]},
+        {kind: "onyx.PickerDecorator", components: [
+            {content: "Staffel auswählen...", style: "text-align: left;", name: "groupPickerButton", disabled: true},
+            {kind: "onyx.Picker", name: "groupPicker", onChange: "groupSelected"}
+        ]},
+        {kind: "FilteredSelector", name: "homeTeamSelector", placeholder: "Heimmannschaft auswählen...", displayProperty: "display_name", filterProperties: ["display_name"],
+            uniqueProperty: "id", style: "width: 50%; float: left;", onItemSelected: "teamChanged", side: "home", disabled: true},
+        {kind: "FilteredSelector", name: "awayTeamSelector", placeholder: "Gastmannschaft auswählen...", displayProperty: "display_name", filterProperties: ["display_name"],
+            uniqueProperty: "id", style: "width: 50%; float: right;", onItemSelected: "teamChanged", side: "away", disabled: true},
+        {kind: "ReportPlayerSelector", name: "homePlayerSelector", hint: "Namen eingeben...", style: "width: 50%; float: left;", allowNewItem: true},
+        {kind: "ReportPlayerSelector", name: "awayPlayerSelector", hint: "Namen eingeben...", style: "width: 50%; float: right;", allowNewItem: true}
+    ]
 });

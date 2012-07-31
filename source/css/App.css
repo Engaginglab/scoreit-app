@@ -72,3 +72,16 @@ body > * {
 	width: 100%;
 	margin: 5px 0;
 }
+
+.time-picker-row {
+	margin: 5px 0;
+}
+
+.time-picker-row > * {
+	display: inline-block;
+	margin: 0 3px;
+}
+
+.time-picker-label {
+	margin: 0 10px;
+}
