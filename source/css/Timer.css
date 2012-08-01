@@ -2,6 +2,10 @@
 	text-align: center;
 }
 
+.timer.off {
+	opacity: 0.5;
+}
+
 .timer-digit {
 	display: inline;
 	font-size: 45pt;

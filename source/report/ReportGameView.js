@@ -5,7 +5,8 @@ enyo.kind({
     published: {
         home: null,
         away: null,
-        players: null
+        players: null,
+        running: false
     },
     events: {
         onDone: "",
@@ -27,7 +28,6 @@ enyo.kind({
         this.awayChanged();
         this.playersChanged();
         this.updateScore();
-        this.freezeGame(true);
     },
     homeChanged: function() {
         if (this.home && this.home.club) {
@@ -50,9 +50,30 @@ enyo.kind({
         }
     },
     toggleTimer: function() {
-        this.$.timer.toggle();
-        this.$.toggleTimerButton.addRemoveClass("pause", this.$.timer.isRunning());
-        this.freezeGame(!this.$.timer.isRunning());
+        this.setRunning(!this.running);
+    },
+    runningChanged: function() {
+        this.$.timer.setRunning(this.running);
+        this.$.toggleTimerButton.addRemoveClass("pause", this.running);
+        var homePlayerItems = this.$.homeTeamList.getControls();
+        var awayPlayerItems = this.$.awayTeamList.getControls();
+
+        function toggleItem(item) {
+            //item.setDisabled(freeze);
+            if (!this.running) {
+                item.pauseTimer();
+                // item.twin.pauseTimer();
+            } else {
+                item.resumeTimer();
+                // item.twin.resumeTimer();
+            }
+        }
+        for (var j = 0; j < homePlayerItems.length; j++) {
+            toggleItem(homePlayerItems[j].$.playerItem);
+        }
+        for (var j = 0; j < awayPlayerItems.length; j++) {
+            toggleItem(awayPlayerItems[j].$.playerItem);
+        }
     },
     resetTimer: function() {
         this.$.timer.reset();
@@ -201,27 +222,6 @@ enyo.kind({
         // // this.$.homeTeamListDecorator.addRemoveClass("reportview-sidecolumn-list-highlighted", highlight);
         // // this.$.awayTeamListDecorator.addRemoveClass("reportview-sidecolumn-list-highlighted", highlight);
     },
-    freezeGame: function(freeze) {
-        var homePlayerItems = this.$.homeTeamList.getControls();
-        var awayPlayerItems = this.$.awayTeamList.getControls();
-
-        function freezeItem(item) {
-            //item.setDisabled(freeze);
-            if (freeze) {
-                item.pauseTimer();
-                // item.twin.pauseTimer();
-            } else {
-                item.resumeTimer();
-                // item.twin.resumeTimer();
-            }
-        }
-        for (var j = 0; j < homePlayerItems.length; j++) {
-            freezeItem(homePlayerItems[j].$.playerItem);
-        }
-        for (var j = 0; j < awayPlayerItems.length; j++) {
-            freezeItem(awayPlayerItems[j].$.playerItem);
-        }
-    },
     timerTimeout: function() {
         this.$.toggleTimerButton.removeClass("pause");
         this.freezeGame(true);
@@ -233,56 +233,31 @@ enyo.kind({
             this.$.endPopup.show();
         }
     },
-    sendButtontaped: function() {
-        this.done();
-    },
-    done: function() {
-        var players_home = [];
-        for (var i=0; i<this.home.players.length; i++) {
-            players_home.push(this.home.players[i]);
-        }
-        var players_away = [];
-        for (var i=0; i<this.away.players.length; i++) {
-            players_away.push(this.away.players[i]);
-        }
+    getData: function() {
         var game = {
-            nummer: this.number,
-            heim: this.home.ID,
-            gast: this.away.ID,
-            tore_heim: this.score.home,
-            tore_gast: this.score.away,
-            sieger: this.score.home > this.score.away ? this.home.ID : this.away.ID,
-            verband: this.union.ID,
-            klasse: this.gameClass.ID,
-            spieler_heim: JSON.stringify(players_home),
-            spieler_gast: JSON.stringify(players_away),
-            ereignisse: JSON.stringify(this.gameEvents)
+            score_home: this.score.home,
+            score_away: this.score.away,
+            events: this.gameEvents
         };
         this.log(JSON.stringify(game));
-        this.doDone(game);
-        this.$.endPopup.hide();
     },
-    secondHalfButtontaped: function() {
-        this.toggleTimer();
-        this.$.halfTimePopup.hide();
-    },
-    getPosition: function(con) {
-        var Elem = con.hasNode();
-        var offsetLeft = 0;
-        var offsetTop = 0;
+    // getPosition: function(con) {
+    //     var Elem = con.hasNode();
+    //     var offsetLeft = 0;
+    //     var offsetTop = 0;
 
-        do {
-            if (!isNaN(Elem.offsetLeft)) {
-                offsetLeft += Elem.offsetLeft;
-                offsetTop += Elem.offsetTop;
-            }
-        } while (Elem = Elem.offsetParent);
+    //     do {
+    //         if (!isNaN(Elem.offsetLeft)) {
+    //             offsetLeft += Elem.offsetLeft;
+    //             offsetTop += Elem.offsetTop;
+    //         }
+    //     } while (Elem = Elem.offsetParent);
 
-        return {
-            left: offsetLeft,
-            top: offsetTop
-        };
-    },
+    //     return {
+    //         left: offsetLeft,
+    //         top: offsetTop
+    //     };
+    // },
     reset: function() {
         this.$.timer.stop();
         this.$.toggleTimerButton.removeClass("pause");
@@ -312,7 +287,15 @@ enyo.kind({
                 ]}
             ]},
             {classes: "reportview-centercolumn", fit: true, components: [
-                {kind: "FittableColumns", name: "scoreboard", classes: "reportview-scoreboard enyo-center", components: [
+                {kind: "Timer", name: "timer", maxTime: 1800000, blinking: true, classes: "reportview-timer", onTimeout: "timerTimeout"},
+                {classes: "reportview-timer-controls enyo-center", components: [
+                    {kind: "onyx.Button", name: "toggleTimerButton", classes: "reportview-timer-controls-toggle", ontap: "toggleTimer", components: [
+                        {kind: "Image", src: "assets/images/play.png", name: "playImage", classes: "play-image"},
+                        {kind: "Image", src: "assets/images/pause.png", name: "pauseImage", classes: "pause-image"}
+                    ]},
+                    {kind: "onyx.Button", classes: "reportview-timer-controls-reset", allowHtml: true, content: "0:00", ontap: "resetTimer"}
+                ]},
+                {name: "scoreboard", classes: "reportview-scoreboard enyo-center", components: [
                     {components: [
                         {content: "HEIM", classes: "reportview-scoreboard-header"},
                         {kind: "onyx.InputDecorator", classes: "reportview-scoreboard-field onyx-focused", components: [
@@ -327,32 +310,19 @@ enyo.kind({
                         ]}
                     ]}
                 ]},
-                {kind: "Timer", name: "timer", maxTime: 1800000, classes: "reportview-timer", onTimeout: "timerTimeout"},
-                {kind: "FittableColumns", classes: "reportview-timer-controls enyo-center", components: [
-                    {kind: "onyx.Button", name: "toggleTimerButton", classes: "reportview-timer-controls-toggle", ontap: "toggleTimer", components: [
-                        {tag: "img", attributes: {src: "assets/images/play.png"}, name: "playImage", classes: "play-image"},
-                        {tag: "img", attributes: {src: "assets/images/pause.png"}, name: "pauseImage", classes: "pause-image"}
-                    ]},
-                    {kind: "onyx.Button", classes: "reportview-timer-controls-reset", allowHtml: true, content: "0:00", ontap: "resetTimer"}
+                {kind: "onyx.Button", classes: "reportview-goal-button enyo-center", content: "TOR!", ontap: "goalClicked", components: [
+                    {kind: "Image", src: "assets/images/ball.png"}
                 ]},
-                {kind: "FittableColumns", classes: "enyo-center reporview-goal-button-wrapper", components: [
-                    {kind: "onyx.Button", classes: "reportview-goal-button", content: "TOR!", ontap: "goalClicked", components: [
-                        {tag: "img", attributes: {src: "assets/images/ball.png"}}
-                    ]}
-                ]},
-                {kind: "FittableColumns", classes: "enyo-center reportview-penalty-controls", components: [
+                {classes: "reportview-penalty-controls", components: [
                     {kind: "onyx.Button", ontap: "penaltyClicked", components: [
-                        {tag: "img", style: "height: 32px", attributes: {src: "assets/images/stopwatch@2x.png"}}
+                        {kind: "Image", style: "height: 32px", src: "assets/images/stopwatch@2x.png"}
                     ]},
                     {kind: "onyx.Button", ontap: "warningClicked", components: [
-                        {tag: "img", attributes: {src: "assets/images/yellow_card_32x32.png"}}
+                        {kind: "Image", src: "assets/images/yellow_card_32x32.png"}
                     ]},
                     {kind: "onyx.Button", ontap: "disClicked", components: [
-                        {tag: "img", attributes: {src: "assets/images/red_card_32x32.png"}}
+                        {kind: "Image", src: "assets/images/red_card_32x32.png"}
                     ]}
-                ]},
-                {kind: "FittableColumns", classes: "enyo-center", showing: false, components: [
-                    {kind: "onyx.Button", name: "doneButton", classes: "reportview-done-button", content: "Weiter", ontap: "done", disabled: true}
                 ]}
             ]},
             {kind: "FittableRows", components: [
@@ -372,13 +342,11 @@ enyo.kind({
             {classes: "onyx-menu-item", content: "Verwarnung", ontap: "contextWarning"},
             {classes: "onyx-menu-item", content: "Disqualifikation", ontap: "contextDis"}
         ]},
-        {kind: "onyx.Popup", floating: true, name: "halfTimePopup", modal: true, centered: true, components: [
-            {content: "Erste Halbzeit vorbei!"},
-            {kind: "onyx.Button", classes: "onyx-affirmative", content: "Weiter Gehts", ontap: "secondHalfButtontaped"}
+        {kind: "onyx.Popup", floating: false, name: "halfTimePopup", classes: "notification-popup", centered: true, components: [
+            {content: "Erste Halbzeit vorbei!"}
         ]},
-        {kind: "onyx.Popup", floating: true, name: "endPopup", modal: true, centered: true, autoDismiss: false, components: [
-            {content: "Spiel vorbei!"},
-            {kind: "onyx.Button", classes: "onyx-affirmative", content: "Bericht Abschicken", ontap: "sendButtontaped"}
+        {kind: "onyx.Popup", floating: false, name: "endPopup", classes: "notification-popup", centered: true, components: [
+            {content: "Spiel vorbei!"}
         ]}
     ]
 });

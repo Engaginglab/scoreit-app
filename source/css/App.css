@@ -85,3 +85,8 @@ body > * {
 .time-picker-label {
 	margin: 0 10px;
 }
+
+.notification-popup {
+	padding: 20px;
+	font-size: 18pt;
+}

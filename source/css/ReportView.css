@@ -6,6 +6,10 @@
 	box-sizing: border-box;
 }
 
+.reportview-centercolumn {
+	text-align: center;
+}
+
 .reportview-sidecolumn-header {
 	text-align: center;
 	padding: 0px 15px 15px 15px;
@@ -31,8 +35,12 @@
 }
 
 .reportview-scoreboard {
-	margin: 50px 0px;
+	margin: 5px 0px;
 	font-size: 20pt;
+}
+
+.reportview-scoreboard > * {
+	display: inline-block;
 }
 
 .reportview-scoreboard-field {
@@ -46,7 +54,7 @@
 
 .reportview .reportview-timer {
 	width: 100%;
-	margin: 50px auto;
+	margin: 20px auto;
 }
 
 .reportview-scoreboard-header {
@@ -55,7 +63,7 @@
 }
 
 .reportview-timer-controls {
-	margin-bottom: 50px;
+	margin: 10px auto;
 }
 
 .reportview-timer-controls .onyx-button.reportview-timer-controls-toggle {
@@ -90,8 +98,6 @@
 	width: 70px;
 	height: 45px;
 	font-size: 15pt;
-	position: relative;
-	top: 15px;
 }
 
 .reportview-scoreboard-controls {
@@ -103,13 +109,8 @@
 	display: block;
 }
 
-.logo-header {
-	width: 250px;
-	display: block;
-	margin: 20px auto;
-}
-
 .reportview-goal-button {
+	margin: 5px auto;
 	font-size: 15pt;
 	width: 190px;
 }
@@ -136,11 +137,12 @@
 
 .reportview-penalty-controls {
 	padding: 10px;
-	height: 60px;
+	text-align: center;
 }
 
 .reportview-penalty-controls button {
 	margin: 2px;
 	padding: 5px;
 	width: 60px;
+	height: 60px;
 }
