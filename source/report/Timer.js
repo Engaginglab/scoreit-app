@@ -1,6 +1,6 @@
 enyo.kind({
 	name: "Timer",
-	classes: "stopwatch display",
+	classes: "timer",
 	allowHtml: true,
 	// content: "		<div class='display-area digit'>			<div class='element bar center top'></div>			<div class='element bar center middle'></div>			<div class='element bar center bottom'></div>			<div class='element bar left top'></div>			<div class='element bar left bottom'></div>			<div class='element bar right top'></div>			<div class='element bar right bottom'></div>		</div>		<div class='display-area digit'>			<div class='element bar center top'></div>			<div class='element bar center middle'></div>			<div class='element bar center bottom'></div>			<div class='element bar left top'></div>			<div class='element bar left bottom'></div>			<div class='element bar right top'></div>			<div class='element bar right bottom'></div>		</div>		<div class='display-area sep colon on'>			<div class='element bar top'></div>			<div class='element bar bottom'></div>		</div>		<div class='display-area digit'>			<div class='element bar center top'></div>			<div class='element bar center middle'></div>			<div class='element bar center bottom'></div>			<div class='element bar left top'></div>			<div class='element bar left bottom'></div>			<div class='element bar right top'></div>			<div class='element bar right bottom'></div>		</div>		<div class='display-area digit'>			<div class='element bar center top'></div>			<div class='element bar center middle'></div>			<div class='element bar center bottom'></div>			<div class='element bar left top'></div>			<div class='element bar left bottom'></div>			<div class='element bar right top'></div>			<div class='element bar right bottom'></div>		</div>		<div class='display-area second digit'>			<div class='element bar center top'></div>			<div class='element bar center middle'></div>			<div class='element bar center bottom'></div>			<div class='element bar left top'></div>			<div class='element bar left bottom'></div>			<div class='element bar right top'></div>			<div class='element bar right bottom'></div>		</div>		<div class='display-area second digit' style='display: none'>			<div class='element bar center top'></div>			<div class='element bar center middle'></div>			<div class='element bar center bottom'></div>			<div class='element bar left top'></div>			<div class='element bar left bottom'></div>			<div class='element bar right top'></div>			<div class='element bar right bottom'></div>		</div>",
 	dt: 100,
@@ -18,7 +18,7 @@ enyo.kind({
 	timeChanged: function() {
 		var fl = Math.floor;
 
-		var d = $('.digit');
+		// var d = $('.digit');
 		var hs = fl(this.time / 10) % 100;
 		var s = fl(this.time / 1000) % 60;
 		var m = fl(this.time / 60000) % 60;

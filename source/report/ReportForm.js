@@ -1,5 +1,5 @@
 enyo.kind({
-    name: "ReportPrepView",
+    name: "ReportForm",
     classes: "scoreit-form",
     create: function() {
         this.inherited(arguments);
@@ -19,24 +19,28 @@ enyo.kind({
         for (var i=1; i<=12; i++) {
             this.$.monthPicker.createComponent({
                 content: i,
+                value: i,
                 active: now.getMonth() == i
             });
         }
         for (var i=now.getFullYear()-5; i<=now.getFullYear()+5; i++) {
             this.$.yearPicker.createComponent({
                 content: i,
+                value: i,
                 active: now.getFullYear() == i
             });
         }
         for (var i=0; i<=23; i++) {
             this.$.hourPicker.createComponent({
                 content: i < 10 ? "0" + i : i,
+                value: i,
                 active: now.getHours() == i
             });
         }
         for (var i=0; i<=59; i++) {
             this.$.minutePicker.createComponent({
                 content: i < 10 ? "0" + i : i,
+                value: i,
                 active: now.getMinutes() == i
             });
         }
@@ -120,6 +124,33 @@ enyo.kind({
         var site = this.$.siteForm.getData();
         this.$.siteSelector.setSelectedItem(site);
     },
+    newPlayerHandler: function(sender, event) {
+        var cut = event.item.display_name.lastIndexOf(" ");
+        event.item.first_name = event.item.display_name.substring(0, cut);
+        event.item.last_name = event.item.display_name.substring(cut+1);
+    },
+    getData: function() {
+        var start = new Date();
+        start.setDate(this.$.dayPicker.getSelected().value);
+        start.setMonth(this.$.monthPicker.getSelected().value);
+        start.setFullYear(this.$.yearPicker.getSelected().value);
+        start.setHours(this.$.hourPicker.getSelected().value);
+        start.setMinutes(this.$.minutePicker.getSelected().value);
+
+        return {
+            number: this.$.gameNumber.getValue(),
+            start: start,
+            group: this.$.groupPicker.getSelected() ? this.$.groupPicker.getSelected().value : null,
+            game_type: this.$.gameTypePicker.getSelected() ? this.$.gameTypePicker.getSelected().value : null,
+            site: this.$.siteSelector.getSelectedItem(),
+            home: this.$.homeTeamSelector.getSelectedItem(),
+            away: this.$.awayTeamSelector.getSelectedItem(),
+            players: {
+                home: this.$.homePlayerSelector.getSelectedItems(),
+                away: this.$.awayPlayerSelector.getSelectedItems()
+            }
+        };
+    },
     components: [
         {kind: "onyx.InputDecorator", components: [
             {kind: "onyx.Input", name: "gameNumber", placeholder: "Spielnummer"}
@@ -185,7 +216,8 @@ enyo.kind({
             uniqueProperty: "id", style: "width: 50%; float: left;", onItemSelected: "teamChanged", side: "home", disabled: true},
         {kind: "FilteredSelector", name: "awayTeamSelector", placeholder: "Gastmannschaft auswählen...", displayProperty: "display_name", filterProperties: ["display_name"],
             uniqueProperty: "id", style: "width: 50%; float: right;", onItemSelected: "teamChanged", side: "away", disabled: true},
-        {kind: "ReportPlayerSelector", name: "homePlayerSelector", hint: "Namen eingeben...", style: "width: 50%; float: left;", allowNewItem: true},
-        {kind: "ReportPlayerSelector", name: "awayPlayerSelector", hint: "Namen eingeben...", style: "width: 50%; float: right;", allowNewItem: true}
+        {kind: "ReportPlayerSelector", name: "homePlayerSelector", hint: "Namen eingeben...", style: "width: 50%; float: left;", allowNewItem: true, onNewItem: "newPlayerHandler"},
+        {kind: "ReportPlayerSelector", name: "awayPlayerSelector", hint: "Namen eingeben...", style: "width: 50%; float: right;", allowNewItem: true, onNewItem: "newPlayerHandler"},
+        {style: "height: 200px;"}
     ]
 });

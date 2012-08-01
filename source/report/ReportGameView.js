@@ -4,7 +4,8 @@ enyo.kind({
     kind: "FittableRows",
     published: {
         home: null,
-        away: null
+        away: null,
+        players: null
     },
     events: {
         onDone: "",
@@ -22,22 +23,31 @@ enyo.kind({
     },
     gameEvents: [],
     rendered: function() {
-        this.inherited(arguments);
         this.homeChanged();
         this.awayChanged();
+        this.playersChanged();
         this.updateScore();
         this.freezeGame(true);
-        this.resized();
     },
     homeChanged: function() {
-        this.$.homeTeamName.setContent(this.home.club.name);
-        this.$.homeTeamList.setCount(this.home.players.length);
-        this.$.homeTeamList.render();
+        if (this.home && this.home.club) {
+            this.$.homeTeamName.setContent(this.home.club.name);
+        }
     },
     awayChanged: function() {
-        this.$.awayTeamName.setContent(this.away.club.name);
-        this.$.awayTeamList.setCount(this.away.players.length);
-        this.$.awayTeamList.render();
+        if (this.away && this.away.club) {
+            this.$.awayTeamName.setContent(this.away.club.name);
+        }
+    },
+    playersChanged: function() {
+        if (this.players && this.players.home) {
+            this.$.homeTeamList.setCount(this.players.home.length);
+            this.$.homeTeamList.render();
+        }
+        if (this.players && this.players.away) {
+            this.$.awayTeamList.setCount(this.players.away.length);
+            this.$.awayTeamList.render();
+        }
     },
     toggleTimer: function() {
         this.$.timer.toggle();
@@ -93,7 +103,7 @@ enyo.kind({
     },
     goalFromItem: function(playerItem) {
         var side = playerItem.side;
-        var player = this[side].players[playerItem.index];
+        var player = this.players[side][playerItem.index];
         playerItem.setGoals(playerItem.getGoals()+1);
         // playerItem.twin.setGoals(playerItem.twin.getGoals()+1);
         this.goal(side, player);
@@ -114,7 +124,7 @@ enyo.kind({
     },
     penaltyFromItem: function(playerItem) {
         var side = playerItem.side;
-        var player = this[side].players[playerItem.index];
+        var player = this.players[side][playerItem.index];
         playerItem.penalty();
         // playerItem.twin.penalty();
         this.penalty(side, player);
@@ -133,7 +143,7 @@ enyo.kind({
     },
     warningFromItem: function(playerItem) {
         var side = playerItem.side;
-        var player = this[side].players[playerItem.index];
+        var player = this.players[side][playerItem.index];
         playerItem.warning();
         // playerItem.twin.warning();
         this.warning(side, player);
@@ -152,7 +162,7 @@ enyo.kind({
     },
     disFromItem: function(playerItem) {
         var side = playerItem.side;
-        var player = this[side].players[playerItem.index];
+        var player = this.players[side][playerItem.index];
         playerItem.disqualify();
         // playerItem.twin.disqualify();
         this.disqualification(side, player);
@@ -283,13 +293,11 @@ enyo.kind({
         };
         this.updateScore();
         this.gameEvents = [];
-        this.setHome({Vereinsname: "Vereinsname", players: []});
-        this.setAway({Vereinsname: "Vereinsname", players: []});
     },
     setupPlayerItem: function(sender, event) {
         var side = sender.side;
         event.item.$.playerItem.index = event.index;
-        event.item.$.playerItem.setPlayer(this[side].players[event.index]);
+        event.item.$.playerItem.setPlayer(this.players[side][event.index]);
     },
     components: [
         {kind: "FittableColumns", fit: true, components: [
@@ -298,7 +306,7 @@ enyo.kind({
                 {classes: "reportview-sidecolumn-list enyo-fill", fit: true, name: "homeTeamListDecorator", components: [
                     {kind: "Scroller", classes: "enyo-fill", components: [
                         {kind: "Repeater", name: "homeTeamList", onSetupItem: "setupPlayerItem", side: "home", components: [
-                            {kind: "PlayerListItem", name: "playerItem", ontap: "playerClicked", side: "home"}
+                            {kind: "PlayerListItem", name: "playerItem", ontap: "playerClicked", side: "home", tapHighlight: true}
                         ]}
                     ]}
                 ]}

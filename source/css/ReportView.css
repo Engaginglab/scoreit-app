@@ -45,9 +45,8 @@
 }
 
 .reportview .reportview-timer {
-	width: 250px;
+	width: 100%;
 	margin: 50px auto;
-	padding-left: 50px;
 }
 
 .reportview-scoreboard-header {

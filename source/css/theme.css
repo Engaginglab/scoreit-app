@@ -1,4 +1,4 @@
-.scoreit .onyx-button {
+.scoreit .onyx-button:not(.onyx-affirmative):not(.onyx-negative) {
 	background-color: Transparent;
 }
 
@@ -47,5 +47,21 @@
 .scoreit .onyx-menu-item.selected,
 .onyx-menu-item:hover,
 .scoreit .onyx-highlight {
+	background-color: #BDE515;
+}
+
+.scoreit .onyx-item {
+	border-bottom: solid 1px #bbb;
+}
+
+.scoreit .onyx-item.onyx-last {
+	border: none;
+}
+
+.onyx-item.active {
+	background-color: #BDE515;
+}
+
+.onyx-item:active:hover:not([disabled]) {
 	background-color: #BDE515;
 }

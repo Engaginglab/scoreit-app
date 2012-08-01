@@ -12,16 +12,12 @@ enyo.depends(
 	"FilteredList.js",
 	"MultiSelector.js",
 	"TextFieldSelector.js",
-	"ReportPlayerSelector.js",
 	"ProfileForm.js",
 	"LoginView.js",
 	"TopBar.js",
 	"FrontMatter.js",
 	"LoadingPopup.js",
 	"GetStartedView.js",
-	"PlayerListItem.js",
-	"ReportPrepView.js",
-	"ReportGameView.js",
-	"Timer.js",
-	"SiteForm.js"
+	"SiteForm.js",
+	"report/"
 );

@@ -2,7 +2,6 @@ enyo.kind({
 	name: "PlayerListItem",
 	kind: "onyx.Item",
 	classes: "player-list-item",
-	tapHighlight: true,
 	published: {
 		player: "",
 		penalties: 0,
