@@ -17,10 +17,10 @@ enyo.kind({
         away: 0
     },
     eventTypeMapping: {
-        "Tor": 1,
-        "Zeitstrafe": 2,
-        "Verwarnung": 3,
-        "Disqualifikation": 4
+        "Tor": "/handball/api/v1/eventtype/1/",
+        "Zeitstrafe": "/handball/api/v1/eventtype/3/",
+        "Verwarnung": "/handball/api/v1/eventtype/2/",
+        "Disqualifikation": "/handball/api/v1/eventtype/4/"
     },
     gameEvents: [],
     rendered: function() {
@@ -132,8 +132,8 @@ enyo.kind({
     goal: function(side, player) {
         this.gameEvents.push({
             event_type: this.eventTypeMapping["Tor"],
-            team: side == "home" ? this.home.id : this.away.id,
-            person: player.id,
+            team: side == "home" ? this.home.resource_uri : this.away.resource_uri,
+            person: player.resource_uri || player,
             time: this.$.timer.getTime()
         });
         this.score[side]++;
@@ -153,8 +153,8 @@ enyo.kind({
     penalty: function(side, player) {
         this.gameEvents.push({
             event_type: this.eventTypeMapping["Zeitstrafe"],
-            team: side == "home" ? this.home.id : this.away.id,
-            person: player.id,
+            team: side == "home" ? this.home.resource_uri : this.away.resource_uri,
+            person: player.resource_uri || player,
             time: this.$.timer.getTime()
         });
     },
@@ -172,8 +172,8 @@ enyo.kind({
     warning: function(side, player) {
         this.gameEvents.push({
             game_type: this.eventTypeMapping["Verwarnung"],
-            team: side == "home" ? this.home.id : this.away.id,
-            person: player.id,
+            team: side == "home" ? this.home.resource_uri : this.away.resource_uri,
+            person: player.resource_uri || player,
             time: this.$.timer.getTime()
         });
     },
@@ -191,8 +191,8 @@ enyo.kind({
     disqualification: function(side, player) {
         this.gameEvents.push({
             game_type: this.eventTypeMapping["Disqualifikation"],
-            team: side == "home" ? this.home.id : this.away.id,
-            person: player.id,
+            team: side == "home" ? this.home.resource_uri : this.away.resource_uri,
+            person: player.resource_uri || player,
             time: this.$.timer.getTime()
         });
     },
@@ -234,12 +234,11 @@ enyo.kind({
         }
     },
     getData: function() {
-        var game = {
+        return {
             score_home: this.score.home,
             score_away: this.score.away,
             events: this.gameEvents
         };
-        this.log(JSON.stringify(game));
     },
     // getPosition: function(con) {
     //     var Elem = con.hasNode();
