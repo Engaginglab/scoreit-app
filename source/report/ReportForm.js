@@ -7,6 +7,7 @@ enyo.kind({
         this.loadSites();
         this.loadGameTypes();
         this.loadUnions();
+        this.loadPersons();
     },
     setupTimePicker: function() {
         var now = new Date();
@@ -44,6 +45,14 @@ enyo.kind({
                 active: now.getMinutes() == i
             });
         }
+    },
+    loadPersons: function() {
+        scoreit.handball.person.list([], enyo.bind(this, function(sender, response) {
+            this.$.supervisorSelector.setItems(response.objects);
+            this.$.refereeSelector.setItems(response.objects);
+            this.$.secretarySelector.setItems(response.objects);
+            this.$.timerSelector.setItems(response.objects);
+        }));
     },
     loadSites: function() {
         scoreit.handball.site.list([], enyo.bind(this, function(sender, response) {
@@ -138,7 +147,7 @@ enyo.kind({
         start.setMinutes(this.$.minutePicker.getSelected().value);
 
         return {
-            number: this.$.gameNumber.getValue(),
+            number: this.$.gameNumber.getValue() || null,
             start: start,
             group: this.$.groupPicker.getSelected() ? this.$.groupPicker.getSelected().value : null,
             game_type: this.$.gameTypePicker.getSelected() ? this.$.gameTypePicker.getSelected().value : null,
@@ -148,7 +157,11 @@ enyo.kind({
             players: {
                 home: this.$.homePlayerSelector.getSelectedItems(),
                 away: this.$.awayPlayerSelector.getSelectedItems()
-            }
+            },
+            supervisor: this.$.supervisorSelector.getSelectedItem(),
+            referee: this.$.refereeSelector.getSelectedItem(),
+            secretary: this.$.secretarySelector.getSelectedItem(),
+            timer: this.$.timerSelector.getSelectedItem()
         };
     },
     components: [
@@ -216,8 +229,16 @@ enyo.kind({
             uniqueProperty: "id", style: "width: 50%; float: left;", onItemSelected: "teamChanged", side: "home", disabled: true},
         {kind: "FilteredSelector", name: "awayTeamSelector", placeholder: "Gastmannschaft auswählen...", displayProperty: "display_name", filterProperties: ["display_name"],
             uniqueProperty: "id", style: "width: 50%; float: right;", onItemSelected: "teamChanged", side: "away", disabled: true},
-        {kind: "ReportPlayerSelector", name: "homePlayerSelector", hint: "Namen eingeben...", style: "width: 50%; float: left;", allowNewItem: true, onNewItem: "newPlayerHandler"},
-        {kind: "ReportPlayerSelector", name: "awayPlayerSelector", hint: "Namen eingeben...", style: "width: 50%; float: right;", allowNewItem: true, onNewItem: "newPlayerHandler"},
-        {style: "height: 200px;"}
+        {kind: "ReportPlayerSelector", name: "homePlayerSelector", hint: "Namen eingeben...", style: "width: 50%; float: left; margin: 5px 0;", allowNewItem: true, onNewItem: "newPlayerHandler"},
+        {kind: "ReportPlayerSelector", name: "awayPlayerSelector", hint: "Namen eingeben...", style: "width: 50%; float: right;; margin: 5px 0;", allowNewItem: true, onNewItem: "newPlayerHandler"},
+        {kind: "FilteredSelector", name: "supervisorSelector", placeholder: "Spielleitende Stelle auswählen...", displayProperty: "display_name",
+            filterProperties: ["display_name"], uniqueProperty: "id"},
+        {kind: "FilteredSelector", name: "refereeSelector", placeholder: "Schiedrichter auswählen...", displayProperty: "display_name",
+            filterProperties: ["display_name"], uniqueProperty: "id"},
+        {kind: "FilteredSelector", name: "secretarySelector", placeholder: "Sekretär auswählen...", displayProperty: "display_name",
+            filterProperties: ["display_name"], uniqueProperty: "id"},
+        {kind: "FilteredSelector", name: "timerSelector", placeholder: "Zeitnehmer auswählen...", displayProperty: "display_name",
+            filterProperties: ["display_name"], uniqueProperty: "id"},
+        {style: "height: 200px"}
     ]
 });
