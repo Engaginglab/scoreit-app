@@ -10,30 +10,29 @@ enyo.kind({
     clubChanged: function() {
         if (this.club) {
             this.$.clubName.setValue(this.club.name);
-            this.$.managerSelector.setSelectedItems(this.club.managers);
-            this.loadClubMembers();
-            this.$.managerSelectorGroup.show();
         } else {
-            this.$.managerSelectorGroup.hide();
+            this.$.clubName.setValue("");
         }
+        this.updateDistricts();
     },
     create: function() {
         this.inherited(arguments);
+        this.districts = [];
         this.clubChanged();
         this.loadDistricts();
     },
     loadDistricts: function() {
         scoreit.handball.district.list([], enyo.bind(this, function(sender, response) {
-            this.updateDistricts(response.objects);
+            this.districts = response.objects;
+            this.updateDistricts();
         }));
     },
-    updateDistricts: function(districts) {
-        this.districts = districts;
+    updateDistricts: function() {
         this.$.districtPicker.destroyClientControls();
         for (var i=0; i<this.districts.length; i++) {
             this.$.districtPicker.createComponent({
                 content: this.districts[i].display_name,
-                district: this.districts[i],
+                value: this.districts[i],
                 active: this.club && this.club.district.id == this.districts[i].id
             });
         }
@@ -48,8 +47,7 @@ enyo.kind({
         return {
             id: this.club ? this.club.id : undefined,
             name: this.$.clubName.getValue(),
-            district: this.$.districtPicker.getSelected().district,
-            managers: this.$.managerSelector.getSelectedItems()
+            district: this.$.districtPicker.getSelected().value
         };
     },
     components: [
@@ -59,10 +57,10 @@ enyo.kind({
         {kind: "onyx.PickerDecorator", components: [
             {style: "width: 100%; text-align: left;", content: "Bezirk auswählen..."},
             {kind: "onyx.Picker", name: "districtPicker"}
-        ]},
-        {kind: "onyx.Groupbox", name: "managerSelectorGroup", components: [
-            {kind: "onyx.GroupboxHeader", content: "Manager"},
-            {kind: "TextFieldSelector", hint: "Namen eingeben...", displayProperty: "display_name", uniqueProperty: "id", name: "managerSelector", filterProperties: ["first_name", "last_name", "pass_number"]}
         ]}
+        // {kind: "onyx.Groupbox", name: "managerSelectorGroup", components: [
+        //     {kind: "onyx.GroupboxHeader", content: "Manager"},
+        //     {kind: "TextFieldSelector", hint: "Namen eingeben...", displayProperty: "display_name", uniqueProperty: "id", name: "managerSelector", filterProperties: ["first_name", "last_name", "pass_number"]}
+        // ]}
     ]
 });
