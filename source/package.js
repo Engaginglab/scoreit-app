@@ -5,6 +5,7 @@ enyo.depends(
 	"css/",
 	"App.js",
 	"SignUpForm.js",
+	"AlertPopup.js",
 	"FormField.js",
 	"TeamForm.js",
 	"FilteredSelector.js",

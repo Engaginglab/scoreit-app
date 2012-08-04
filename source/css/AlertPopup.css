@@ -1,0 +1,14 @@
+.alert-popup {
+	padding: 20px;
+	max-width: 350px;
+}
+
+.alert-popup-message {
+	padding: 10px;
+	font-size: 15pt;
+}
+
+.alert-popup-icon {
+	float: left;
+	margin: 10px 10px 0px 10px;
+}

@@ -11,5 +11,6 @@ enyo.depends(
 	"ReportView.css",
 	"PlayerListItem.css",
 	"Timer.css",
+	"AlertPopup.css",
 	"theme.css"
 );
