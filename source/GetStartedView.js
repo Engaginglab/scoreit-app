@@ -200,6 +200,7 @@ enyo.kind({
     },
     newTeam: function() {
         this.$.teamForm.setTeam({name: "", club: this.user.handball_profile.clubs[0]});
+        this.$.teamForm.setClubs(this.user.handball_profile.clubs);
         this.$.teamPopup.show();
     },
     newTeamConfirm: function() {

@@ -2,7 +2,8 @@ enyo.kind({
 	name: "TeamForm",
 	classes: "scoreit-form",
 	published: {
-		team: null
+		team: null,
+		clubs: []
 	},
 	events: {
 		onCancel: ""
@@ -13,17 +14,20 @@ enyo.kind({
 			this.$.clubSelector.setSelectedItem(this.team.club);
 		}
 	},
+	clubsChanged: function() {
+		this.$.clubSelector.setItems(this.clubs);
+	},
 	create: function() {
 		this.inherited(arguments);
 		this.teamChanged();
-		this.loadClubs();
+		this.clubsChanged();
 		// this.loadPlayers();
 		// this.loadManagers();
 		// this.loadCoaches();
 	},
 	loadClubs: function() {
 		scoreit.handball.club.list([], enyo.bind(this, function(sender, response) {
-			this.$.clubSelector.setItems(response.objects);
+			this.setClubs(response.objects);
 		}));
 	},
 	// clubSelected: function() {
