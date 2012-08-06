@@ -5,7 +5,8 @@ enyo.kind({
 	classes: "scoreit-app",
 	views: {
 		"frontMatter": 0,
-		"getStartedView": 1
+		"getStartedView": 1,
+		"mainView": 2
 	},
 	create: function() {
 		this.inherited(arguments);
@@ -14,6 +15,10 @@ enyo.kind({
 	showView: function(view) {
 		this.$.panels.setIndex(this.views[view]);
 	},
+	showMainView: function() {
+		this.$.mainView.refresh();
+		this.showView("mainView");
+	},
 	loadUser: function() {
 		var user = this.fetchUser();
 		if (user) {
@@ -21,6 +26,7 @@ enyo.kind({
 			this.$.loadingPopup.show();
 			scoreit.auth.user.detail(user.id, enyo.bind(this, function(sender, response) {
 				scoreit.user = response;
+				this.saveUser();
 				this.$.loadingPopup.hide();
 				this.userChanged();
 			}));
@@ -48,7 +54,12 @@ enyo.kind({
 
 		if (scoreit.user) {
 			this.$.getStartedView.setUser(scoreit.user);
-			this.showView("getStartedView");
+
+			if (scoreit.user.handball_profile && scoreit.user.handball_profile.clubs.length) {
+				this.showMainView();
+			} else {
+				this.showView("getStartedView");
+			}
 		} else {
 			this.showView("frontMatter");
 		}
@@ -78,9 +89,10 @@ enyo.kind({
 	},
 	components: [
 		{kind: "TopBar", onLogin: "loginHandler", onLogout: "logoutHandler"},
-		{kind: "Panels", name: "panels", style: "width: 850px; margin: 0 auto; height: 600px;", components: [
+		{kind: "Panels", draggable: false, name: "panels", style: "width: 850px; margin: 0 auto; height: 600px;", components: [
 			{kind: "FrontMatter", onSignUp: "signUpHandler"},
-			{kind: "GetStartedView"}
+			{kind: "GetStartedView", onDone: "showMainView"},
+			{kind: "MainView"}
 		]},
 		{kind: "LoadingPopup"},
         {kind: "AlertPopup"}

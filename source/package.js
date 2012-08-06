@@ -20,5 +20,6 @@ enyo.depends(
 	"LoadingPopup.js",
 	"GetStartedView.js",
 	"SiteForm.js",
+	"MainView.js",
 	"report/"
 );
