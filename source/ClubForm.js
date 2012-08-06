@@ -47,7 +47,7 @@ enyo.kind({
         return {
             id: this.club ? this.club.id : undefined,
             name: this.$.clubName.getValue(),
-            district: this.$.districtPicker.getSelected().value
+            district: this.$.districtPicker.getSelected() ? this.$.districtPicker.getSelected().value : null
         };
     },
     components: [
