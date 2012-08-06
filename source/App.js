@@ -14,7 +14,7 @@ enyo.kind({
 	},
 	showView: function(view) {
 		this.$.panels.setIndex(this.views[view]);
-	},
+		this.resized();	},
 	showMainView: function() {
 		this.$.mainView.refresh();
 		this.showView("mainView");
@@ -89,7 +89,7 @@ enyo.kind({
 	},
 	components: [
 		{kind: "TopBar", onLogin: "loginHandler", onLogout: "logoutHandler"},
-		{kind: "Panels", draggable: false, name: "panels", style: "width: 850px; margin: 0 auto; height: 600px;", components: [
+		{kind: "Panels", fit: true, draggable: false, name: "panels", components: [
 			{kind: "FrontMatter", onSignUp: "signUpHandler"},
 			{kind: "GetStartedView", onDone: "showMainView"},
 			{kind: "MainView"}
