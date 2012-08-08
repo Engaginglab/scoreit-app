@@ -161,8 +161,7 @@ enyo.kind({
         this.$.loadingPopup.setText("Speichere Verein...");
         scoreit.handball.clubmemberrelation.create({
             club: this.selectedClub.resource_uri || this.selectedClub,
-            member: this.user.handball_profile.resource_uri,
-            primary: true
+            member: this.user.handball_profile.resource_uri
         }, enyo.bind(this, function(sender, response) {
             this.user.handball_profile = response.member;
             this.$.loadingPopup.hide();
