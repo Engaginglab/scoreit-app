@@ -4,13 +4,14 @@ enyo.kind({
     published: {
         person: null
     },
-    profileChanged: function() {
-        if (this.profile) {
-            this.$.firstName.setValue(this.profile.first_name);
-            this.$.lastName.setValue(this.profile.last_name);
-            this.$.maleOption.setActive(this.profile.gender == "male");
-            this.$.femaleOption.setActive(this.profile.gender == "female");
-            this.$.passNumber.setValue(this.profile.pass_number);
+    personChanged: function() {
+        if (this.person) {
+            this.$.firstName.setValue(this.person.first_name);
+            this.$.lastName.setValue(this.person.last_name);
+            this.$.maleOption.setActive(this.person.gender == "male");
+            this.$.femaleOption.setActive(this.person.gender == "female");
+            this.$.passNumber.setValue(this.person.pass_number);
+            this.$.passNumber.setValid(null);
         } else {
             this.$.firstName.setValue("");
             this.$.lastName.setValue("");
@@ -19,9 +20,13 @@ enyo.kind({
             this.$.passNumber.setValue("");
         }
     },
+    clear: function() {
+        this.setPerson(null);
+        this.personChanged();
+    },
     create: function() {
         this.inherited(arguments);
-        this.profileChanged();
+        this.personChanged();
     },
     checkPassNumber: function() {
         var passNumber = this.$.passNumber.getValue();
