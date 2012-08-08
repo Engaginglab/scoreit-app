@@ -1,5 +1,8 @@
 enyo.kind({
 	name: "MainView",
+	events: {
+		onShowClub: ""
+	},
 	refresh: function() {
 		this.loadClubs();
 		this.loadTeams();
@@ -8,7 +11,7 @@ enyo.kind({
 		this.clubMemberships = null;
 		this.clubsManaged = null;
 
-		scoreit.handball.club.list([["managers", scoreit.user.handball_profile.id]], enyo.bind(this, function(sender, response) {
+		scoreit.handball.clubmanagerrelation.list([["manager", scoreit.user.handball_profile.id]], enyo.bind(this, function(sender, response) {
 			// this.log(response);
 			this.clubsManaged = response.objects;
 			if (this.clubMemberships) {
@@ -50,8 +53,8 @@ enyo.kind({
 		this.clubs = [];
 
 		for (var i=0; i<this.clubsManaged.length; i++) {
-			this.clubsManaged[i].isManager = true;
-			this.clubs.push(this.clubsManaged[i]);
+			this.clubsManaged[i].club.isManager = true;
+			this.clubs.push(this.clubsManaged[i].club);
 		}
 
 		for (var i=0; i<this.clubMemberships.length; i++) {
@@ -85,6 +88,7 @@ enyo.kind({
 		}));
 	},
 	clubSelected: function(sender, event) {
+		this.$.clubSelector.setSelectedItem(null);
 		this.addClub(event.item);
 	},
 	newClub: function() {
@@ -97,27 +101,25 @@ enyo.kind({
 	},
 	loadTeams: function() {
 		this.teamPlayerRelations = null;
-		this.teamsManaged = null;
+		this.teamManagerRelations = null;
 		this.teamCoachRelations = null;
 
-		scoreit.handball.team.list([["managers", scoreit.user.handball_profile.id]], enyo.bind(this, function(sender, response) {
+		scoreit.handball.teammanagerrelation.list([["manager", scoreit.user.handball_profile.id]], enyo.bind(this, function(sender, response) {
 			this.log(response);
-			this.teamsManaged = response.objects;
+			this.teamManagerRelations = response.objects;
 			if (this.teamPlayerRelations && this.teamCoachRelations) {
 				this.refreshTeamList();
 			}
 		}));
 		scoreit.handball.teamplayerrelation.list([["player", scoreit.user.handball_profile.id]], enyo.bind(this, function(sender, response) {
-			this.log(response);
 			this.teamPlayerRelations = response.objects;
-			if (this.teamsManaged && this.teamCoachRelations) {
+			if (this.teamManagerRelations && this.teamCoachRelations) {
 				this.refreshTeamList();
 			}
 		}));
 		scoreit.handball.teamcoachrelation.list([["coach", scoreit.user.handball_profile.id]], enyo.bind(this, function(sender, response) {
-			this.log(response);
 			this.teamCoachRelations = response.objects;
-			if (this.teamsManaged && this.teamPlayerRelations) {
+			if (this.teamManagerRelations && this.teamPlayerRelations) {
 				this.refreshTeamList();
 			}
 		}));
@@ -161,9 +163,9 @@ enyo.kind({
 	assembleTeamArray: function() {
 		this.teams = [];
 
-		for (var i=0; i<this.teamsManaged.length; i++) {
-			this.teamsManaged[i].isManager = true;
-			this.teams.push(this.teamsManaged[i]);
+		for (var i=0; i<this.teamManagerRelations.length; i++) {
+			this.teamManagerRelations[i].team.isManager = true;
+			this.teams.push(this.teamManagerRelations[i].team);
 		}
 
 		for (var i=0; i<this.teamPlayerRelations.length; i++) {
@@ -208,11 +210,11 @@ enyo.kind({
 			team: team.resource_uri || team
 		};
 		scoreit.handball.teamplayerrelation.create(data, enyo.bind(this, function(sender, response) {
-			this.log(response);
 			this.loadTeams();
 		}));
 	},
 	teamSelected: function(sender, event) {
+		this.$.teamSelector.setSelectedItem(null);
 		this.addTeam(event.item);
 	},
 	newTeam: function() {
@@ -224,11 +226,15 @@ enyo.kind({
 		this.$.newTeamPopup.hide();
 		this.addTeam(this.$.newTeamForm.getData());
 	},
+	clubTapped: function(sender, event) {
+		var club = this.clubs[event.index];
+		this.doShowClub({club: club});
+	},
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
-			{classes: "scoreit-separator", content: "Meine Vereine"},
+			{classes: "section-header", content: "Meine Vereine"},
 			{kind: "FlyweightRepeater", name: "clubList", onSetupItem: "setupClubItem", components: [
-				{kind: "onyx.Item", name: "clubItem"}
+				{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"}
 			]},
 			{kind: "FilteredSelector", name: "clubSelector", displayProperty: "name", uniqueProperty: "id", filterProperties: ["name"],
 				placeholder: "Verein beitreten...", style: "width: 100%;", onItemSelected: "clubSelected"},
@@ -237,7 +243,7 @@ enyo.kind({
 				{kind: "ClubForm", name: "newClubForm"},
 				{kind: "onyx.Button", content: "Speichern", ontap: "newClubConfirm", classes: "onyx-affirmative", style: "width: 100%;"}
 			]},
-			{classes: "scoreit-separator", content: "Meine Mannschaften"},
+			{classes: "section-header", content: "Meine Mannschaften"},
 			{kind: "FlyweightRepeater", name: "teamList", onSetupItem: "setupTeamItem", components: [
 				{kind: "onyx.Item", name: "teamItem"}
 			]},
