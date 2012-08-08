@@ -1,0 +1,12 @@
+.confirmpopup {
+	max-width: 300px;
+}
+
+.confirmpopup-title {
+	padding: 10px;
+	font-size: 15pt;
+}
+
+.confirmpopup-text {
+	padding: 10px;
+}

@@ -59,16 +59,26 @@
 	border: none;
 }
 
-.onyx-item.active {
+.scoreit .onyx-item.active {
 	background-color: #BDE515;
 }
 
-.onyx-item:active:hover:not([disabled]) {
+.scoreit .onyx-item:active:hover:not([disabled]) {
 	background-color: #BDE515;
 }
 
-.scoreit .scoreit-separator {
+.scoreit .page-header {
+	font-size: 25pt;
+	font-variant: small-caps;
+	padding: 20px;
+}
+
+.scoreit .section-header {
 	font-size: 20pt;
 	font-variant: small-caps;
 	padding: 10px;
+}
+
+.align-right {
+	float: right;
 }

@@ -6,7 +6,8 @@ enyo.kind({
 	views: {
 		"frontMatter": 0,
 		"getStartedView": 1,
-		"mainView": 2
+		"mainView": 2,
+		"detailView": 3
 	},
 	create: function() {
 		this.inherited(arguments);
@@ -87,12 +88,17 @@ enyo.kind({
 		this.deleteUser();
 		this.userChanged();
 	},
+	showClub: function(sender, event) {
+		this.$.detailView.showClub(event.club);
+		this.showView("detailView");
+	},
 	components: [
 		{kind: "TopBar", onLogin: "loginHandler", onLogout: "logoutHandler"},
 		{kind: "Panels", fit: true, draggable: false, name: "panels", components: [
 			{kind: "FrontMatter", onSignUp: "signUpHandler"},
 			{kind: "GetStartedView", onDone: "showMainView"},
-			{kind: "MainView"}
+			{kind: "MainView", onShowClub: "showClub"},
+			{kind: "DetailView"}
 		]},
 		{kind: "LoadingPopup"},
         {kind: "AlertPopup"}

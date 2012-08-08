@@ -3,6 +3,7 @@ enyo.depends(
 	"$lib/onyx",
 	"$lib/scoreit-api",
 	"css/",
+	"ConfirmPopup.js",
 	"App.js",
 	"SignUpForm.js",
 	"AlertPopup.js",
@@ -21,5 +22,8 @@ enyo.depends(
 	"GetStartedView.js",
 	"SiteForm.js",
 	"MainView.js",
+	"LightweightPersonForm.js",
+	"ClubView.js",
+	"DetailView.js",
 	"report/"
 );

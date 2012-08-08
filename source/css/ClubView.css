@@ -1,0 +1,15 @@
+.clubview {
+	
+}
+
+.clubview .onyx-item.unconfirmed {
+	background-color: Orange;
+}
+
+.clubview .onyx-item .confirm-button {
+	display: none;
+}
+
+.clubview .onyx-item.unconfirmed .confirm-button {
+	display: block;
+}
