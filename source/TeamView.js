@@ -12,7 +12,7 @@ enyo.kind({
 		if (this.team) {
 			this.$.teamName.setContent(this.team.name);
 			this.loadPlayers();
-			// this.loadCoaches();
+			this.loadCoaches();
 			this.loadManagers();
 			this.loadClubMembers();
 		} else {
@@ -20,7 +20,7 @@ enyo.kind({
 			this.playerRelations = [];
 			this.refreshPlayerList();
 			this.coachRelations = [];
-			// this.refreshCoachList();
+			this.refreshCoachList();
 			this.managerRelations = [];
 			this.refreshManagerList();
 			this.clubMemberships = [];
@@ -34,8 +34,10 @@ enyo.kind({
 			// this.$.loadingPopup.show();
 			scoreit.handball.clubmemberrelation.list([["club", this.team.club.id]], enyo.bind(this, function(sender, response) {
 				// this.$.loadingPopup.hide();
-				this.populatePlayerSelector(response.objects);
-				this.populateManagerSelector(response.objects);
+				this.clubMemberships = response.objects;
+				this.populatePlayerSelector();
+				this.populateCoachSelector();
+				this.populateManagerSelector();
 			}));
 		}
 	},
@@ -132,8 +134,105 @@ enyo.kind({
 		this.$.playerSelector.setItems(members);
 	},
 	playerSelected: function(sender, event) {
-		this.playerSelector.setSelectedItem(null);
+		this.$.playerSelector.setSelectedItem(null);
 		this.addPlayer(event.item);
+	},
+	loadCoaches: function() {
+		if (this.team) {
+			this.$.loadingPopup.setText("Lade Trainer...");
+			this.$.loadingPopup.show();
+			scoreit.handball.teamcoachrelation.list([["team", this.team.id]], enyo.bind(this, function(sender, response) {
+				this.$.loadingPopup.hide();
+				this.coachRelations = response.objects;
+				this.refreshCoachList();
+				this.populateCoachSelector();
+			}));
+		}
+	},
+	refreshCoachList: function() {
+		this.$.coachList.setCount(this.coachRelations.length);
+		this.$.coachList.render();
+	},
+	setupCoachItem: function(sender, event) {
+		var coachRelation = this.coachRelations[event.index];
+		this.$.coachName.setContent(coachRelation.coach.display_name);
+		this.$.coachItem.addRemoveClass("unconfirmed", !coachRelation.manager_confirmed);
+	},
+	newCoach: function() {
+		this.$.newCoachForm.clear();
+		this.$.newCoachEmail.setValue("");
+		this.$.newCoachPopup.show();
+	},
+	newCoachConfirm: function() {
+		this.$.newCoachPopup.hide();
+		this.addCoach(this.$.newCoachForm.getData());
+	},
+	addCoach: function(coach) {
+		var data = {
+			team: this.team.resource_uri,
+			coach: coach.resource_uri || coach
+		};
+		this.$.loadingPopup.setText("Füge Trainer hinzu...");
+		this.$.loadingPopup.show();
+		scoreit.handball.teamcoachrelation.create(data, enyo.bind(this, function(sender, response) {
+			this.$.loadingPopup.hide();
+			this.loadCoaches();
+		}));
+	},
+	coachRemoveButtonTapped: function(sender, event) {
+		var coachRelation = this.coachRelations[event.index];
+		// this.$.confirmPopup.setTitle("Mitglied Entfernen");
+		this.$.confirmPopup.setMessage("Möchten sie diesen Trainer wirklich entfernen?");
+		this.$.confirmPopup.setAction("destructive");
+		this.$.confirmPopup.setCallback(enyo.bind(this, function(choice) {
+			if (choice) {
+				this.removeCoach(coachRelation);
+			}
+		}));
+		this.$.confirmPopup.show();
+	},
+	removeCoach: function(coachRelation) {
+		this.$.loadingPopup.setText("Entferne Trainer...");
+		this.$.loadingPopup.show();
+		scoreit.handball.teamcoachrelation.remove(coachRelation.id, enyo.bind(this, function(sender, response) {
+			this.$.loadingPopup.hide();
+			this.loadCoaches();
+		}));
+	},
+	confirmCoachRelation: function(sender, event) {
+		var coachRelation = this.coachRelations[event.index];
+		var data = {
+			coach: coachRelation.coach.resource_uri,
+			team: coachRelation.team.resource_uri,
+			manager_confirmed: true
+		};
+		this.$.loadingPopup.setText("Bestätige Trainer...");
+		this.$.loadingPopup.show();
+		scoreit.handball.teamcoachrelation.update(coachRelation.id, data, enyo.bind(this, function(sender, response) {
+			this.$.loadingPopup.hide();
+			this.loadCoaches();
+		}));
+	},
+	populateCoachSelector: function() {
+		var members = [];
+		for (var i=0; i<this.clubMemberships.length; i++) {
+			var isCoach = false;
+			for (var j=0; j<this.coachRelations.length; j++) {
+				if (this.clubMemberships[i].member.id == this.coachRelations[j].coach.id) {
+					isCoach = true;
+					break;
+				}
+			}
+			if (!isCoach) {
+				members.push(this.clubMemberships[i].member);
+			}
+		}
+
+		this.$.coachSelector.setItems(members);
+	},
+	coachSelected: function(sender, event) {
+		this.$.coachSelector.setSelectedItem(null);
+		this.addCoach(event.item);
 	},
 	loadManagers: function() {
 		if (this.team) {
@@ -226,6 +325,24 @@ enyo.kind({
 					{kind: "onyx.Input", name: "newPlayerEmail", placeholder: "Email"}
 				]},
 				{kind: "onyx.Button", content: "Speichern", ontap: "newPlayerConfirm", style: "width: 100%", classes: "onyx-affirmative"}
+			]},
+			{classes: "section-header", content: "Trainer"},
+			{kind: "FlyweightRepeater", name: "coachList", onSetupItem: "setupCoachItem", components: [
+				{kind: "onyx.Item", name: "coachItem", components: [
+					{name: "coachName", classes: "enyo-inline"},
+					{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "coachRemoveButtonTapped"},
+					{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmCoachRelation"}
+				]}
+			]},
+			{kind: "FilteredSelector", name: "coachSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
+				placeholder: "Existierende Person als Trainer hinzufügen...", classes: "manager-control row-button", onItemSelected: "coachSelected"},
+			{kind: "onyx.Button", content: "Neuen Trainer Erstellen", ontap: "newCoach", classes: "manager-control row-button"},
+			{kind: "onyx.Popup", style: "width: 300px;", floating: true, centered: true, name: "newCoachPopup", components: [
+				{kind: "LightweightPersonForm", name: "newCoachForm"},
+				{kind: "onyx.InputDecorator", showing: false, style: "box-sizing: border-box; width: 100%; margin-bottom: 5px;", classes: "input-fill", components: [
+					{kind: "onyx.Input", name: "newCoachEmail", placeholder: "Email"}
+				]},
+				{kind: "onyx.Button", content: "Speichern", ontap: "newCoachConfirm", style: "width: 100%", classes: "onyx-affirmative"}
 			]},
 			{classes: "section-header", content: "Manager"},
 			{kind: "FlyweightRepeater", name: "managerList", onSetupItem: "setupManagerItem", components: [
