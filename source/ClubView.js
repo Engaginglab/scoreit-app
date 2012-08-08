@@ -238,7 +238,7 @@ enyo.kind({
 					{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmMembership"}
 				]}
 			]},
-			{kind: "onyx.Button", content: "Neues Mitglied Hinzufügen", ontap: "newMember", style: "width: 100%;", classes: "manager-control"},
+			{kind: "onyx.Button", content: "Neues Mitglied Hinzufügen", ontap: "newMember", classes: "row-button"},
 			{kind: "onyx.Popup", style: "width: 300px;", floating: true, centered: true, name: "newMemberPopup", components: [
 				{kind: "LightweightPersonForm", name: "newMemberForm"},
 				{kind: "onyx.TooltipDecorator", components: [
@@ -255,7 +255,7 @@ enyo.kind({
 					{name: "teamName", classes: "enyo-inline"}
 				]}
 			]},
-			{kind: "onyx.Button", content: "Neue Mannschaft Gründen", ontap: "newTeam", style: "width: 100%;", classes: "manager-control"},
+			{kind: "onyx.Button", content: "Neue Mannschaft Gründen", ontap: "newTeam", classes: "row-button"},
 			{kind: "onyx.Popup", name: "newTeamPopup", floating: true, centered: true, components: [
 				{kind: "TeamForm", name: "newTeamForm", style: "width: 300px;"},
 				{kind: "onyx.Button", content: "Speichern", ontap: "newTeamConfirm", classes: "onyx-affirmative", style: "width: 100%;"}
@@ -268,7 +268,7 @@ enyo.kind({
 				]}
 			]},
 			{kind: "FilteredSelector", name: "managerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
-				placeholder: "Manager hinzufügen...", style: "width: 100%;", onItemSelected: "managerSelected"},
+				placeholder: "Manager hinzufügen...", classes: "manager-control row-button", onItemSelected: "managerSelected"},
 			{style: "height: 200px;"}
 		]},
 		{kind: "LoadingPopup"},

@@ -229,16 +229,14 @@ enyo.kind({
         }));
     },
     components: [
-        {kind: "Panels", draggable: false, arrangerKind: "LeftRightArranger", classes: "enyo-fill", components: [
+        {kind: "Panels", draggable: false, arrangerKind: "CarouselArranger", classes: "enyo-fill", components: [
             {classes: "getstartedview-slide", components: [
                 {content: "Willkommen bei Score.it! Als erstes solltest du ein Spielerprofil erstellen. Bist du einer der folgenden Spieler?", classes: "getstartedview-info"},
                 {kind: "Scroller", style: "max-height: 500px; margin: 10px 0;", components: [
-                    {kind: "onyx.Groupbox", components: [
-                        {kind: "FlyweightRepeater", name: "profileList", onSetupItem: "setupProfileItem", components: [
-                            {kind: "onyx.Item", tapHighlight: true, ontap: "profileTapped", name: "profileItem", components: [
-                                {name: "fullName"},
-                                {name: "club", style: "font-size: 15pt;"}
-                            ]}
+                    {kind: "FlyweightRepeater", name: "profileList", onSetupItem: "setupProfileItem", components: [
+                        {kind: "onyx.Item", tapHighlight: true, ontap: "profileTapped", name: "profileItem", components: [
+                            {name: "fullName"},
+                            {name: "club", style: "font-size: 15pt;"}
                         ]}
                     ]}
                 ]},

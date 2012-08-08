@@ -4,5 +4,7 @@
 }
 
 .getstartedview-slide {
-	padding: 20px 200px;
+	box-sizing: border-box;
+	padding: 20px;
+	width: 100%;
 }

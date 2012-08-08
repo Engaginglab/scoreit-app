@@ -91,3 +91,20 @@ body > * {
 	padding: 20px;
 	font-size: 18pt;
 }
+
+.app-panels {
+	width: 850px;
+	margin: 0 auto;
+}
+
+.onyx-button.row-button {
+	width: 100%;
+	padding: 10px;
+	margin: 2px 0;
+}
+
+/*.pair-button {
+	box-sizing: border-box;
+	width: 48%;
+	margin: 0 1%;
+}*/

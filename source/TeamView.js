@@ -318,8 +318,8 @@ enyo.kind({
 				]}
 			]},
 			{kind: "FilteredSelector", name: "playerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
-				placeholder: "Existierenden Spieler hinzufügen...", style: "width: 100%;", onItemSelected: "playerSelected"},
-			{kind: "onyx.Button", content: "Neuen Spieler Erstellen", ontap: "newPlayer", style: "width: 100%;", classes: "manager-control"},
+				placeholder: "Existierenden Spieler hinzufügen...", classes: "row-button", onItemSelected: "playerSelected"},
+			{kind: "onyx.Button", content: "Neuen Spieler Erstellen", ontap: "newPlayer", classes: "row-button"},
 			{kind: "onyx.Popup", style: "width: 300px;", floating: true, centered: true, name: "newPlayerPopup", components: [
 				{kind: "LightweightPersonForm", name: "newPlayerForm"},
 				{kind: "onyx.InputDecorator", showing: false, style: "box-sizing: border-box; width: 100%; margin-bottom: 5px;", classes: "input-fill", components: [
@@ -353,7 +353,7 @@ enyo.kind({
 				]}
 			]},
 			{kind: "FilteredSelector", name: "managerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
-				placeholder: "Manager hinzufügen...", style: "width: 100%;", onItemSelected: "managerSelected"},
+				placeholder: "Manager hinzufügen...", classes: "manager-control row-button", onItemSelected: "managerSelected"},
 			{style: "height: 200px;"}
 		]},
 		{kind: "LoadingPopup"},

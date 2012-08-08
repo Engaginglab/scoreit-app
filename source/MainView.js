@@ -84,7 +84,6 @@ enyo.kind({
 			club: club.resource_uri || club
 		};
 		scoreit.handball.clubmemberrelation.create(data, enyo.bind(this, function(sender, response) {
-			this.log(response);
 			this.loadClubs();
 		}));
 	},
@@ -106,7 +105,6 @@ enyo.kind({
 		this.teamCoachRelations = null;
 
 		scoreit.handball.teammanagerrelation.list([["manager", scoreit.user.handball_profile.id]], enyo.bind(this, function(sender, response) {
-			this.log(response);
 			this.teamManagerRelations = response.objects;
 			if (this.teamPlayerRelations && this.teamCoachRelations) {
 				this.refreshTeamList();
@@ -240,8 +238,8 @@ enyo.kind({
 				{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"}
 			]},
 			{kind: "FilteredSelector", name: "clubSelector", displayProperty: "name", uniqueProperty: "id", filterProperties: ["name"],
-				placeholder: "Verein beitreten...", style: "width: 100%;", onItemSelected: "clubSelected"},
-			{kind: "onyx.Button", content: "Neuen Verein Gründen", ontap: "newClub", style: "width: 100%;"},
+				placeholder: "Verein beitreten...", classes: "row-button", onItemSelected: "clubSelected"},
+			{kind: "onyx.Button", content: "Neuen Verein Gründen", ontap: "newClub", classes: "row-button"},
 			{kind: "onyx.Popup", name: "newClubPopup", floating: true, centered: true, components: [
 				{kind: "ClubForm", name: "newClubForm"},
 				{kind: "onyx.Button", content: "Speichern", ontap: "newClubConfirm", classes: "onyx-affirmative", style: "width: 100%;"}
@@ -251,8 +249,8 @@ enyo.kind({
 				{kind: "onyx.Item", name: "teamItem", ontap: "teamTapped"}
 			]},
 			{kind: "FilteredSelector", name: "teamSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
-				placeholder: "Mannschaft beitreten...", style: "width: 100%;", onItemSelected: "teamSelected"},
-			{kind: "onyx.Button", content: "Neue Mannschaft Gründen", ontap: "newTeam", style: "width: 100%;"},
+				placeholder: "Mannschaft beitreten...", classes: "row-button", onItemSelected: "teamSelected"},
+			{kind: "onyx.Button", content: "Neue Mannschaft Gründen", ontap: "newTeam", classes: "row-button"},
 			{kind: "onyx.Popup", name: "newTeamPopup", floating: true, centered: true, components: [
 				{kind: "TeamForm", name: "newTeamForm", style: "width: 300px;"},
 				{kind: "onyx.Button", content: "Speichern", ontap: "newTeamConfirm", classes: "onyx-affirmative", style: "width: 100%;"}

@@ -98,7 +98,7 @@ enyo.kind({
 	},
 	components: [
 		{kind: "TopBar", onLogin: "loginHandler", onLogout: "logoutHandler"},
-		{kind: "Panels", fit: true, draggable: false, name: "panels", components: [
+		{kind: "Panels", fit: true, draggable: false, name: "panels", classes: "app-panels", components: [
 			{kind: "FrontMatter", onSignUp: "signUpHandler"},
 			{kind: "GetStartedView", onDone: "showMainView"},
 			{kind: "MainView", onShowClub: "showClubHandler", onShowTeam: "showTeamHandler"},

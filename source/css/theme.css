@@ -2,6 +2,11 @@
 	background-color: Transparent;
 }
 
+.scoreit .onyx-item > .onyx-button {
+	font-size: 10pt;
+	margin: -4px 2px;
+}
+
 .scoreit .onyx-groupbox-header {
 	font-family: Asap;
 	font-weight: normal;
@@ -52,12 +57,15 @@
 }
 
 .scoreit .onyx-item {
-	border-bottom: solid 1px #bbb;
+	border: solid 1px #bbb;
+	border-radius: 3px;
+	margin: 3px 0;
+	/*box-shadow: 2px 2px 2px #000000;*/
 }
 
-.scoreit .onyx-item.onyx-last {
+/*.scoreit .onyx-item.onyx-last {
 	border: none;
-}
+}*/
 
 .scoreit .onyx-item.active {
 	background-color: #BDE515;
