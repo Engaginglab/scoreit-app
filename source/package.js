@@ -24,6 +24,7 @@ enyo.depends(
 	"MainView.js",
 	"LightweightPersonForm.js",
 	"ClubView.js",
+	"TeamView.js",
 	"DetailView.js",
 	"report/"
 );

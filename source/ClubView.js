@@ -4,6 +4,9 @@ enyo.kind({
 	published: {
 		club: null
 	},
+	events: {
+		onShowTeam: ""
+	},
 	rendered: function() {
 		this.inherited(arguments);
 		this.clubChanged();
@@ -105,8 +108,7 @@ enyo.kind({
 		var membership = this.memberships[event.index];
 		var data = {
 			member: membership.member.resource_uri,
-			club: membership.club.resource_uri,
-			manager_confirmed: true
+			club: membership.club.resource_uri
 		};		
 		this.$.loadingPopup.setText("Bestätige Mitgliedschaft...");
 		this.$.loadingPopup.show();
@@ -151,9 +153,12 @@ enyo.kind({
 			this.$.loadingPopup.hide();
 		}));
 	},
+	teamTapped: function(sender, event) {
+		this.doShowTeam({team: this.teams[event.index]});
+	},
 	loadManagers: function() {
 		if (this.club) {
-			this.$.loadingPopup.setText("Lade Mitglieder...");
+			this.$.loadingPopup.setText("Lade Manager...");
 			this.$.loadingPopup.show();
 			scoreit.handball.clubmanagerrelation.list([["club", this.club.id]], enyo.bind(this, function(sender, response) {
 				this.$.loadingPopup.hide();
@@ -208,6 +213,7 @@ enyo.kind({
 		this.$.managerSelector.setItems(members);
 	},
 	managerSelected: function(sender, event) {
+		this.$.managerSelector.setSelectedItem(null);
 		var data = {
 			club: this.club.resource_uri,
 			manager: event.item.resource_uri
@@ -216,6 +222,7 @@ enyo.kind({
 		this.$.loadingPopup.setText("Füge Manager hinzu...");
 		this.$.loadingPopup.show();
 		scoreit.handball.clubmanagerrelation.create(data, enyo.bind(this, function(sender, response) {
+			this.$.loadingPopup.hide();
 			this.loadManagers();
 		}));
 	},
@@ -243,7 +250,7 @@ enyo.kind({
 			]},
 			{classes: "section-header", content: "Mannschaften"},
 			{kind: "FlyweightRepeater", name: "teamList", onSetupItem: "setupTeamItem", components: [
-				{kind: "onyx.Item", name: "teamItem", components: [
+				{kind: "onyx.Item", name: "teamItem", ontap: "teamTapped", components: [
 					{name: "teamName", classes: "enyo-inline"}
 				]}
 			]},
@@ -252,8 +259,6 @@ enyo.kind({
 				{kind: "TeamForm", name: "newTeamForm", style: "width: 300px;"},
 				{kind: "onyx.Button", content: "Speichern", ontap: "newTeamConfirm", classes: "onyx-affirmative", style: "width: 100%;"}
 			]},
-			{kind: "LoadingPopup"},
-			{kind: "ConfirmPopup"},
 			{classes: "section-header", content: "Manager"},
 			{kind: "FlyweightRepeater", name: "managerList", onSetupItem: "setupManagerItem", components: [
 				{kind: "onyx.Item", name: "managerItem", components: [
@@ -264,6 +269,8 @@ enyo.kind({
 			{kind: "FilteredSelector", name: "managerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
 				placeholder: "Manager hinzufügen...", style: "width: 100%;", onItemSelected: "managerSelected"},
 			{style: "height: 200px;"}
-		]}
+		]},
+		{kind: "LoadingPopup"},
+		{kind: "ConfirmPopup"}
 	]
 });

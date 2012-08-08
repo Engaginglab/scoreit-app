@@ -88,8 +88,12 @@ enyo.kind({
 		this.deleteUser();
 		this.userChanged();
 	},
-	showClub: function(sender, event) {
+	showClubHandler: function(sender, event) {
 		this.$.detailView.showClub(event.club);
+		this.showView("detailView");
+	},
+	showTeamHandler: function(sender, event) {
+		this.$.detailView.showTeam(event.team);
 		this.showView("detailView");
 	},
 	components: [
@@ -97,7 +101,7 @@ enyo.kind({
 		{kind: "Panels", fit: true, draggable: false, name: "panels", components: [
 			{kind: "FrontMatter", onSignUp: "signUpHandler"},
 			{kind: "GetStartedView", onDone: "showMainView"},
-			{kind: "MainView", onShowClub: "showClub"},
+			{kind: "MainView", onShowClub: "showClubHandler", onShowTeam: "showTeamHandler"},
 			{kind: "DetailView"}
 		]},
 		{kind: "LoadingPopup"},

@@ -29,12 +29,14 @@ enyo.kind({
     },
     updateDistricts: function() {
         this.$.districtPicker.destroyClientControls();
-        for (var i=0; i<this.districts.length; i++) {
-            this.$.districtPicker.createComponent({
-                content: this.districts[i].display_name,
-                value: this.districts[i],
-                active: this.club && this.club.district.id == this.districts[i].id
-            });
+        if (this.districts) {
+            for (var i=0; i<this.districts.length; i++) {
+                this.$.districtPicker.createComponent({
+                    content: this.districts[i].display_name,
+                    value: this.districts[i],
+                    active: this.club && this.club.district.id == this.districts[i].id
+                });
+            }
         }
         this.$.districtPicker.render();
     },

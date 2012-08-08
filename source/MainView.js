@@ -1,7 +1,8 @@
 enyo.kind({
 	name: "MainView",
 	events: {
-		onShowClub: ""
+		onShowClub: "",
+		onShowTeam: ""
 	},
 	refresh: function() {
 		this.loadClubs();
@@ -227,8 +228,10 @@ enyo.kind({
 		this.addTeam(this.$.newTeamForm.getData());
 	},
 	clubTapped: function(sender, event) {
-		var club = this.clubs[event.index];
-		this.doShowClub({club: club});
+		this.doShowClub({club: this.clubs[event.index]});
+	},
+	teamTapped: function(sender, event) {
+		this.doShowTeam({team: this.teams[event.index]});
 	},
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
@@ -245,7 +248,7 @@ enyo.kind({
 			]},
 			{classes: "section-header", content: "Meine Mannschaften"},
 			{kind: "FlyweightRepeater", name: "teamList", onSetupItem: "setupTeamItem", components: [
-				{kind: "onyx.Item", name: "teamItem"}
+				{kind: "onyx.Item", name: "teamItem", ontap: "teamTapped"}
 			]},
 			{kind: "FilteredSelector", name: "teamSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
 				placeholder: "Mannschaft beitreten...", style: "width: 100%;", onItemSelected: "teamSelected"},
