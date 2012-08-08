@@ -108,8 +108,9 @@ enyo.kind({
 		var membership = this.memberships[event.index];
 		var data = {
 			member: membership.member.resource_uri,
-			club: membership.club.resource_uri
-		};		
+			club: membership.club.resource_uri,
+			manager_confirmed: true
+		};
 		this.$.loadingPopup.setText("Bestätige Mitgliedschaft...");
 		this.$.loadingPopup.show();
 		scoreit.handball.clubmemberrelation.update(membership.id, data, enyo.bind(this, function(sender, response) {

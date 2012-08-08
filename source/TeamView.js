@@ -107,7 +107,8 @@ enyo.kind({
 		var playerRelation = this.playerRelations[event.index];
 		var data = {
 			player: playerRelation.player.resource_uri,
-			team: playerRelation.team.resource_uri
+			team: playerRelation.team.resource_uri,
+			manager_confirmed: true
 		};
 		this.$.loadingPopup.setText("Bestätige Spieler...");
 		this.$.loadingPopup.show();
