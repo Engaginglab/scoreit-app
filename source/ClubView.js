@@ -49,7 +49,7 @@ enyo.kind({
 		this.$.memberItem.addRemoveClass("unconfirmed", !membership.manager_confirmed);
 	},
 	newMember: function() {
-		this.$.newMemberForm.setPerson(null);
+		this.$.newMemberForm.clear();
 		this.$.newMemberEmail.setValue("");
 		this.$.newMemberPopup.show();
 	},

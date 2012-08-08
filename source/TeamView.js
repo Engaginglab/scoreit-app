@@ -61,7 +61,7 @@ enyo.kind({
 		this.$.playerItem.addRemoveClass("unconfirmed", !playerRelation.manager_confirmed);
 	},
 	newPlayer: function() {
-		this.$.newPlayerForm.setPerson(null);
+		this.$.newPlayerForm.clear();
 		this.$.newPlayerEmail.setValue("");
 		this.$.newPlayerPopup.show();
 	},
