@@ -58,16 +58,14 @@ enyo.kind({
         var homePlayerItems = this.$.homeTeamList.getControls();
         var awayPlayerItems = this.$.awayTeamList.getControls();
 
-        function toggleItem(item) {
-            //item.setDisabled(freeze);
+        var toggleItem = enyo.bind(this, function(item) {
             if (!this.running) {
                 item.pauseTimer();
-                // item.twin.pauseTimer();
             } else {
                 item.resumeTimer();
-                // item.twin.resumeTimer();
             }
-        }
+        });
+
         for (var j = 0; j < homePlayerItems.length; j++) {
             toggleItem(homePlayerItems[j].$.playerItem);
         }
