@@ -60,7 +60,7 @@ enyo.kind({
 		{name: "label", classes: "filteredselector-value"},
 		{kind: "onyx.Popup", classes: "onyx-menu onyx-picker filteredselector-popup", name: "selectPopup", components: [
 			{kind: "FilteredList", onSetupItem: "setupItem", onItemSelected: "itemSelected", components: [
-				{kind: "onyx.Item", name: "item", ontap: "tapHandler", classes: "onyx-menu-item filteredselector-item ellipsis"}
+				{name: "item", ontap: "tapHandler", classes: "onyx-menu-item filteredselector-item ellipsis"}
 			]}
 		]}
 	]

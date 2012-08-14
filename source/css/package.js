@@ -14,5 +14,6 @@ enyo.depends(
 	"AlertPopup.css",
 	"ConfirmPopup.css",
 	"DetailView.css",
+	"SideMenu.css",
 	"theme.css"
 );

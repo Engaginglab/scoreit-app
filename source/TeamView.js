@@ -81,6 +81,7 @@ enyo.kind({
 		scoreit.handball.teamplayerrelation.create(data, enyo.bind(this, function(sender, response) {
 			this.$.loadingPopup.hide();
 			this.loadPlayers();
+			this.loadClubMembers();
 		}));
 	},
 	playerRemoveButtonTapped: function(sender, event) {
@@ -178,6 +179,7 @@ enyo.kind({
 		scoreit.handball.teamcoachrelation.create(data, enyo.bind(this, function(sender, response) {
 			this.$.loadingPopup.hide();
 			this.loadCoaches();
+			this.loadClubMembers();
 		}));
 	},
 	coachRemoveButtonTapped: function(sender, event) {
@@ -308,53 +310,55 @@ enyo.kind({
 	},
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
-			{classes: "page-header", name: "teamName"},
-			{classes: "section-header", content: "Spieler"},
-			{kind: "FlyweightRepeater", name: "playerList", onSetupItem: "setupPlayerItem", components: [
-				{kind: "onyx.Item", name: "playerItem", components: [
-					{name: "playerName", classes: "enyo-inline"},
-					{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "playerRemoveButtonTapped"},
-					{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmPlayerRelation"}
-				]}
-			]},
-			{kind: "FilteredSelector", name: "playerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
-				placeholder: "Existierenden Spieler hinzufügen...", classes: "row-button", onItemSelected: "playerSelected"},
-			{kind: "onyx.Button", content: "Neuen Spieler Erstellen", ontap: "newPlayer", classes: "row-button"},
-			{kind: "onyx.Popup", style: "width: 300px;", floating: true, centered: true, name: "newPlayerPopup", components: [
-				{kind: "LightweightPersonForm", name: "newPlayerForm"},
-				{kind: "onyx.InputDecorator", showing: false, style: "box-sizing: border-box; width: 100%; margin-bottom: 5px;", classes: "input-fill", components: [
-					{kind: "onyx.Input", name: "newPlayerEmail", placeholder: "Email"}
+			{classes: "main-content", components: [
+				{classes: "page-header", name: "teamName"},
+				{classes: "section-header", content: "Spieler"},
+				{kind: "FlyweightRepeater", name: "playerList", onSetupItem: "setupPlayerItem", components: [
+					{kind: "onyx.Item", name: "playerItem", components: [
+						{name: "playerName", classes: "enyo-inline"},
+						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "playerRemoveButtonTapped"},
+						{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmPlayerRelation"}
+					]}
 				]},
-				{kind: "onyx.Button", content: "Speichern", ontap: "newPlayerConfirm", style: "width: 100%", classes: "onyx-affirmative"}
-			]},
-			{classes: "section-header", content: "Trainer"},
-			{kind: "FlyweightRepeater", name: "coachList", onSetupItem: "setupCoachItem", components: [
-				{kind: "onyx.Item", name: "coachItem", components: [
-					{name: "coachName", classes: "enyo-inline"},
-					{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "coachRemoveButtonTapped"},
-					{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmCoachRelation"}
-				]}
-			]},
-			{kind: "FilteredSelector", name: "coachSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
-				placeholder: "Existierende Person als Trainer hinzufügen...", classes: "manager-control row-button", onItemSelected: "coachSelected"},
-			{kind: "onyx.Button", content: "Neuen Trainer Erstellen", ontap: "newCoach", classes: "manager-control row-button"},
-			{kind: "onyx.Popup", style: "width: 300px;", floating: true, centered: true, name: "newCoachPopup", components: [
-				{kind: "LightweightPersonForm", name: "newCoachForm"},
-				{kind: "onyx.InputDecorator", showing: false, style: "box-sizing: border-box; width: 100%; margin-bottom: 5px;", classes: "input-fill", components: [
-					{kind: "onyx.Input", name: "newCoachEmail", placeholder: "Email"}
+				{kind: "FilteredSelector", name: "playerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
+					placeholder: "Existierenden Spieler hinzufügen...", classes: "row-button", onItemSelected: "playerSelected"},
+				{kind: "onyx.Button", content: "Neuen Spieler Erstellen", ontap: "newPlayer", classes: "row-button"},
+				{kind: "onyx.Popup", style: "width: 300px;", floating: true, centered: true, name: "newPlayerPopup", components: [
+					{kind: "LightweightPersonForm", name: "newPlayerForm"},
+					{kind: "onyx.InputDecorator", showing: false, style: "box-sizing: border-box; width: 100%; margin-bottom: 5px;", classes: "input-fill", components: [
+						{kind: "onyx.Input", name: "newPlayerEmail", placeholder: "Email"}
+					]},
+					{kind: "onyx.Button", content: "Speichern", ontap: "newPlayerConfirm", style: "width: 100%", classes: "onyx-affirmative"}
 				]},
-				{kind: "onyx.Button", content: "Speichern", ontap: "newCoachConfirm", style: "width: 100%", classes: "onyx-affirmative"}
-			]},
-			{classes: "section-header", content: "Manager"},
-			{kind: "FlyweightRepeater", name: "managerList", onSetupItem: "setupManagerItem", components: [
-				{kind: "onyx.Item", name: "managerItem", components: [
-					{name: "managerName", classes: "enyo-inline"},
-					{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "managerRemoveButtonTapped"}
-				]}
-			]},
-			{kind: "FilteredSelector", name: "managerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
-				placeholder: "Manager hinzufügen...", classes: "manager-control row-button", onItemSelected: "managerSelected"},
-			{style: "height: 200px;"}
+				{classes: "section-header", content: "Trainer"},
+				{kind: "FlyweightRepeater", name: "coachList", onSetupItem: "setupCoachItem", components: [
+					{kind: "onyx.Item", name: "coachItem", components: [
+						{name: "coachName", classes: "enyo-inline"},
+						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "coachRemoveButtonTapped"},
+						{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmCoachRelation"}
+					]}
+				]},
+				{kind: "FilteredSelector", name: "coachSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
+					placeholder: "Existierende Person als Trainer hinzufügen...", classes: "manager-control row-button", onItemSelected: "coachSelected"},
+				{kind: "onyx.Button", content: "Neuen Trainer Erstellen", ontap: "newCoach", classes: "manager-control row-button"},
+				{kind: "onyx.Popup", style: "width: 300px;", floating: true, centered: true, name: "newCoachPopup", components: [
+					{kind: "LightweightPersonForm", name: "newCoachForm"},
+					{kind: "onyx.InputDecorator", showing: false, style: "box-sizing: border-box; width: 100%; margin-bottom: 5px;", classes: "input-fill", components: [
+						{kind: "onyx.Input", name: "newCoachEmail", placeholder: "Email"}
+					]},
+					{kind: "onyx.Button", content: "Speichern", ontap: "newCoachConfirm", style: "width: 100%", classes: "onyx-affirmative"}
+				]},
+				{classes: "section-header", content: "Manager"},
+				{kind: "FlyweightRepeater", name: "managerList", onSetupItem: "setupManagerItem", components: [
+					{kind: "onyx.Item", name: "managerItem", components: [
+						{name: "managerName", classes: "enyo-inline"},
+						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "managerRemoveButtonTapped"}
+					]}
+				]},
+				{kind: "FilteredSelector", name: "managerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
+					placeholder: "Manager hinzufügen...", classes: "manager-control row-button", onItemSelected: "managerSelected"},
+				{style: "height: 200px;"}
+			]}
 		]},
 		{kind: "LoadingPopup"},
 		{kind: "ConfirmPopup"}

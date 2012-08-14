@@ -230,66 +230,73 @@ enyo.kind({
     },
     components: [
         {kind: "Panels", draggable: false, arrangerKind: "CarouselArranger", classes: "enyo-fill", components: [
-            {classes: "getstartedview-slide", components: [
-                {content: "Willkommen bei Score.it! Als erstes solltest du ein Spielerprofil erstellen. Bist du einer der folgenden Spieler?", classes: "getstartedview-info"},
-                {kind: "Scroller", style: "max-height: 500px; margin: 10px 0;", components: [
-                    {kind: "FlyweightRepeater", name: "profileList", onSetupItem: "setupProfileItem", components: [
-                        {kind: "onyx.Item", tapHighlight: true, ontap: "profileTapped", name: "profileItem", components: [
-                            {name: "fullName"},
-                            {name: "club", style: "font-size: 15pt;"}
+            {kind: "Scroller", classes: "enyo-fill", components: [
+                {classes: "centered-content", components: [
+                    {content: "Willkommen bei score.it! Als erstes solltest du ein Spielerprofil erstellen. Bist du einer der folgenden Spieler?", classes: "getstartedview-info"},
+                    {kind: "Scroller", style: "max-height: 500px; margin: 10px 0;", components: [
+                        {kind: "FlyweightRepeater", name: "profileList", onSetupItem: "setupProfileItem", components: [
+                            {kind: "onyx.Item", tapHighlight: true, ontap: "profileTapped", name: "profileItem", components: [
+                                {name: "fullName"},
+                                {name: "club", style: "font-size: 15pt;"}
+                            ]}
                         ]}
-                    ]}
-                ]},
-                {kind: "onyx.Button", style: "width: 100%;", classes: "onyx-affirmative", content: "Neues Profil Erstellen", ontap: "newProfile"},
-                // {kind: "onyx.Button", content: "Zurück", ontap: "back", style: "float: left;"},
-                {kind: "onyx.Button", content: "Weiter", ontap: "confirmProfile", style: "float: right;", classes: "onyx-affirmative"}
-            ]},
-            {classes: "getstartedview-slide", components: [
-                {content: "Bearbeite dein Profil und klicke auf \"weiter\", wenn du fertig bist!", classes: "getstartedview-info"},
-                {kind: "ProfileForm", style: "width: 100%;"},
-                {kind: "onyx.Button", content: "Zurück", ontap: "back", name: "profileBackButton", style: "float: left;"},
-                {kind: "onyx.Button", content: "Weiter", ontap: "saveProfile", style: "float: right;", classes: "onyx-affirmative"}
-            ]},
-            {classes: "getstartedview-slide", components: [
-                {content: "Zeit einen Verein auszuwählen! Wenn dein Verein noch nicht existiert, kannst du ihn natürlich anlegen.", classes: "getstartedview-info"},
-                {kind: "FilteredList", name: "clubList", onSetupItem: "setupClubItem", filterProperties: ["name"], components: [
-                    {kind: "onyx.Item", tapHighlight: true, name: "clubItem", ontap: "clubTapped"}
-                ]},
-                {kind: "onyx.Button", content: "Verein Anlegen", ontap: "newClub", style: "width: 100%;", classes: "onyx-affirmative"},
-                // {kind: "onyx.Button", content: "Zurück", ontap: "back", style: "float: left;"},
-                {kind: "onyx.Button", content: "Weiter", ontap: "saveClub", name: "saveClubButton", disabled: true, style: "float: right;", classes: "onyx-affirmative"},
-                {kind: "onyx.Popup", centered: true, floating: true, name: "clubPopup", components: [
-                    {kind: "ClubForm", name: "clubForm"},
-                    //{kind: "onyx.Button", content: "Schließen", ontap: "clubPopupClose", style: "width: 48%; margin: 1%;"},
-                    {kind: "onyx.Button", content: "Speichern", ontap: "newClubConfirm", style: "width: 100%;", classes: "onyx-affirmative"}
+                    ]},
+                    {kind: "onyx.Button", style: "width: 100%;", classes: "row-button", content: "Neues Profil Erstellen", ontap: "newProfile"},
+                    // {kind: "onyx.Button", content: "Zurück", ontap: "back", style: "float: left;"},
+                    {kind: "onyx.Button", content: "Weiter", ontap: "confirmProfile", style: "float: right; margin-top: 5px;", classes: "onyx-affirmative"}
                 ]}
             ]},
-            {classes: "getstartedview-slide", components: [
-                {content: "In welchen Mannschaften spielst du? Wähle deine Mannschaften aus oder erstelle sie, wenn sie noch nicht existieren!", classes: "getstartedview-info"},
-                {kind: "Scroller", style: "max-height: 500px; margin: 10px 0;", components: [
-                    {kind: "FlyweightRepeater", name: "teamList", onSetupItem: "setupTeamItem", components: [
-                        {kind: "onyx.Item", tapHighlight: true, name: "teamItem", ontap: "teamTapped"}
-                    ]}
-                ]},
-                {kind: "onyx.Button", content: "Mannschaft Anlegen", ontap: "newTeam", style: "width: 100%;", classes: "onyx-affirmative"},
-                // {kind: "onyx.Button", content: "Zurück", ontap: "back", style: "float: left;"},
-                {kind: "onyx.Button", content: "Weiter", ontap: "saveTeams", name: "saveTeamsButton", style: "float: right;", classes: "onyx-affirmative"},
-                {kind: "onyx.Popup", centered: true, floating: true, name: "teamPopup", components: [
-                    {kind: "TeamForm", name: "teamForm", style: "width: 300px;"},
-                    //{kind: "onyx.Button", content: "Schließen", ontap: "clubPopupClose", style: "width: 48%; margin: 1%;"},
-                    {kind: "onyx.Button", content: "Speichern", ontap: "newTeamConfirm", style: "width: 100%;", classes: "onyx-affirmative"}
+            {kind: "Scroller", classes: "enyo-fill", components: [
+                {classes: "centered-content", components: [
+                    {content: "Bearbeite dein Profil und klicke auf \"weiter\", wenn du fertig bist!", classes: "getstartedview-info"},
+                    {kind: "ProfileForm", style: "width: 100%;"},
+                    {kind: "onyx.Button", content: "Zurück", ontap: "back", name: "profileBackButton", style: "float: left;"},
+                    {kind: "onyx.Button", content: "Weiter", ontap: "saveProfile", style: "float: right; margin-top: 5px;", classes: "onyx-affirmative"}
                 ]}
             ]},
-            {classes: "getstartedview-slide", components: [
-                {content: "Fertig! Jetzt kannst du loslegen und alle Funktionen von Score.it nutzen!", classes: "getstartedview-info"},
-                {kind: "onyx.Button", content: "Weiter", ontap: "doDone", style: "width: 100%", classes: "onyx-affirmative"}
+            {kind: "Scroller", classes: "enyo-fill", components: [
+                {classes: "centered-content", components: [
+                    {content: "Zeit einen Verein auszuwählen! Wenn dein Verein noch nicht existiert, kannst du ihn natürlich anlegen.", classes: "getstartedview-info"},
+                    {kind: "Scroller", style: "max-height: 500px; margin: 10px 0;", components: [
+                        {kind: "FilteredList", name: "clubList", onSetupItem: "setupClubItem", filterProperties: ["name"], components: [
+                            {kind: "onyx.Item", tapHighlight: true, name: "clubItem", ontap: "clubTapped"}
+                        ]}
+                    ]},
+                    {kind: "onyx.Button", content: "Verein Anlegen", ontap: "newClub", classes: "row-button"},
+                    // {kind: "onyx.Button", content: "Zurück", ontap: "back", style: "float: left;"},
+                    {kind: "onyx.Button", content: "Weiter", ontap: "saveClub", name: "saveClubButton", disabled: true, style: "float: right; margin-top: 5px;", classes: "onyx-affirmative"},
+                    {kind: "onyx.Popup", centered: true, floating: true, name: "clubPopup", components: [
+                        {kind: "ClubForm", name: "clubForm"},
+                        //{kind: "onyx.Button", content: "Schließen", ontap: "clubPopupClose", style: "width: 48%; margin: 1%;"},
+                        {kind: "onyx.Button", content: "Speichern", ontap: "newClubConfirm", style: "width: 100%;", classes: "onyx-affirmative"}
+                    ]}
+                ]}
+            ]},
+            {kind: "Scroller", classes: "enyo-fill", components: [
+                {classes: "centered-content", components: [
+                    {content: "In welchen Mannschaften spielst du? Wähle deine Mannschaften aus oder erstelle sie, wenn sie noch nicht existieren!", classes: "getstartedview-info"},
+                    {kind: "Scroller", style: "max-height: 500px; margin: 10px 0;", components: [
+                        {kind: "FlyweightRepeater", name: "teamList", onSetupItem: "setupTeamItem", components: [
+                            {kind: "onyx.Item", tapHighlight: true, name: "teamItem", ontap: "teamTapped"}
+                        ]}
+                    ]},
+                    {kind: "onyx.Button", content: "Mannschaft Anlegen", ontap: "newTeam", classes: "row-button"},
+                    // {kind: "onyx.Button", content: "Zurück", ontap: "back", style: "float: left;"},
+                    {kind: "onyx.Button", content: "Weiter", ontap: "saveTeams", name: "saveTeamsButton", style: "float: right; margin-top: 5px;", classes: "onyx-affirmative"},
+                    {kind: "onyx.Popup", centered: true, floating: true, name: "teamPopup", components: [
+                        {kind: "TeamForm", name: "teamForm", style: "width: 300px;"},
+                        //{kind: "onyx.Button", content: "Schließen", ontap: "clubPopupClose", style: "width: 48%; margin: 1%;"},
+                        {kind: "onyx.Button", content: "Speichern", ontap: "newTeamConfirm", style: "width: 100%;", classes: "onyx-affirmative"}
+                    ]}
+                ]}
+            ]},
+            {classes: "enyo-fill", components: [
+                {classes: "centered-content", components: [
+                    {content: "Fertig! Jetzt kannst du loslegen und alle Funktionen von score.it nutzen!", classes: "getstartedview-info"},
+                    {kind: "onyx.Button", content: "Weiter", ontap: "doDone", classes: "row-button onyx-affirmative"}
+                ]}
             ]}
         ]},
-        // {classes: "getstartedview-slide", components: [
-        //  {content: "In welchen Mannschaften spielst du?", classes: "getstartedview-info"},
-        //  {kind: "onyx.Button", content: "Zurück", ontap: "back", style: "float: left;"},
-        //  {kind: "onyx.Button", content: "Weiter", ontap: "saveProfile", style: "float: right;", classes: "onyx-affirmative"}
-        // ]},
         {kind: "LoadingPopup"}
     ]
 });

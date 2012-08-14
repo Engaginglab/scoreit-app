@@ -1,4 +1,5 @@
-.scoreit .onyx-button:not(.onyx-affirmative):not(.onyx-negative) {
+.scoreit .onyx-button:not(.onyx-affirmative):not(.onyx-negative),
+.scoreit .onyx-radiobutton:not(.active) {
 	background-color: Transparent;
 }
 

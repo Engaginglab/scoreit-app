@@ -32,7 +32,7 @@ enyo.kind({
 		}
 	},
 	components: [
-		{kind: "Image", src: "assets/images/scoreit_white_nobounce_tiny.png", style: "height: 22px; margin: 3px 4px;"},
+		{kind: "Image", src: "assets/images/scoreit_white_tiny.png", style: "height: 22px; margin: 3px 4px;"},
 		{name: "loginForm", style: "float: right;", components: [
 			{kind: "onyx.InputDecorator", classes: "always-focused", components: [
 				{kind: "onyx.Input", name: "username", placeholder: "Benutzername", onkeyup: "keyupHandler"}

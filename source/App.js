@@ -1,110 +1,104 @@
 enyo.kind({
-	name: "App",
-	kind: "FittableRows",
-	fit: true,
-	classes: "scoreit-app",
-	views: {
-		"frontMatter": 0,
-		"getStartedView": 1,
-		"mainView": 2,
-		"detailView": 3
-	},
-	create: function() {
-		this.inherited(arguments);
-		this.loadUser();
-	},
-	showView: function(view) {
-		this.$.panels.setIndex(this.views[view]);
-		this.resized();	},
-	showMainView: function() {
-		this.$.mainView.refresh();
-		this.showView("mainView");
-	},
-	loadUser: function() {
-		var user = this.fetchUser();
-		if (user) {
-			this.$.loadingPopup.setText("Lade Daten für Benutzer " + user.username + "...");
-			this.$.loadingPopup.show();
-			scoreit.auth.user.detail(user.id, enyo.bind(this, function(sender, response) {
-				scoreit.user = response;
-				this.saveUser();
-				this.$.loadingPopup.hide();
-				this.userChanged();
-			}));
-		} else {
-			scoreit.user = null;
-			this.userChanged();
-		}
-	},
-	fetchUser: function() {
-		var user = null;
-		try {
-			user = JSON.parse(localStorage.getItem("user"));
-		} catch(e) {
-		}
-		return user;
-	},
-	saveUser: function() {
-		localStorage.setItem("user", JSON.stringify(scoreit.user));
-	},
-	deleteUser: function() {
-		localStorage.removeItem("user");
-	},
-	userChanged: function() {
-		this.$.topBar.setUser(scoreit.user);
+    name: "App",
+    kind: "FittableRows",
+    fit: true,
+    classes: "scoreit-app",
+    views: {
+        "frontMatter": 0,
+        "getStartedView": 1,
+        "mainView": 2
+    },
+    create: function() {
+        this.inherited(arguments);
+        this.loadUser();
+    },
+    showView: function(view) {
+        this.$.panels.setIndex(this.views[view]);
+        this.resized();
+    },
+    showMainView: function() {
+        this.$.mainView.refresh();
+        this.showView("mainView");
+    },
+    showReportView: function() {
+        this.showView("reportView");
+    },
+    loadUser: function() {
+        var user = this.fetchUser();
+        if (user) {
+            this.$.loadingPopup.setText("Lade Daten für Benutzer " + user.username + "...");
+            this.$.loadingPopup.show();
+            scoreit.auth.user.detail(user.id, enyo.bind(this, function(sender, response) {
+                scoreit.user = response;
+                this.saveUser();
+                this.$.loadingPopup.hide();
+                this.userChanged();
+            }));
+        } else {
+            scoreit.user = null;
+            this.userChanged();
+        }
+    },
+    fetchUser: function() {
+        var user = null;
+        try {
+            user = JSON.parse(localStorage.getItem("user"));
+        } catch(e) {
+        }
+        return user;
+    },
+    saveUser: function() {
+        localStorage.setItem("user", JSON.stringify(scoreit.user));
+    },
+    deleteUser: function() {
+        localStorage.removeItem("user");
+    },
+    userChanged: function() {
+        this.$.topBar.setUser(scoreit.user);
 
-		if (scoreit.user) {
-			this.$.getStartedView.setUser(scoreit.user);
+        if (scoreit.user) {
+            this.$.getStartedView.setUser(scoreit.user);
 
-			if (scoreit.user.handball_profile && scoreit.user.handball_profile.clubs.length) {
-				this.showMainView();
-			} else {
-				this.showView("getStartedView");
-			}
-		} else {
-			this.showView("frontMatter");
-		}
-	},
-	signUpHandler: function(sender, event) {
-		this.$.loadingPopup.setText("Erstelle Account...");
-		this.$.loadingPopup.show();
-		scoreit.signUp(event.data, enyo.bind(this, function(sender, response) {
-			this.$.loadingPopup.hide();
-			this.$.alertPopup.setMessage("Dir wurde soeben eine Email and die Adresse " + event.data.email + " geschickt. Klicke auf den Link in der Email, um deinen Account zu aktiveren!");
-			this.$.alertPopup.show();
-		}));
-	},
-	hideSignedUpPopup: function() {
-		this.$.signedUpPopup.hide();
-	},
-	loginHandler: function(sender, event) {
-		scoreit.login(event.username, event.password, enyo.bind(this, function(success) {
-			this.saveUser();
-			this.userChanged();
-		}));
-	},
-	logoutHandler: function() {
-		scoreit.user = null;
-		this.deleteUser();
-		this.userChanged();
-	},
-	showClubHandler: function(sender, event) {
-		this.$.detailView.showClub(event.club);
-		this.showView("detailView");
-	},
-	showTeamHandler: function(sender, event) {
-		this.$.detailView.showTeam(event.team);
-		this.showView("detailView");
-	},
-	components: [
-		{kind: "TopBar", onLogin: "loginHandler", onLogout: "logoutHandler"},
-		{kind: "Panels", fit: true, draggable: false, name: "panels", classes: "app-panels", components: [
-			{kind: "FrontMatter", onSignUp: "signUpHandler"},
-			{kind: "GetStartedView", onDone: "showMainView"},
-			{kind: "MainView", onShowClub: "showClubHandler", onShowTeam: "showTeamHandler"},
-			{kind: "DetailView"}
-		]},
-		{kind: "LoadingPopup"},
+            if (scoreit.user.handball_profile && scoreit.user.handball_profile.clubs.length) {
+                this.showMainView();
+            } else {
+                this.showView("getStartedView");
+            }
+        } else {
+            this.showView("frontMatter");
+        }
+    },
+    signUpHandler: function(sender, event) {
+        this.$.loadingPopup.setText("Erstelle Account...");
+        this.$.loadingPopup.show();
+        scoreit.signUp(event.data, enyo.bind(this, function(sender, response) {
+            this.$.loadingPopup.hide();
+            this.$.alertPopup.setMessage("Dir wurde soeben eine Email and die Adresse " + event.data.email + " geschickt. Klicke auf den Link in der Email, um deinen Account zu aktiveren!");
+            this.$.alertPopup.show();
+        }));
+    },
+    hideSignedUpPopup: function() {
+        this.$.signedUpPopup.hide();
+    },
+    loginHandler: function(sender, event) {
+        scoreit.login(event.username, event.password, enyo.bind(this, function(success) {
+            this.saveUser();
+            this.userChanged();
+        }));
+    },
+    logoutHandler: function() {
+        scoreit.user = null;
+        this.deleteUser();
+        this.userChanged();
+    },
+    components: [
+        {kind: "TopBar", onLogin: "loginHandler", onLogout: "logoutHandler"},
+        {kind: "Panels", fit: true, draggable: false, name: "panels", classes: "app-panels", components: [
+            {kind: "FrontMatter", onSignUp: "signUpHandler"},
+            {kind: "GetStartedView", onDone: "showMainView"},
+            {kind: "MainView"}
+        ]},
+        {kind: "LoadingPopup"},
         {kind: "AlertPopup"}
-	]
+    ]
 });

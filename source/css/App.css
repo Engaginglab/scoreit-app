@@ -63,10 +63,12 @@ body > * {
 	box-sizing: border-box;
 }
 
-.scoreit-form > .onyx-input-decorator,
 .scoreit-form > .onyx-picker-decorator > .onyx-button,
+.scoreit-form > *
+/*.scoreit-form > .onyx-input-decorator,
 .scoreit-form > .filteredselector,
-.scoreit-form > .onyx-groupbox {
+.scoreit-form > .onyx-groupbox
+.scoreit-form > .onyx-radiobutton*/ {
 	box-sizing: border-box;
 	display: block;
 	width: 100%;
@@ -92,10 +94,10 @@ body > * {
 	font-size: 18pt;
 }
 
-.app-panels {
+/*.app-panels {
 	width: 850px;
 	margin: 0 auto;
-}
+}*/
 
 .onyx-button.row-button {
 	width: 100%;
@@ -103,8 +105,37 @@ body > * {
 	margin: 2px 0;
 }
 
+.centered-content {
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 20px;
+	position: relative;
+}
+
+.main-content {
+	width: 100%;
+	max-width: 600px;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
 /*.pair-button {
 	box-sizing: border-box;
 	width: 48%;
 	margin: 0 1%;
 }*/
+
+.side-menu {
+	position: fixed;
+	left: -5px;
+	top: 300px;
+	/*border: 1px solid;
+	border-radius: 10px*/
+}
+
+.padded {
+	padding: 20px;
+	box-sizing: border-box;
+}

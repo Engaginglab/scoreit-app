@@ -26,5 +26,11 @@ enyo.depends(
 	"ClubView.js",
 	"TeamView.js",
 	"DetailView.js",
+	"LeagueForm.js",
+	"Dashboard.js",
+	"SideMenu.js",
+	"RootView.js",
+	"UnionView.js",
+	"DistrictView.js",
 	"report/"
 );

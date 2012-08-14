@@ -165,6 +165,7 @@ enyo.kind({
 				this.$.loadingPopup.hide();
 				this.managerRelations = response.objects;
 				this.refreshManagerList();
+				this.populateManagerSelector();
 			}));
 		}
 	},
@@ -229,47 +230,49 @@ enyo.kind({
 	},
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
-			{classes: "page-header", name: "clubName"},
-			{classes: "section-header", content: "Mitglieder"},
-			{kind: "FlyweightRepeater", name: "memberList", onSetupItem: "setupMemberItem", components: [
-				{kind: "onyx.Item", name: "memberItem", components: [
-					{name: "memberName", classes: "enyo-inline"},
-					{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "memberRemoveButtonTapped"},
-					{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmMembership"}
-				]}
-			]},
-			{kind: "onyx.Button", content: "Neues Mitglied Hinzufügen", ontap: "newMember", classes: "row-button"},
-			{kind: "onyx.Popup", style: "width: 300px;", floating: true, centered: true, name: "newMemberPopup", components: [
-				{kind: "LightweightPersonForm", name: "newMemberForm"},
-				{kind: "onyx.TooltipDecorator", components: [
-					{kind: "onyx.InputDecorator", showing: false, style: "box-sizing: border-box; width: 100%; margin-bottom: 5px;", classes: "input-fill", components: [
-						{kind: "onyx.Input", name: "newMemberEmail", placeholder: "Email"}
-					]},
-					{kind: "onyx.Tooltip", autoDismiss: false, name: "emailTooltip", content: "Fülle dieses Feld aus, um der betreffenden Person eine Einladung zu schicken!"}
+			{classes: "main-content", components: [
+				{classes: "page-header", name: "clubName"},
+				{classes: "section-header", content: "Mitglieder"},
+				{kind: "FlyweightRepeater", name: "memberList", onSetupItem: "setupMemberItem", components: [
+					{kind: "onyx.Item", name: "memberItem", components: [
+						{name: "memberName", classes: "enyo-inline"},
+						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "memberRemoveButtonTapped"},
+						{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmMembership"}
+					]}
 				]},
-				{kind: "onyx.Button", content: "Speichern", ontap: "newMemberConfirm", style: "width: 100%", classes: "onyx-affirmative"}
-			]},
-			{classes: "section-header", content: "Mannschaften"},
-			{kind: "FlyweightRepeater", name: "teamList", onSetupItem: "setupTeamItem", components: [
-				{kind: "onyx.Item", name: "teamItem", ontap: "teamTapped", components: [
-					{name: "teamName", classes: "enyo-inline"}
-				]}
-			]},
-			{kind: "onyx.Button", content: "Neue Mannschaft Gründen", ontap: "newTeam", classes: "row-button"},
-			{kind: "onyx.Popup", name: "newTeamPopup", floating: true, centered: true, components: [
-				{kind: "TeamForm", name: "newTeamForm", style: "width: 300px;"},
-				{kind: "onyx.Button", content: "Speichern", ontap: "newTeamConfirm", classes: "onyx-affirmative", style: "width: 100%;"}
-			]},
-			{classes: "section-header", content: "Manager"},
-			{kind: "FlyweightRepeater", name: "managerList", onSetupItem: "setupManagerItem", components: [
-				{kind: "onyx.Item", name: "managerItem", components: [
-					{name: "managerName", classes: "enyo-inline"},
-					{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "managerRemoveButtonTapped"}
-				]}
-			]},
-			{kind: "FilteredSelector", name: "managerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
-				placeholder: "Manager hinzufügen...", classes: "manager-control row-button", onItemSelected: "managerSelected"},
-			{style: "height: 200px;"}
+				{kind: "onyx.Button", content: "Neues Mitglied Hinzufügen", ontap: "newMember", classes: "row-button"},
+				{kind: "onyx.Popup", style: "width: 300px;", floating: true, centered: true, name: "newMemberPopup", components: [
+					{kind: "LightweightPersonForm", name: "newMemberForm"},
+					{kind: "onyx.TooltipDecorator", components: [
+						{kind: "onyx.InputDecorator", showing: false, style: "box-sizing: border-box; width: 100%; margin-bottom: 5px;", classes: "input-fill", components: [
+							{kind: "onyx.Input", name: "newMemberEmail", placeholder: "Email"}
+						]},
+						{kind: "onyx.Tooltip", autoDismiss: false, name: "emailTooltip", content: "Fülle dieses Feld aus, um der betreffenden Person eine Einladung zu schicken!"}
+					]},
+					{kind: "onyx.Button", content: "Speichern", ontap: "newMemberConfirm", style: "width: 100%", classes: "onyx-affirmative"}
+				]},
+				{classes: "section-header", content: "Mannschaften"},
+				{kind: "FlyweightRepeater", name: "teamList", onSetupItem: "setupTeamItem", components: [
+					{kind: "onyx.Item", name: "teamItem", ontap: "teamTapped", components: [
+						{name: "teamName", classes: "enyo-inline"}
+					]}
+				]},
+				{kind: "onyx.Button", content: "Neue Mannschaft Gründen", ontap: "newTeam", classes: "row-button"},
+				{kind: "onyx.Popup", name: "newTeamPopup", floating: true, centered: true, components: [
+					{kind: "TeamForm", name: "newTeamForm", style: "width: 300px;"},
+					{kind: "onyx.Button", content: "Speichern", ontap: "newTeamConfirm", classes: "onyx-affirmative", style: "width: 100%;"}
+				]},
+				{classes: "section-header", content: "Manager"},
+				{kind: "FlyweightRepeater", name: "managerList", onSetupItem: "setupManagerItem", components: [
+					{kind: "onyx.Item", name: "managerItem", components: [
+						{name: "managerName", classes: "enyo-inline"},
+						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "managerRemoveButtonTapped"}
+					]}
+				]},
+				{kind: "FilteredSelector", name: "managerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
+					placeholder: "Manager hinzufügen...", classes: "manager-control row-button", onItemSelected: "managerSelected"},
+				{style: "height: 200px;"}
+			]}
 		]},
 		{kind: "LoadingPopup"},
 		{kind: "ConfirmPopup"}

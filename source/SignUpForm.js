@@ -10,6 +10,20 @@ enyo.kind({
 		this.emailValid = false;
 		this.passNumberValid = false;
 	},
+	clear: function() {
+		this.$.username.setValue("");
+		this.$.username.setValid(null);
+		this.$.firstName.setValue("");
+		this.$.firstName.setValid(null);
+		this.$.lastName.setValue("");
+		this.$.lastName.setValid(null);
+		this.$.email.setValue("");
+		this.$.email.setValid(null);
+		this.$.password1.setValue("");
+		this.$.password1.setValid(null);
+		this.$.password2.setValue("");
+		this.$.password2.setValid(null);
+	},
 	checkFirstName: function() {
 		this.$.firstName.setValid(this.$.firstName.getValue() !== "");
 	},
@@ -44,7 +58,7 @@ enyo.kind({
 			this.$.email.setErrorMessage("Bitte gib eine korrekte Emailadresse ein!");
 		} else {
 			this.$.email.setValid(null);
-			scoreit.auth.user.isUnique({email: this.$.email.getValue()}, enyo.bind(this, function(sender, response){
+			scoreit.auth.user.isUnique({email: this.$.email.getValue()}, enyo.bind(this, function(sender, response) {
 				if (response.email) {
 					this.$.email.setValid(true);
 				} else {
@@ -82,6 +96,7 @@ enyo.kind({
 			last_name: this.$.lastName.getValue()
 		};
 		this.doSubmit({data: data});
+		this.clear();
 	},
 	components: [
 		{kind: "FormField", name: "firstName", placeholder: "Vorname", required: true, onchange: "checkFirstName", errorMessage: "Bitte gib deinen Namen ein!"},
