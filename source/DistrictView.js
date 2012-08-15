@@ -5,13 +5,15 @@ enyo.kind({
 	},
 	events: {
 		onShowClub: "",
-		onShowUnion: ""
+		onShowUnion: "",
+		onShowGroup: ""
 	},
 	districtChanged: function() {
 		if (this.district) {
 			this.$.districtName.setContent(this.district.name);
 			this.$.unionItem.setContent(this.district.union.name);
 			this.loadClubs();
+			this.loadLeagues();
 		}
 	},
 	loadClubs: function() {
@@ -34,6 +36,11 @@ enyo.kind({
 	unionTapped: function() {
 		this.doShowUnion({union: this.district.union});
 	},
+	loadLeagues: function() {
+		scoreit.handball.group.list([["kind", "league"], ["district", this.district.id]], enyo.bind(this, function(sender, response) {
+			this.$.groupList.setGroups(response.objects);
+		}));
+	},
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
@@ -43,7 +50,9 @@ enyo.kind({
 				{classes: "section-header", content: "Vereine"},
 				{kind: "FlyweightRepeater", name: "clubList", onSetupItem: "setupClubItem", components: [
 					{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"}
-				]}
+				]},
+				{classes: "section-header", content: "Ligen"},
+				{kind: "GroupList", onShowGroup: "showGroupHandler"}
 			]}
 		]}
 	]

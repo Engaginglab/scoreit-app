@@ -36,9 +36,6 @@ enyo.kind({
 			this.$.groupList.setGroups(response.objects);
 		}));
 	},
-	showGroupHandler: function(sender, event) {
-		this.doShowGroup(event.group);
-	},
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [

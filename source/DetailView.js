@@ -53,8 +53,8 @@ enyo.kind({
 		{kind: "Panels", draggable: false, name: "panels", arrangerKind: "CarouselArranger", classes: "enyo-fill", components: [
 			{kind: "RootView", classes: "enyo-fill", onShowUnion: "showUnionHandler"},
 			{kind: "UnionView", classes: "enyo-fill", onShowDistrict: "showDistrictHandler", onShowGroup: "showGroupHandler"},
-			{kind: "DistrictView", classes: "enyo-fill", onShowClub: "showClubHandler", onShowUnion: "showUnionHandler"},
-			{kind: "GroupView", classes: "enyo-fill"},
+			{kind: "DistrictView", classes: "enyo-fill", onShowClub: "showClubHandler", onShowUnion: "showUnionHandler", onShowGroup: "showGroupHandler"},
+			{kind: "GroupView", classes: "enyo-fill", onShowDistrict: "showDistrictHandler", onShowUnion: "showUnionHandler", onShowTeam: "showTeamHandler"},
 			{kind: "ClubView", classes: "enyo-fill", onShowTeam: "showTeamHandler", onShowDistrict: "showDistrictHandler"},
 			{kind: "TeamView", classes: "enyo-fill", onShowClub: "showClubHandler"}
 		]}
