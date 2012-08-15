@@ -24,6 +24,7 @@ enyo.kind({
         this.showView("dashboard");
     },
     showDetail: function() {
+        this.$.detail.showRootView();
         this.showView("detail");
     },
     components: [

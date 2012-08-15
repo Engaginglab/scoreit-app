@@ -1,0 +1,12 @@
+.grouplist {}
+
+.grouplist-box-header {
+	font-size: 13pt;
+	padding: 10px;
+}
+
+.grouplist-box {
+	display: inline-block;
+	width: 200px;
+	padding: 10px;
+}

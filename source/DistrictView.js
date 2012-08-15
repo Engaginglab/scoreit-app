@@ -4,11 +4,13 @@ enyo.kind({
 		district: null
 	},
 	events: {
-		onShowClub: ""
+		onShowClub: "",
+		onShowUnion: ""
 	},
 	districtChanged: function() {
 		if (this.district) {
 			this.$.districtName.setContent(this.district.name);
+			this.$.unionItem.setContent(this.district.union.name);
 			this.loadClubs();
 		}
 	},
@@ -29,10 +31,15 @@ enyo.kind({
 	clubTapped: function(sender, event) {
 		this.doShowClub({club: this.clubs[event.index]});
 	},
+	unionTapped: function() {
+		this.doShowUnion({union: this.district.union});
+	},
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
 				{classes: "page-header", name: "districtName"},
+				{classes: "section-header", content: "Verband"},
+				{kind: "onyx.Item", name: "unionItem", ontap: "unionTapped"},
 				{classes: "section-header", content: "Vereine"},
 				{kind: "FlyweightRepeater", name: "clubList", onSetupItem: "setupClubItem", components: [
 					{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"}

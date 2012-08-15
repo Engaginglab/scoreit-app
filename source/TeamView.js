@@ -4,6 +4,10 @@ enyo.kind({
 	published: {
 		team: null
 	},
+	events: {
+		onShowPerson: "",
+		onShowClub: ""
+	},
 	rendered: function() {
 		this.inherited(arguments);
 		this.teamChanged();
@@ -11,6 +15,7 @@ enyo.kind({
 	teamChanged: function() {
 		if (this.team) {
 			this.$.teamName.setContent(this.team.name);
+			this.$.clubItem.setContent(this.team.club.name);
 			this.loadPlayers();
 			this.loadCoaches();
 			this.loadManagers();
@@ -308,10 +313,15 @@ enyo.kind({
 			this.loadManagers();
 		}));
 	},
+	clubTapped: function() {
+		this.doShowClub({club: this.team.club});
+	},
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
 				{classes: "page-header", name: "teamName"},
+				{classes: "section-header", content: "Verein"},
+				{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"},
 				{classes: "section-header", content: "Spieler"},
 				{kind: "FlyweightRepeater", name: "playerList", onSetupItem: "setupPlayerItem", components: [
 					{kind: "onyx.Item", name: "playerItem", components: [

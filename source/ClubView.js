@@ -5,7 +5,8 @@ enyo.kind({
 		club: null
 	},
 	events: {
-		onShowTeam: ""
+		onShowTeam: "",
+		onShowDistrict: ""
 	},
 	rendered: function() {
 		this.inherited(arguments);
@@ -14,11 +15,13 @@ enyo.kind({
 	clubChanged: function() {
 		if (this.club) {
 			this.$.clubName.setContent(this.club.name);
+			this.$.districtItem.setContent(this.club.district.name);
 			this.loadMembers();
 			this.loadTeams();
 			this.loadManagers();
 		} else {
 			this.$.clubName.setContent("");
+			this.$.districtItem.setContent("");
 			this.memberships = [];
 			this.refreshMemberList();
 			this.teams = [];
@@ -228,10 +231,15 @@ enyo.kind({
 			this.loadManagers();
 		}));
 	},
+	districtTapped: function() {
+		this.doShowDistrict({district: this.club.district});
+	},
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
 				{classes: "page-header", name: "clubName"},
+				{classes: "section-header", content: "Bezirk"},
+				{kind: "onyx.Item", name: "districtItem", ontap: "districtTapped"},
 				{classes: "section-header", content: "Mitglieder"},
 				{kind: "FlyweightRepeater", name: "memberList", onSetupItem: "setupMemberItem", components: [
 					{kind: "onyx.Item", name: "memberItem", components: [

@@ -32,5 +32,7 @@ enyo.depends(
 	"RootView.js",
 	"UnionView.js",
 	"DistrictView.js",
+	"GroupList.js",
+	"GroupView.js",
 	"report/"
 );

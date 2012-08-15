@@ -4,11 +4,15 @@ enyo.kind({
 		"rootView": 0,
 		"unionView": 1,
 		"districtView": 2,
-		"clubView": 3,
-		"teamView": 4
+		"groupView": 3,
+		"clubView": 4,
+		"teamView": 5
 	},
 	showView: function(view) {
 		this.$.panels.setIndex(this.views[view]);
+	},
+	showRootView: function() {
+		this.showView("rootView");
 	},
 	showUnion: function(union) {
 		this.$.unionView.setUnion(union);
@@ -17,6 +21,10 @@ enyo.kind({
 	showDistrict: function(district) {
 		this.$.districtView.setDistrict(district);
 		this.showView("districtView");
+	},
+	showGroup: function(group) {
+		this.$.groupView.setGroup(group);
+		this.showView("groupView");
 	},
 	showClub: function(club) {
 		this.$.clubView.setClub(club);
@@ -32,6 +40,9 @@ enyo.kind({
 	showDistrictHandler: function(sender, event) {
 		this.showDistrict(event.district);
 	},
+	showGroupHandler: function(sender, event) {
+		this.showGroup(event.group);
+	},
 	showClubHandler: function(sender, event) {
 		this.showClub(event.club);
 	},
@@ -41,10 +52,11 @@ enyo.kind({
 	components: [
 		{kind: "Panels", draggable: false, name: "panels", arrangerKind: "CarouselArranger", classes: "enyo-fill", components: [
 			{kind: "RootView", classes: "enyo-fill", onShowUnion: "showUnionHandler"},
-			{kind: "UnionView", classes: "enyo-fill", onShowDistrict: "showDistrictHandler"},
-			{kind: "DistrictView", classes: "enyo-fill", onShowClub: "showClubHandler"},
-			{kind: "ClubView", classes: "enyo-fill", onShowTeam: "showTeamHandler"},
-			{kind: "TeamView", classes: "enyo-fill"}
+			{kind: "UnionView", classes: "enyo-fill", onShowDistrict: "showDistrictHandler", onShowGroup: "showGroupHandler"},
+			{kind: "DistrictView", classes: "enyo-fill", onShowClub: "showClubHandler", onShowUnion: "showUnionHandler"},
+			{kind: "GroupView", classes: "enyo-fill"},
+			{kind: "ClubView", classes: "enyo-fill", onShowTeam: "showTeamHandler", onShowDistrict: "showDistrictHandler"},
+			{kind: "TeamView", classes: "enyo-fill", onShowClub: "showClubHandler"}
 		]}
 	]
 });
