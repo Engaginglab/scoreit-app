@@ -2,17 +2,18 @@ enyo.kind({
 	name: "ClubView",
 	classes: "clubview",
 	published: {
-		club: null
+		club: null,
+		user: null
 	},
 	events: {
 		onShowTeam: "",
 		onShowDistrict: ""
 	},
-	rendered: function() {
-		this.inherited(arguments);
-		this.clubChanged();
+	userChanged: function() {
+		this.checkPermissions();
 	},
 	clubChanged: function() {
+		this.checkPermissions();
 		if (this.club) {
 			this.$.clubName.setContent(this.club.name);
 			this.$.districtItem.setContent(this.club.district.name);
@@ -28,6 +29,24 @@ enyo.kind({
 			this.refreshTeamList();
 			this.managerRelations = [];
 			this.refreshManagerList();
+		}
+	},
+	checkPermissions: function() {
+		this.removeClass("manager");
+		this.removeClass("member");
+		if (this.user && this.user.handball_profile && this.club) {
+			var profile = this.user.handball_profile;
+			scoreit.handball.clubmanagerrelation.list([["manager", profile.id], ["club", this.club.id], ["validated", true]], enyo.bind(this, function(sender, response) {
+				if (response.objects.length) {
+					this.addClass("member");
+					this.addClass("manager");
+				}
+			}));
+			scoreit.handball.clubmemberrelation.list([["member", profile.id], ["club", this.club.id], ["validated", true]], enyo.bind(this, function(sender, response) {
+				if (response.objects.length) {
+					this.addClass("member");
+				}
+			}));
 		}
 	},
 	loadMembers: function() {
@@ -49,7 +68,7 @@ enyo.kind({
 	setupMemberItem: function(sender, event) {
 		var membership = this.memberships[event.index];
 		this.$.memberName.setContent(membership.member.display_name);
-		this.$.memberItem.addRemoveClass("unconfirmed", !membership.manager_confirmed);
+		this.$.memberItem.addRemoveClass("unconfirmed", !membership.validated);
 	},
 	newMember: function() {
 		this.$.newMemberForm.clear();
@@ -112,7 +131,7 @@ enyo.kind({
 		var data = {
 			member: membership.member.resource_uri,
 			club: membership.club.resource_uri,
-			manager_confirmed: true
+			validated: true
 		};
 		this.$.loadingPopup.setText("Bestätige Mitgliedschaft...");
 		this.$.loadingPopup.show();
@@ -198,20 +217,24 @@ enyo.kind({
 		scoreit.handball.clubmanagerrelation.remove(managerRelation.id, enyo.bind(this, function(sender, response) {
 			this.$.loadingPopup.hide();
 			this.loadManagers();
+			this.checkPermissions();
 		}));
 	},
 	populateManagerSelector: function() {
 		var members = [];
-		for (var i=0; i<this.memberships.length; i++) {
-			var isManager = false;
-			for (var j=0; j<this.managerRelations.length; j++) {
-				if (this.memberships[i].member.id == this.managerRelations[j].manager.id) {
-					isManager = true;
-					break;
+		if (this.memberships) {
+			var managerRelations = this.managerRelations || [];
+			for (var i=0; i<this.memberships.length; i++) {
+				var isManager = false;
+				for (var j=0; j<managerRelations.length; j++) {
+					if (this.memberships[i].member.id == managerRelations[j].manager.id) {
+						isManager = true;
+						break;
+					}
 				}
-			}
-			if (!isManager) {
-				members.push(this.memberships[i].member);
+				if (!isManager) {
+					members.push(this.memberships[i].member);
+				}
 			}
 		}
 
@@ -245,10 +268,10 @@ enyo.kind({
 					{kind: "onyx.Item", name: "memberItem", components: [
 						{name: "memberName", classes: "enyo-inline"},
 						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "memberRemoveButtonTapped"},
-						{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmMembership"}
+						{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button member-control", ontap: "confirmMembership"}
 					]}
 				]},
-				{kind: "onyx.Button", content: "Neues Mitglied Hinzufügen", ontap: "newMember", classes: "row-button"},
+				{kind: "onyx.Button", content: "Neues Mitglied Hinzufügen", ontap: "newMember", classes: "row-button member-control"},
 				{kind: "onyx.Popup", style: "width: 300px;", floating: true, centered: true, name: "newMemberPopup", components: [
 					{kind: "LightweightPersonForm", name: "newMemberForm"},
 					{kind: "onyx.TooltipDecorator", components: [
@@ -265,7 +288,7 @@ enyo.kind({
 						{name: "teamName", classes: "enyo-inline"}
 					]}
 				]},
-				{kind: "onyx.Button", content: "Neue Mannschaft Gründen", ontap: "newTeam", classes: "row-button"},
+				{kind: "onyx.Button", content: "Neue Mannschaft Gründen", ontap: "newTeam", classes: "row-button member-control"},
 				{kind: "onyx.Popup", name: "newTeamPopup", floating: true, centered: true, components: [
 					{kind: "TeamForm", name: "newTeamForm", style: "width: 300px;"},
 					{kind: "onyx.Button", content: "Speichern", ontap: "newTeamConfirm", classes: "onyx-affirmative", style: "width: 100%;"}

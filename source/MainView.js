@@ -1,9 +1,15 @@
 enyo.kind({
     name: "MainView",
     kind: "FittableColumns",
+    published: {
+        "user": null
+    },
     views: {
         "dashboard": 0,
         "detail": 1
+    },
+    userChanged: function() {
+        this.$.detail.setUser(this.user);
     },
     showView: function(view) {
         this.$.panels.setIndex(this.views[view]);

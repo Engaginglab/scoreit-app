@@ -1,5 +1,8 @@
 enyo.kind({
 	name: "DetailView",
+	published: {
+		user: null
+	},
 	views: {
 		"rootView": 0,
 		"unionView": 1,
@@ -7,6 +10,10 @@ enyo.kind({
 		"groupView": 3,
 		"clubView": 4,
 		"teamView": 5
+	},
+	userChanged: function() {
+		this.$.clubView.setUser(this.user);
+		this.$.teamView.setUser(this.user);
 	},
 	showView: function(view) {
 		this.$.panels.setIndex(this.views[view]);

@@ -139,3 +139,7 @@ body > * {
 	padding: 20px;
 	box-sizing: border-box;
 }
+
+.manager-control {
+	display: none;
+}

@@ -55,6 +55,7 @@ enyo.kind({
     },
     userChanged: function() {
         this.$.topBar.setUser(scoreit.user);
+        this.$.mainView.setUser(scoreit.user);
 
         if (scoreit.user) {
             this.$.getStartedView.setUser(scoreit.user);

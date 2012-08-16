@@ -2,17 +2,18 @@ enyo.kind({
 	name: "TeamView",
 	classes: "teamview",
 	published: {
-		team: null
+		team: null,
+		user: null
 	},
 	events: {
 		onShowPerson: "",
 		onShowClub: ""
 	},
-	rendered: function() {
-		this.inherited(arguments);
-		this.teamChanged();
+	userChanged: function() {
+		this.checkPermissions();
 	},
 	teamChanged: function() {
+		this.checkPermissions();
 		if (this.team) {
 			this.$.teamName.setContent(this.team.name);
 			this.$.clubItem.setContent(this.team.club.name);
@@ -31,6 +32,31 @@ enyo.kind({
 			this.clubMemberships = [];
 			this.populatePlayerSelector();
 			this.populateManagerSelector();
+		}
+	},
+	checkPermissions: function() {
+		this.removeClass("manager");
+		this.removeClass("member");
+		this.removeClass("coach");
+		if (this.user && this.user.handball_profile && this.team) {
+			var profile = this.user.handball_profile;
+			scoreit.handball.teammanagerrelation.list([["manager", profile.id], ["team", this.team.id], ["validated", true]], enyo.bind(this, function(sender, response) {
+				if (response.objects.length) {
+					this.addClass("manager");
+					this.addClass("member");
+				}
+			}));
+			scoreit.handball.teamplayerrelation.list([["player", profile.id], ["team", this.team.id], ["validated", true]], enyo.bind(this, function(sender, response) {
+				if (response.objects.length) {
+					this.addClass("member");
+				}
+			}));
+			scoreit.handball.teamplayerrelation.list([["coach", profile.id], ["team", this.team.id], ["validated", true]], enyo.bind(this, function(sender, response) {
+				if (response.objects.length) {
+					this.addClass("member");
+					this.addClass("coach");
+				}
+			}));
 		}
 	},
 	loadClubMembers: function() {
@@ -65,7 +91,7 @@ enyo.kind({
 	setupPlayerItem: function(sender, event) {
 		var playerRelation = this.playerRelations[event.index];
 		this.$.playerName.setContent(playerRelation.player.display_name);
-		this.$.playerItem.addRemoveClass("unconfirmed", !playerRelation.manager_confirmed);
+		this.$.playerItem.addRemoveClass("unconfirmed", !playerRelation.validated);
 	},
 	newPlayer: function() {
 		this.$.newPlayerForm.clear();
@@ -114,7 +140,7 @@ enyo.kind({
 		var data = {
 			player: playerRelation.player.resource_uri,
 			team: playerRelation.team.resource_uri,
-			manager_confirmed: true
+			validated: true
 		};
 		this.$.loadingPopup.setText("Bestätige Spieler...");
 		this.$.loadingPopup.show();
@@ -125,16 +151,19 @@ enyo.kind({
 	},
 	populatePlayerSelector: function() {
 		var members = [];
-		for (var i=0; i<this.clubMemberships.length; i++) {
-			var isPlayer = false;
-			for (var j=0; j<this.playerRelations.length; j++) {
-				if (this.clubMemberships[i].member.id == this.playerRelations[j].player.id) {
-					isPlayer = true;
-					break;
+		if (this.clubMemberships) {
+			var playerRelations = this.playerRelations || [];
+			for (var i=0; i<this.clubMemberships.length; i++) {
+				var isPlayer = false;
+				for (var j=0; j<playerRelations.length; j++) {
+					if (this.clubMemberships[i].member.id == playerRelations[j].player.id) {
+						isPlayer = true;
+						break;
+					}
 				}
-			}
-			if (!isPlayer) {
-				members.push(this.clubMemberships[i].member);
+				if (!isPlayer) {
+					members.push(this.clubMemberships[i].member);
+				}
 			}
 		}
 
@@ -163,7 +192,7 @@ enyo.kind({
 	setupCoachItem: function(sender, event) {
 		var coachRelation = this.coachRelations[event.index];
 		this.$.coachName.setContent(coachRelation.coach.display_name);
-		this.$.coachItem.addRemoveClass("unconfirmed", !coachRelation.manager_confirmed);
+		this.$.coachItem.addRemoveClass("unconfirmed", !coachRelation.validated);
 	},
 	newCoach: function() {
 		this.$.newCoachForm.clear();
@@ -212,7 +241,7 @@ enyo.kind({
 		var data = {
 			coach: coachRelation.coach.resource_uri,
 			team: coachRelation.team.resource_uri,
-			manager_confirmed: true
+			validated: true
 		};
 		this.$.loadingPopup.setText("Bestätige Trainer...");
 		this.$.loadingPopup.show();
@@ -223,16 +252,20 @@ enyo.kind({
 	},
 	populateCoachSelector: function() {
 		var members = [];
-		for (var i=0; i<this.clubMemberships.length; i++) {
-			var isCoach = false;
-			for (var j=0; j<this.coachRelations.length; j++) {
-				if (this.clubMemberships[i].member.id == this.coachRelations[j].coach.id) {
-					isCoach = true;
-					break;
+
+		if (this.clubMemberships) {
+			var coachRelations = this.coachRelations || [];
+			for (var i=0; i<this.clubMemberships.length; i++) {
+				var isCoach = false;
+				for (var j=0; j<coachRelations.length; j++) {
+					if (this.clubMemberships[i].member.id == coachRelations[j].coach.id) {
+						isCoach = true;
+						break;
+					}
 				}
-			}
-			if (!isCoach) {
-				members.push(this.clubMemberships[i].member);
+				if (!isCoach) {
+					members.push(this.clubMemberships[i].member);
+				}
 			}
 		}
 
@@ -284,16 +317,20 @@ enyo.kind({
 	},
 	populateManagerSelector: function() {
 		var members = [];
-		for (var i=0; i<this.clubMemberships.length; i++) {
-			var isManager = false;
-			for (var j=0; j<this.managerRelations.length; j++) {
-				if (this.clubMemberships[i].member.id == this.managerRelations[j].manager.id) {
-					isManager = true;
-					break;
+
+		if (this.clubMemberships) {
+			var managerRelations = this.managerRelations || [];
+			for (var i=0; i<this.clubMemberships.length; i++) {
+				var isManager = false;
+				for (var j=0; j<managerRelations.length; j++) {
+					if (this.clubMemberships[i].member.id == managerRelations[j].manager.id) {
+						isManager = true;
+						break;
+					}
 				}
-			}
-			if (!isManager) {
-				members.push(this.clubMemberships[i].member);
+				if (!isManager) {
+					members.push(this.clubMemberships[i].member);
+				}
 			}
 		}
 
@@ -327,12 +364,12 @@ enyo.kind({
 					{kind: "onyx.Item", name: "playerItem", components: [
 						{name: "playerName", classes: "enyo-inline"},
 						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "playerRemoveButtonTapped"},
-						{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmPlayerRelation"}
+						{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button member-control", ontap: "confirmPlayerRelation"}
 					]}
 				]},
 				{kind: "FilteredSelector", name: "playerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
-					placeholder: "Existierenden Spieler hinzufügen...", classes: "row-button", onItemSelected: "playerSelected"},
-				{kind: "onyx.Button", content: "Neuen Spieler Erstellen", ontap: "newPlayer", classes: "row-button"},
+					placeholder: "Existierenden Spieler hinzufügen...", classes: "row-button member-control", onItemSelected: "playerSelected"},
+				{kind: "onyx.Button", content: "Neuen Spieler Erstellen", ontap: "newPlayer", classes: "row-button member-control"},
 				{kind: "onyx.Popup", style: "width: 300px;", floating: true, centered: true, name: "newPlayerPopup", components: [
 					{kind: "LightweightPersonForm", name: "newPlayerForm"},
 					{kind: "onyx.InputDecorator", showing: false, style: "box-sizing: border-box; width: 100%; margin-bottom: 5px;", classes: "input-fill", components: [

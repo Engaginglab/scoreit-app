@@ -4,11 +4,26 @@
 }
 
 .clubview .onyx-item .confirm-button,
-.teamview .onyx-item .confirm-button {
+.clubview.member .onyx-item .confirm-button,
+.teamview .onyx-item .confirm-button,
+.teamview.member .onyx-item .confirm-button {
 	display: none;
 }
 
 .clubview .onyx-item.unconfirmed .confirm-button,
 .teamview .onyx-item.unconfirmed .confirm-button {
 	display: block;
+}
+
+.clubview.manager .manager-control {
+	display: block;
+}
+
+.clubview.member .member-control {
+	display: block;
+}
+
+.clubview:not(.member) .member-control,
+.teamview:not(.member) .member-control {
+	display: none !important;
 }
