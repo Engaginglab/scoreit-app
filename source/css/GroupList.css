@@ -1,12 +1,11 @@
 .grouplist {}
 
-.grouplist-box-header {
-	font-size: 13pt;
-	padding: 10px;
+.onyx-groupbox.grouplist-box .onyx-groupbox-header {
+	font-size: 11pt;
 }
 
 .grouplist-box {
 	display: inline-block;
 	width: 200px;
-	padding: 10px;
+	margin: 10px;
 }

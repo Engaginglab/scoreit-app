@@ -13,21 +13,17 @@ enyo.kind({
 			this.$.groupName.setContent(this.group.name);
 
 			if (this.group.union) {
-				this.$.unionHeader.show();
-				this.$.unionItem.show();
+				this.$.unionBox.show();
 				this.$.unionItem.setContent(this.group.union.name);
 			} else {
-				this.$.unionHeader.hide();
-				this.$.unionItem.hide();
+				this.$.unionBox.hide();
 			}
 
 			if (this.group.district) {
-				this.$.districtHeader.show();
-				this.$.districtItem.show();
+				this.$.unionBox.show();
 				this.$.districtItem.setContent(this.group.district.name);
 			} else {
-				this.$.districtHeader.hide();
-				this.$.districtItem.hide();
+				this.$.unionBox.hide();
 			}
 
 			this.loadTeams();
@@ -64,15 +60,20 @@ enyo.kind({
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
 				{classes: "page-header", name: "groupName"},
-				{classes: "section-header", content: "Verband", name: "unionHeader"},
-				{kind: "onyx.Item", name: "unionItem", ontap: "unionTapped"},
-				{classes: "section-header", content: "Bezirk", name: "districtHeader"},
-				{kind: "onyx.Item", name: "districtItem", ontap: "districtTapped"},
-				{classes: "section-header", content: "Rangliste"},
-				{kind: "FlyweightRepeater", name: "ladder", onSetupItem: "setupLadderItem", components: [
-					{kind: "onyx.Item", ontap: "teamTapped", components: [
-						{name: "position", allowHtml: true, classes: "enyo-inline"},
-						{name: "teamName", classes: "enyo-inline"}
+				{kind: "onyx.Groupbox", name: "unionBox", components: [
+					{kind: "onyx.GroupboxHeader", content: "Verband"},
+					{kind: "onyx.Item", name: "unionItem", ontap: "unionTapped"}
+				]},
+				{kind: "onyx.Groupbox", name: "districtBox", style: "margin-top: 10px;", components: [
+					{kind: "onyx.GroupboxHeader", content: "Bezirk"},
+					{kind: "onyx.Item", name: "districtItem", ontap: "districtTapped"}
+				]},
+				{kind: "CollapsibleGroupbox", caption: "Rangliste", style: "margin-top: 10px;", components: [
+					{kind: "FlyweightRepeater", name: "ladder", onSetupItem: "setupLadderItem", components: [
+						{kind: "onyx.Item", ontap: "teamTapped", components: [
+							{name: "position", allowHtml: true, classes: "enyo-inline"},
+							{name: "teamName", classes: "enyo-inline"}
+						]}
 					]}
 				]}
 			]}

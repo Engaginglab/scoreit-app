@@ -8,13 +8,6 @@
 	margin: -4px 2px;
 }
 
-.scoreit .onyx-groupbox-header {
-	font-family: Asap;
-	font-weight: normal;
-	background-color: #C51616;
-	color: #F1F1F1;
-}
-
 .onyx-input-decorator.input-fill > input,
 .onyx-input-decorator.input-fill > .enyo-richtext {
     width: 100%;
@@ -58,10 +51,28 @@
 }
 
 .scoreit .onyx-item {
-	border: solid 1px #bbb;
+	border-top: solid 1px #bbb;
+	/*border: solid 1px #bbb;
 	border-radius: 3px;
-	margin: 3px 0;
+	margin: 3px 0;*/
 	/*box-shadow: 2px 2px 2px #000000;*/
+}
+
+/*.scoreit .onyx-groupbox .onyx-item {
+	margin: 0;
+	border: none;
+	border-top: solid 1px #bbb;
+	border-radius: 0;
+}*/
+
+.scoreit .onyx-groupbox-header {
+	font-family: inherit;
+	background-color: #666;
+	font-size: 14pt;
+	color: White;
+	text-align: left;
+	padding: 10px;
+	font-weight: normal;
 }
 
 /*.scoreit .onyx-item.onyx-last {

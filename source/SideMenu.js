@@ -16,7 +16,13 @@ enyo.kind({
 		this.doDetail();
 	},
 	components: [
-		{classes: "onyx-menu-item sidemenu-item", content: "Mein score.it", name: "dashboardMenuItem", ontap: "dashboard"},
-		{classes: "onyx-menu-item sidemenu-item", content: "Übersicht", name: "detailMenuItem", ontap: "detail"}
+		{classes: "onyx-menu-item sidemenu-item", name: "dashboardMenuItem", ontap: "dashboard", components: [
+			{kind: "Image", src: "assets/images/home.png", classes: "sidemenu-item-icon"},
+			{classes: "sidemenu-item-caption", content: "Home"}
+		]},
+		{classes: "onyx-menu-item sidemenu-item", name: "detailMenuItem", ontap: "detail", components: [
+			{kind: "Image", src: "assets/images/list.png", classes: "sidemenu-item-icon"},
+			{classes: "sidemenu-item-caption", content: "Übersicht"}
+		]}
 	]
 });

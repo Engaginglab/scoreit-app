@@ -34,5 +34,6 @@ enyo.depends(
 	"DistrictView.js",
 	"GroupList.js",
 	"GroupView.js",
+	"CollapsibleGroupbox.js",
 	"report/"
 );

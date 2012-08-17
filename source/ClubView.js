@@ -261,14 +261,17 @@ enyo.kind({
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
 				{classes: "page-header", name: "clubName"},
-				{classes: "section-header", content: "Bezirk"},
-				{kind: "onyx.Item", name: "districtItem", ontap: "districtTapped"},
-				{classes: "section-header", content: "Mitglieder"},
-				{kind: "FlyweightRepeater", name: "memberList", onSetupItem: "setupMemberItem", components: [
-					{kind: "onyx.Item", name: "memberItem", components: [
-						{name: "memberName", classes: "enyo-inline"},
-						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "memberRemoveButtonTapped"},
-						{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button member-control", ontap: "confirmMembership"}
+				{kind: "onyx.Groupbox", components: [
+					{kind: "onyx.GroupboxHeader", content: "Bezirk"},
+					{kind: "onyx.Item", name: "districtItem", ontap: "districtTapped"}
+				]},
+				{kind: "CollapsibleGroupbox", caption: "Mitglieder", style: "margin-top: 10px;", components: [
+					{kind: "FlyweightRepeater", name: "memberList", onSetupItem: "setupMemberItem", components: [
+						{kind: "onyx.Item", name: "memberItem", components: [
+							{name: "memberName", classes: "enyo-inline"},
+							{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "memberRemoveButtonTapped"},
+							{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button member-control", ontap: "confirmMembership"}
+						]}
 					]}
 				]},
 				{kind: "onyx.Button", content: "Neues Mitglied Hinzufügen", ontap: "newMember", classes: "row-button member-control"},
@@ -282,10 +285,11 @@ enyo.kind({
 					]},
 					{kind: "onyx.Button", content: "Speichern", ontap: "newMemberConfirm", style: "width: 100%", classes: "onyx-affirmative"}
 				]},
-				{classes: "section-header", content: "Mannschaften"},
-				{kind: "FlyweightRepeater", name: "teamList", onSetupItem: "setupTeamItem", components: [
-					{kind: "onyx.Item", name: "teamItem", ontap: "teamTapped", components: [
-						{name: "teamName", classes: "enyo-inline"}
+				{kind: "CollapsibleGroupbox", caption: "Mannschaften", style: "margin-top: 10px;", components: [
+					{kind: "FlyweightRepeater", name: "teamList", onSetupItem: "setupTeamItem", components: [
+						{kind: "onyx.Item", name: "teamItem", ontap: "teamTapped", components: [
+							{name: "teamName", classes: "enyo-inline"}
+						]}
 					]}
 				]},
 				{kind: "onyx.Button", content: "Neue Mannschaft Gründen", ontap: "newTeam", classes: "row-button member-control"},
@@ -293,11 +297,12 @@ enyo.kind({
 					{kind: "TeamForm", name: "newTeamForm", style: "width: 300px;"},
 					{kind: "onyx.Button", content: "Speichern", ontap: "newTeamConfirm", classes: "onyx-affirmative", style: "width: 100%;"}
 				]},
-				{classes: "section-header", content: "Manager"},
-				{kind: "FlyweightRepeater", name: "managerList", onSetupItem: "setupManagerItem", components: [
-					{kind: "onyx.Item", name: "managerItem", components: [
-						{name: "managerName", classes: "enyo-inline"},
-						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "managerRemoveButtonTapped"}
+				{kind: "CollapsibleGroupbox", caption: "Manager", style: "margin-top: 10px;", components: [
+					{kind: "FlyweightRepeater", name: "managerList", onSetupItem: "setupManagerItem", components: [
+						{kind: "onyx.Item", name: "managerItem", components: [
+							{name: "managerName", classes: "enyo-inline"},
+							{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "managerRemoveButtonTapped"}
+						]}
 					]}
 				]},
 				{kind: "FilteredSelector", name: "managerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],

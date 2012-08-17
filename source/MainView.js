@@ -1,6 +1,7 @@
 enyo.kind({
     name: "MainView",
     kind: "FittableColumns",
+    classes: "bg-light",
     published: {
         "user": null
     },
@@ -35,9 +36,11 @@ enyo.kind({
     },
     components: [
         {kind: "SideMenu", onDashboard: "showDashboard", onDetail: "showDetail"},
-        {kind: "Panels", fit: true, name: "panels", arrangerKind: "CardArranger", animate: true, classes: "enyo-fill", components: [
-            {kind: "Dashboard", onShowClub: "showClubHandler", onShowTeam: "showTeamHandler"},
-            {kind: "DetailView", name: "detail"}
-        ]}
+        // {kind: "Slideable", min: 0, max: 80, unit: "px", classes: "enyo-fill bg-light shadow-left", style: "background-color: White;", overMoving: false, components: [
+            {kind: "Panels", fit: true, name: "panels", arrangerKind: "CardArranger", draggable: false, classes: "enyo-fill", components: [
+                {kind: "Dashboard", onShowClub: "showClubHandler", onShowTeam: "showTeamHandler"},
+                {kind: "DetailView", name: "detail"}
+            ]}
+        // ]}
     ]
 });

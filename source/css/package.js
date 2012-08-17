@@ -16,5 +16,6 @@ enyo.depends(
 	"DetailView.css",
 	"SideMenu.css",
 	"GroupList.css",
+	"CollapsibleGroupbox.css",
 	"theme.css"
 );

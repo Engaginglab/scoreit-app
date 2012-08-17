@@ -40,9 +40,10 @@ enyo.kind({
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
 				{classes: "page-header", name: "unionName"},
-				{classes: "section-header", content: "Bezirke"},
-				{kind: "FlyweightRepeater", name: "districtList", onSetupItem: "setupDistrictItem", components: [
-					{kind: "onyx.Item", name: "districtItem", ontap: "districtTapped"}
+				{kind: "CollapsibleGroupbox", caption: "Bezirke", components: [
+					{kind: "FlyweightRepeater", name: "districtList", onSetupItem: "setupDistrictItem", components: [
+						{kind: "onyx.Item", name: "districtItem", ontap: "districtTapped"}
+					]}
 				]},
 				{classes: "section-header", content: "Ligen"},
 				{kind: "GroupList", onShowGroup: "showGroupHandler"}

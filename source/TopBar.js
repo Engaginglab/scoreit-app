@@ -40,7 +40,7 @@ enyo.kind({
 			{kind: "onyx.InputDecorator", classes: "always-focused", components: [
 				{kind: "onyx.Input", name: "password", type: "password", placeholder: "Passwort", onkeyup: "keyupHandler"}
 			]},
-			{kind: "onyx.Button", content: "Login", classes: "onyx-negative", ontap: "login"}
+			{kind: "onyx.Button", content: "Login", ontap: "login", style: "color: White;"}
 		]},
 		{name: "userMenu", style: "float: right;", showing: false, components: [
 			{classes: "enyo-inline", content: "Hallo,", style: "padding-right: 5px;"},

@@ -234,9 +234,10 @@ enyo.kind({
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
-				{classes: "section-header", content: "Meine Vereine"},
-				{kind: "FlyweightRepeater", name: "clubList", onSetupItem: "setupClubItem", components: [
-					{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"}
+				{kind: "CollapsibleGroupbox", caption: "Meine Vereine", components: [
+					{kind: "FlyweightRepeater", name: "clubList", onSetupItem: "setupClubItem", components: [
+						{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"}
+					]}
 				]},
 				{kind: "FilteredSelector", name: "clubSelector", displayProperty: "name", uniqueProperty: "id", filterProperties: ["name"],
 					placeholder: "Verein beitreten...", classes: "row-button", onItemSelected: "clubSelected"},
@@ -245,9 +246,10 @@ enyo.kind({
 					{kind: "ClubForm", name: "newClubForm"},
 					{kind: "onyx.Button", content: "Speichern", ontap: "newClubConfirm", classes: "onyx-affirmative", style: "width: 100%;"}
 				]},
-				{classes: "section-header", content: "Meine Mannschaften"},
-				{kind: "FlyweightRepeater", name: "teamList", onSetupItem: "setupTeamItem", components: [
-					{kind: "onyx.Item", name: "teamItem", ontap: "teamTapped"}
+				{kind: "CollapsibleGroupbox", caption: "Meine Mannschaften", style: "margin-top: 10px;", components: [
+					{kind: "FlyweightRepeater", name: "teamList", onSetupItem: "setupTeamItem", components: [
+						{kind: "onyx.Item", name: "teamItem", ontap: "teamTapped"}
+					]}
 				]},
 				{kind: "FilteredSelector", name: "teamSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
 					placeholder: "Mannschaft beitreten...", classes: "row-button", onItemSelected: "teamSelected"},

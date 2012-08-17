@@ -7,7 +7,8 @@ enyo.kind({
 	},
 	events: {
 		onShowPerson: "",
-		onShowClub: ""
+		onShowClub: "",
+		onShowGroup: ""
 	},
 	userChanged: function() {
 		this.checkPermissions();
@@ -21,17 +22,7 @@ enyo.kind({
 			this.loadCoaches();
 			this.loadManagers();
 			this.loadClubMembers();
-		} else {
-			this.$.teamName.setContent("");
-			this.playerRelations = [];
-			this.refreshPlayerList();
-			this.coachRelations = [];
-			this.refreshCoachList();
-			this.managerRelations = [];
-			this.refreshManagerList();
-			this.clubMemberships = [];
-			this.populatePlayerSelector();
-			this.populateManagerSelector();
+			this.loadGroups();
 		}
 	},
 	checkPermissions: function() {
@@ -353,18 +344,43 @@ enyo.kind({
 	clubTapped: function() {
 		this.doShowClub({club: this.team.club});
 	},
+	loadGroups: function() {
+		scoreit.handball.groupteamrelation.list([["team", this.team.id]], enyo.bind(this, function(sender, response) {
+			this.groups = response.objects;
+			this.refreshGroupList();
+		}));
+	},
+	refreshGroupList: function() {
+		this.$.groupList.setCount(this.groups.length);
+		this.$.groupList.render();
+	},
+	setupGroupItem: function(sender, event) {
+		var groupRelation = this.groups[event.index];
+		this.$.groupItem.setContent(groupRelation.group.name);
+	},
+	groupTapped: function(sender, event) {
+		this.doShowGroup({group: this.groups[event.index]});
+	},
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
 				{classes: "page-header", name: "teamName"},
-				{classes: "section-header", content: "Verein"},
-				{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"},
-				{classes: "section-header", content: "Spieler"},
-				{kind: "FlyweightRepeater", name: "playerList", onSetupItem: "setupPlayerItem", components: [
-					{kind: "onyx.Item", name: "playerItem", components: [
-						{name: "playerName", classes: "enyo-inline"},
-						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "playerRemoveButtonTapped"},
-						{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button member-control", ontap: "confirmPlayerRelation"}
+				{kind: "onyx.Groupbox", components: [
+					{kind: "onyx.GroupboxHeader", content: "Verein"},
+					{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"}
+				]},
+				{kind: "CollapsibleGroupbox", caption: "Spielgruppen/Ligen", style: "margin-top: 10px;", components: [
+					{kind: "FlyweightRepeater", name: "groupList", onSetupItem: "setupGroupItem", components: [
+						{kind: "onyx.Item", name: "groupItem", ontap: "groupTapped"}
+					]}
+				]},
+				{kind: "CollapsibleGroupbox", caption: "Spieler", style: "margin-top: 10px;", components: [
+					{kind: "FlyweightRepeater", name: "playerList", onSetupItem: "setupPlayerItem", components: [
+						{kind: "onyx.Item", name: "playerItem", components: [
+							{name: "playerName", classes: "enyo-inline"},
+							{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "playerRemoveButtonTapped"},
+							{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button member-control", ontap: "confirmPlayerRelation"}
+						]}
 					]}
 				]},
 				{kind: "FilteredSelector", name: "playerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
@@ -377,12 +393,13 @@ enyo.kind({
 					]},
 					{kind: "onyx.Button", content: "Speichern", ontap: "newPlayerConfirm", style: "width: 100%", classes: "onyx-affirmative"}
 				]},
-				{classes: "section-header", content: "Trainer"},
-				{kind: "FlyweightRepeater", name: "coachList", onSetupItem: "setupCoachItem", components: [
-					{kind: "onyx.Item", name: "coachItem", components: [
-						{name: "coachName", classes: "enyo-inline"},
-						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "coachRemoveButtonTapped"},
-						{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmCoachRelation"}
+				{kind: "CollapsibleGroupbox", caption: "Trainer", style: "margin-top: 10px;", components: [
+					{kind: "FlyweightRepeater", name: "coachList", onSetupItem: "setupCoachItem", components: [
+						{kind: "onyx.Item", name: "coachItem", components: [
+							{name: "coachName", classes: "enyo-inline"},
+							{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "coachRemoveButtonTapped"},
+							{kind: "onyx.Button", content: "Bestätigen", classes: "onyx-affirmative align-right confirm-button manager-control", ontap: "confirmCoachRelation"}
+						]}
 					]}
 				]},
 				{kind: "FilteredSelector", name: "coachSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],
@@ -395,11 +412,12 @@ enyo.kind({
 					]},
 					{kind: "onyx.Button", content: "Speichern", ontap: "newCoachConfirm", style: "width: 100%", classes: "onyx-affirmative"}
 				]},
-				{classes: "section-header", content: "Manager"},
-				{kind: "FlyweightRepeater", name: "managerList", onSetupItem: "setupManagerItem", components: [
-					{kind: "onyx.Item", name: "managerItem", components: [
-						{name: "managerName", classes: "enyo-inline"},
-						{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "managerRemoveButtonTapped"}
+				{kind: "CollapsibleGroupbox", caption: "Manager", style: "margin-top: 10px;", components: [
+					{kind: "FlyweightRepeater", name: "managerList", onSetupItem: "setupManagerItem", components: [
+						{kind: "onyx.Item", name: "managerItem", components: [
+							{name: "managerName", classes: "enyo-inline"},
+							{kind: "onyx.Button", content: "Entfernen", classes: "onyx-negative align-right manager-control", ontap: "managerRemoveButtonTapped"}
+						]}
 					]}
 				]},
 				{kind: "FilteredSelector", name: "managerSelector", displayProperty: "display_name", uniqueProperty: "id", filterProperties: ["display_name"],

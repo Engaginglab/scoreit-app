@@ -1,5 +1,6 @@
 enyo.kind({
     name: "GetStartedView",
+    classes: "bg-light",
     style: "text-align: center;",
     published: {
         user: null

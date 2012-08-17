@@ -1,0 +1,8 @@
+.scoreit .onyx-groupbox.collapsible-groupbox .onyx-button.onyx-groupbox-header {
+	background-color: #666;
+	width: 100%;
+}
+
+.scoreit .onyx-groupbox.collapsible-groupbox.closed .onyx-button.onyx-groupbox-header {
+	border-radius: 4px;
+}

@@ -1,6 +1,6 @@
 enyo.kind({
 	name: "FrontMatter",
-	classes: "frontmatter",
+	classes: "frontmatter bg-light",
 	events: {
 		onSignUp: ""
 	},

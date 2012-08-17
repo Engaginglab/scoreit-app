@@ -45,11 +45,14 @@ enyo.kind({
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
 				{classes: "page-header", name: "districtName"},
-				{classes: "section-header", content: "Verband"},
-				{kind: "onyx.Item", name: "unionItem", ontap: "unionTapped"},
-				{classes: "section-header", content: "Vereine"},
-				{kind: "FlyweightRepeater", name: "clubList", onSetupItem: "setupClubItem", components: [
-					{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"}
+				{kind: "onyx.Groupbox", components: [
+					{kind: "onyx.GroupboxHeader", content: "Verband"},
+					{kind: "onyx.Item", name: "unionItem", ontap: "unionTapped"}
+				]},
+				{kind: "CollapsibleGroupbox", caption: "Vereine", style: "margin-top: 10px;", components: [
+					{kind: "FlyweightRepeater", name: "clubList", onSetupItem: "setupClubItem", components: [
+						{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"}
+					]}
 				]},
 				{classes: "section-header", content: "Ligen"},
 				{kind: "GroupList", onShowGroup: "showGroupHandler"}

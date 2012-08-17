@@ -5,7 +5,8 @@
 	width: 100%;
 	padding: 11px;
 	box-sizing: border-box;
-	border-bottom: solid 1px #aaa;
+    box-shadow: -4px -4px -4px #111;
+	/*border-bottom: solid 1px #aaa;*/
 }
 
 .scoreit-topbar .onyx-input-decorator {

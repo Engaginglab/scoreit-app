@@ -1,4 +1,27 @@
 .sidemenu {
-	width: 150px;
+	text-align: center;
 	padding: 10px;
+	box-sizing: border-box;
+}
+
+.sidemenu-item {
+	border-radius: 8px;
+	margin: 5px;
+}
+
+.sidemenu-item-icon {
+	width: 32px;
+}
+
+.sidemenu-item-caption {
+	padding-top: 5px;
+	font-size: 9pt;
+}
+
+
+.scoreit .sidemenu-item.selected,
+.scoreit .sidemenu-item:hover {
+	background-color: #BDE515;
+	color: #333;
+	box-shadow:	inset 0 0 10px #333;
 }

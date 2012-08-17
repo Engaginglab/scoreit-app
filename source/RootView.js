@@ -28,9 +28,10 @@ enyo.kind({
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
 				{classes: "page-header", content: "Gesamtübersicht"},
-				{classes: "section-header", content: "Verbände"},
-				{kind: "FlyweightRepeater", name: "unionList", onSetupItem: "setupUnionItem", components: [
-					{kind: "onyx.Item", name: "unionItem", ontap: "unionTapped"}
+				{kind: "CollapsibleGroupbox", caption: "Verbände", components: [
+					{kind: "FlyweightRepeater", name: "unionList", onSetupItem: "setupUnionItem", components: [
+						{kind: "onyx.Item", name: "unionItem", ontap: "unionTapped"}
+					]}
 				]}
 			]}
 		]}

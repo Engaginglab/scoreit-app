@@ -1,6 +1,5 @@
 body {
 	font-family: Asap, Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
-	background-image: url(../../assets/images/light_wool.png);
 	text-align: center;
 	box-sizing: border-box;
 	padding: 0;
@@ -9,6 +8,16 @@ body {
 
 body > * {
 	text-align: left;
+}
+
+.bg-light {
+	background-image: url(../../assets/images/snow.png);
+}
+
+.bg-dark {
+	background-color: #333;
+	/*background-image: url(../../assets/images/carbon_fibre.png);*/
+	color: White;
 }
 
 .scoreit-header-big {
@@ -116,7 +125,7 @@ body > * {
 
 .main-content {
 	width: 100%;
-	max-width: 650px;
+	/*max-width: 650px;*/
 	padding: 20px;
 	box-sizing: border-box;
 }
@@ -142,4 +151,8 @@ body > * {
 
 .manager-control {
 	display: none;
+}
+
+.shadow-left {
+    box-shadow: -4px -4px 20px #111;
 }

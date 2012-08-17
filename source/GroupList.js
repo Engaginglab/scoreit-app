@@ -44,8 +44,8 @@ enyo.kind({
 	createGroupList: function(gender, ageGroup) {
 		var groupArray = this["groups_" + gender + "_" + ageGroup[0]];
 		if (groupArray && groupArray.length) {
-			this.createComponent({classes: "grouplist-box", gender: gender, ageGroup: ageGroup[0], onSetupItem: "setupGroupItem", components: [
-				{classes: "grouplist-box-header", content: ageGroup[1] + " " + (gender == "male" ? "männlich" : "weiblich")},
+			this.createComponent({kind: "onyx.Groupbox", classes: "grouplist-box", gender: gender, ageGroup: ageGroup[0], onSetupItem: "setupGroupItem", components: [
+				{kind: "onyx.GroupboxHeader", content: ageGroup[1] + " " + (gender == "male" ? "männlich" : "weiblich")},
 				{kind: "FlyweightRepeater", owner: this, name: "list_" + gender + "_" + ageGroup[0], components: [
 					{kind: "onyx.Item", name: "item_" + gender + "_" + ageGroup[0], ontap: "groupTapped"}
 				]}
