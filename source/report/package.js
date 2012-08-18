@@ -4,5 +4,5 @@ enyo.depends(
 	"ReportForm.js",
 	"ReportGameView.js",
 	"ReportPlayerSelector.js",
-	"ReportView.js"
+	"ReportApp.js"
 );

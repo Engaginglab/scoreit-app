@@ -1,6 +1,6 @@
 enyo.kind({
     name: "ReportGameView",
-    classes: "reportview",
+    classes: "reportgameview",
     kind: "FittableRows",
     published: {
         home: null,
@@ -15,12 +15,6 @@ enyo.kind({
     score: {
         home: 0,
         away: 0
-    },
-    eventTypeMapping: {
-        "Tor": "/handball/api/v1/eventtype/1/",
-        "Zeitstrafe": "/handball/api/v1/eventtype/3/",
-        "Verwarnung": "/handball/api/v1/eventtype/2/",
-        "Disqualifikation": "/handball/api/v1/eventtype/4/"
     },
     gameEvents: [],
     rendered: function() {
@@ -129,7 +123,7 @@ enyo.kind({
     },
     goal: function(side, player) {
         this.gameEvents.push({
-            event_type: this.eventTypeMapping["Tor"],
+            event_type: "goal",
             team: side == "home" ? this.home.resource_uri : this.away.resource_uri,
             person: player.resource_uri || player,
             time: this.$.timer.getTime()
@@ -150,7 +144,7 @@ enyo.kind({
     },
     penalty: function(side, player) {
         this.gameEvents.push({
-            event_type: this.eventTypeMapping["Zeitstrafe"],
+            event_type: "time_penalty",
             team: side == "home" ? this.home.resource_uri : this.away.resource_uri,
             person: player.resource_uri || player,
             time: this.$.timer.getTime()
@@ -169,7 +163,7 @@ enyo.kind({
     },
     warning: function(side, player) {
         this.gameEvents.push({
-            game_type: this.eventTypeMapping["Verwarnung"],
+            game_type: "warning",
             team: side == "home" ? this.home.resource_uri : this.away.resource_uri,
             person: player.resource_uri || player,
             time: this.$.timer.getTime()
@@ -188,7 +182,7 @@ enyo.kind({
     },
     disqualification: function(side, player) {
         this.gameEvents.push({
-            game_type: this.eventTypeMapping["Disqualifikation"],
+            game_type: "disqualification",
             team: side == "home" ? this.home.resource_uri : this.away.resource_uri,
             person: player.resource_uri || player,
             time: this.$.timer.getTime()
@@ -217,8 +211,8 @@ enyo.kind({
         // bounds.top = pos.top;
         // this.$.awayTeamListDecoratorHigh.setBounds(bounds);
         // this.$.awayTeamListDecorator.applyStyle("visibility", highlight ? "hidden" : "visible");
-        // // this.$.homeTeamListDecorator.addRemoveClass("reportview-sidecolumn-list-highlighted", highlight);
-        // // this.$.awayTeamListDecorator.addRemoveClass("reportview-sidecolumn-list-highlighted", highlight);
+        // // this.$.homeTeamListDecorator.addRemoveClass("sidecolumn-list-highlighted", highlight);
+        // // this.$.awayTeamListDecorator.addRemoveClass("sidecolumn-list-highlighted", highlight);
     },
     timerTimeout: function() {
         this.$.toggleTimerButton.removeClass("pause");
@@ -274,8 +268,8 @@ enyo.kind({
     components: [
         {kind: "FittableColumns", fit: true, components: [
             {kind: "FittableRows", components: [
-                {classes: "header-font reportview-sidecolumn-header", name: "homeTeamName"},
-                {classes: "reportview-sidecolumn-list enyo-fill", fit: true, name: "homeTeamListDecorator", components: [
+                {classes: "header-font sidecolumn-header", name: "homeTeamName"},
+                {classes: "sidecolumn-list enyo-fill", fit: true, name: "homeTeamListDecorator", components: [
                     {kind: "Scroller", classes: "enyo-fill", components: [
                         {kind: "Repeater", name: "homeTeamList", onSetupItem: "setupPlayerItem", side: "home", components: [
                             {kind: "PlayerListItem", name: "playerItem", ontap: "playerClicked", side: "home", tapHighlight: true}
@@ -283,48 +277,48 @@ enyo.kind({
                     ]}
                 ]}
             ]},
-            {classes: "reportview-centercolumn", fit: true, components: [
-                {kind: "Timer", name: "timer", maxTime: 1800000, blinking: true, classes: "reportview-timer", onTimeout: "timerTimeout"},
-                {classes: "reportview-timer-controls enyo-center", components: [
-                    {kind: "onyx.Button", name: "toggleTimerButton", classes: "reportview-timer-controls-toggle", ontap: "toggleTimer", components: [
-                        {kind: "Image", src: "assets/images/play.png", name: "playImage", classes: "play-image"},
-                        {kind: "Image", src: "assets/images/pause.png", name: "pauseImage", classes: "pause-image"}
+            {classes: "centercolumn", fit: true, components: [
+                {kind: "Timer", name: "timer", maxTime: 1800000, blinking: true, classes: "timer", onTimeout: "timerTimeout"},
+                {classes: "timer-controls enyo-center", components: [
+                    {kind: "onyx.Button", name: "toggleTimerButton", classes: "timer-controls-toggle", ontap: "toggleTimer", components: [
+                        {kind: "Image", src: "../assets/images/play.png", name: "playImage", classes: "play-image"},
+                        {kind: "Image", src: "../assets/images/pause.png", name: "pauseImage", classes: "pause-image"}
                     ]},
-                    {kind: "onyx.Button", classes: "reportview-timer-controls-reset", allowHtml: true, content: "0:00", ontap: "resetTimer"}
+                    {kind: "onyx.Button", classes: "timer-controls-reset", allowHtml: true, content: "0:00", ontap: "resetTimer"}
                 ]},
-                {name: "scoreboard", classes: "reportview-scoreboard enyo-center", components: [
+                {name: "scoreboard", classes: "scoreboard enyo-center", components: [
                     {components: [
-                        {content: "HEIM", classes: "reportview-scoreboard-header"},
-                        {kind: "onyx.InputDecorator", classes: "reportview-scoreboard-field onyx-focused", components: [
+                        {content: "HEIM", classes: "scoreboard-header"},
+                        {kind: "onyx.InputDecorator", classes: "scoreboard-field onyx-focused", components: [
                             {name: "homeScore"}
                         ]}
                     ]},
-                    {classes: "reportview-scoreboard-seperator", content: ":"},
+                    {classes: "scoreboard-seperator", content: ":"},
                     {components: [
-                        {content: "GAST", classes: "reportview-scoreboard-header"},
-                        {kind: "onyx.InputDecorator", classes: "reportview-scoreboard-field onyx-focused", components: [
+                        {content: "GAST", classes: "scoreboard-header"},
+                        {kind: "onyx.InputDecorator", classes: "scoreboard-field onyx-focused", components: [
                             {name: "awayScore"}
                         ]}
                     ]}
                 ]},
-                {kind: "onyx.Button", classes: "reportview-goal-button enyo-center", content: "TOR!", ontap: "goalClicked", components: [
-                    {kind: "Image", src: "assets/images/ball.png"}
+                {kind: "onyx.Button", classes: "goal-button enyo-center", content: "TOR!", ontap: "goalClicked", components: [
+                    {kind: "Image", src: "../assets/images/ball.png"}
                 ]},
-                {classes: "reportview-penalty-controls", components: [
+                {classes: "penalty-controls", components: [
                     {kind: "onyx.Button", ontap: "penaltyClicked", components: [
-                        {kind: "Image", style: "height: 32px", src: "assets/images/stopwatch@2x.png"}
+                        {kind: "Image", style: "height: 32px", src: "../assets/images/stopwatch@2x.png"}
                     ]},
                     {kind: "onyx.Button", ontap: "warningClicked", components: [
-                        {kind: "Image", src: "assets/images/yellow_card_32x32.png"}
+                        {kind: "Image", src: "../assets/images/yellow_card_32x32.png"}
                     ]},
                     {kind: "onyx.Button", ontap: "disClicked", components: [
-                        {kind: "Image", src: "assets/images/red_card_32x32.png"}
+                        {kind: "Image", src: "../assets/images/red_card_32x32.png"}
                     ]}
                 ]}
             ]},
             {kind: "FittableRows", components: [
-                {classes: "header-font reportview-sidecolumn-header", name: "awayTeamName"},
-                {classes: "reportview-sidecolumn-list enyo-fill", fit: true, name: "awayTeamListDecorator", components: [
+                {classes: "header-font sidecolumn-header", name: "awayTeamName"},
+                {classes: "sidecolumn-list enyo-fill", fit: true, name: "awayTeamListDecorator", components: [
                     {kind: "Scroller", classes: "enyo-fill", components: [
                         {kind: "Repeater", name: "awayTeamList", onSetupItem: "setupPlayerItem", side: "away", components: [
                             {kind: "PlayerListItem", name: "playerItem", ontap: "playerClicked", side: "away"}

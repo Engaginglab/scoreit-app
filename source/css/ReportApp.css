@@ -1,0 +1,148 @@
+.reportapp {
+	background-image: url(../../assets/images/light_wool.png);
+}
+
+.reportgameview {
+	padding: 20px;
+}
+
+.centercolumn {
+	text-align: center;
+}
+
+.sidecolumn-header {
+	text-align: center;
+	padding: 0px 15px 15px 15px;
+	font-size: 23pt;
+}
+
+.sidecolumn-list {
+	box-sizing: border-box;
+	width: 350px;
+	border-radius: 15px;
+	box-shadow:	inset 0 0 10px #000000;
+	padding: 5px;
+	background-image: url(../../assets/images/snow.png);
+}
+
+.sidecolumn-list.highlighted {
+	box-shadow:	inset 0 0 20px Green;
+}
+
+.sidecolumn-list-highlighted {
+	position: absolute;
+	z-index: 11;
+}
+
+.scoreboard {
+	margin: 5px 0px;
+	font-size: 20pt;
+}
+
+.scoreboard > * {
+	display: inline-block;
+}
+
+.scoreboard-field {
+	width: 60px;
+	text-align: center;
+}
+
+.scoreboard-seperator {
+	padding: 50px 5px 5px 5px;
+}
+
+.reportview .timer {
+	width: 100%;
+	margin: 20px auto;
+}
+
+.scoreboard-header {
+	padding: 10px;
+	font-size: 15pt;
+}
+
+.timer-controls {
+	margin: 10px auto;
+}
+
+.timer-controls .onyx-button.timer-controls-toggle {
+	padding: 5px 5px 5px 8px;
+	width: 80px;
+	height: 80px;
+	margin: 5px;
+	border-radius: 100px;
+	background-color: Green;
+}
+
+.timer-controls .onyx-button.timer-controls-toggle.pause {
+	background-color: Orange;
+	padding: 5px;
+}
+
+.timer-controls .onyx-button.timer-controls-toggle .pause-image {
+	display: none;
+}
+
+.timer-controls .onyx-button.timer-controls-toggle.pause .pause-image {
+	display: inline-block;
+}
+
+.timer-controls .onyx-button.timer-controls-toggle.pause .play-image {
+	display: none;
+}
+
+.timer-controls .timer-controls-reset {
+	padding: 5px;
+	margin: 0px 5px 5px 5px;
+	width: 70px;
+	height: 45px;
+	font-size: 15pt;
+}
+
+.scoreboard-controls {
+	padding-top: 38px;
+	margin: 0px 5px 0px 5px;
+}
+
+.scoreboard-controls .onyx-button {
+	display: block;
+}
+
+.goal-button {
+	margin: 5px auto;
+	font-size: 15pt;
+	width: 190px;
+}
+
+.goal-button img {
+	width: 80px;
+}
+
+.scrim.scrim {
+	padding-top: 200px;
+	color: inherit;
+	font-size: inherit;
+	font-family: Asap;
+}
+
+.scrim.scrim.scrim-lists {
+	background-color: Transparent;
+	opacity: 1;
+}
+
+.scrim.scrim .scrim-text {
+	color: white;
+}
+
+.penalty-controls {
+	padding: 10px;
+	text-align: center;
+}
+
+.penalty-controls button {
+	margin: 2px;
+	padding: 5px;
+	width: 60px;
+	height: 60px;
+}

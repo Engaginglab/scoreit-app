@@ -1,7 +1,13 @@
 enyo.kind({
-    name: "ReportView",
+    name: "ReportApp",
     kind: "FittableRows",
+    classes: "reportapp",
+    rendered: function() {
+        this.inherited(arguments);
+        this.showDetailsView();
+    },
     showDetailsView: function() {
+        this.$.reportForm.reset();
         this.$.panels.setIndex(0);
     },
     showGameView: function() {
@@ -76,19 +82,14 @@ enyo.kind({
     },
     components: [
         {kind: "Panels", arrangerKind: "CarouselArranger", fit: true, components: [
-            {kind: "FittableRows", classes: "enyo-fill", components: [
-                {kind: "Scroller", fit: true, components: [
-                    {classes: "centered-content", components: [
-                        {kind: "ReportForm"},
-                        {kind: "onyx.Button", classes: "onyx-affirmative", style: "width: 100%", content: "Weiter", ontap: "showGameView"},
-                        {style: "height: 200px"}
-                    ]}
+            {kind: "Scroller", classes: "enyo-fill", components: [
+                {classes: "centered-content", components: [
+                    {kind: "ReportForm"},
+                    {kind: "onyx.Button", classes: "onyx-affirmative", style: "width: 100%", content: "Weiter", ontap: "showGameView"},
+                    {style: "height: 200px"}
                 ]}
             ]},
-            {classes: "enyo-fill", components: [
-                {kind: "ReportGameView", style: "margin: 0 auto;"}
-            ]},
-            {}
+            {classes: "enyo-fill", kind: "ReportGameView", style: "margin: 0 auto;"}
         ]},
         {kind: "onyx.Toolbar", components: [
             {kind: "onyx.RadioGroup", components: [

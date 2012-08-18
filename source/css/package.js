@@ -8,7 +8,7 @@ enyo.depends(
 	"FrontMatter.css",
 	"LoadingPopup.css",
 	"GetStartedView.css",
-	"ReportView.css",
+	"ReportApp.css",
 	"PlayerListItem.css",
 	"Timer.css",
 	"AlertPopup.css",

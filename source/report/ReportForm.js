@@ -1,8 +1,7 @@
 enyo.kind({
     name: "ReportForm",
     classes: "scoreit-form",
-    create: function() {
-        this.inherited(arguments);
+    reset: function() {
         this.setupTimePicker();
         this.loadSites();
         this.loadUnions();
@@ -18,6 +17,7 @@ enyo.kind({
                 active: now.getDate() == i
             });
         }
+        this.$.dayPicker.render();
         for (var i=1; i<=12; i++) {
             this.$.monthPicker.createComponent({
                 content: i,
@@ -25,6 +25,7 @@ enyo.kind({
                 active: now.getMonth() == i
             });
         }
+        this.$.monthPicker.render();
         for (var i=now.getFullYear()-5; i<=now.getFullYear()+5; i++) {
             this.$.yearPicker.createComponent({
                 content: i,
@@ -32,6 +33,7 @@ enyo.kind({
                 active: now.getFullYear() == i
             });
         }
+        this.$.yearPicker.render();
         for (var i=0; i<=23; i++) {
             this.$.hourPicker.createComponent({
                 content: i < 10 ? "0" + i : i,
@@ -39,6 +41,7 @@ enyo.kind({
                 active: now.getHours() == i
             });
         }
+        this.$.hourPicker.render();
         for (var i=0; i<=59; i++) {
             this.$.minutePicker.createComponent({
                 content: i < 10 ? "0" + i : i,
@@ -46,6 +49,7 @@ enyo.kind({
                 active: now.getMinutes() == i
             });
         }
+        this.$.minutePicker.render();
     },
     loadPersons: function() {
         scoreit.handball.person.list([], enyo.bind(this, function(sender, response) {
@@ -84,7 +88,9 @@ enyo.kind({
         var district = this.$.districtPicker.getSelected() ? this.$.districtPicker.getSelected().value : null;
         var unionFilter = union ? ["union", union.id] : ["union", true, "isnull"];
         var districtFilter = district ? ["district", district.id] : ["district", true, "isnull"];
-        scoreit.handball.group.list([unionFilter, districtFilter], enyo.bind(this, function(sender, response) {
+        scoreit.handball.group.list([unionFilter, districtFilter,
+            ["age_group", this.$.ageGroupPicker.getSelected().value],
+            ["gender", this.$.genderPicker.getActive().value]], enyo.bind(this, function(sender, response) {
             this.populatePicker(this.$.groupPicker, response.objects, "name");
             this.$.groupPickerButton.setDisabled(false);
         }));
