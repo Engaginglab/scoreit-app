@@ -5,7 +5,9 @@
 	width: 100%;
 	padding: 11px;
 	box-sizing: border-box;
-    box-shadow: -4px -4px -4px #111;
+    box-shadow: 0px 3px 10px #555;
+    position: relative;
+    z-index: 100;
 	/*border-bottom: solid 1px #aaa;*/
 }
 

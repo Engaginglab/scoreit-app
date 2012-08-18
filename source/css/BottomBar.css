@@ -1,0 +1,35 @@
+.bottombar {
+	height: 40px;
+	overflow: visible;
+}
+
+.bottombar-inner {
+    box-shadow: 0px -3px 5px #555;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 10pt;
+    color: #ddd;
+	border-top: solid 1px #222;
+	background: #333 url(../../assets/images/gradient-invert.png) repeat-x;
+}
+
+button.bottombar-radiobutton {
+	color: inherit;
+	background: none;
+	border: none;
+	padding: 0 5px;
+}
+
+button.bottombar-radiobutton.active {
+	color: #BDE515;
+}
+
+.bottombar-content {
+	padding: 20px;
+	margin: 0 auto;
+	/*text-align: left;*/
+}
+
+.impressum {
+	line-height: 1.5em;
+}

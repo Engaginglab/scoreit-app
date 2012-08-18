@@ -234,6 +234,7 @@ enyo.kind({
 	components: [
 		{kind: "Scroller", classes: "enyo-fill", components: [
 			{classes: "main-content", components: [
+				{classes: "page-header", content: "home"},
 				{kind: "CollapsibleGroupbox", caption: "Meine Vereine", components: [
 					{kind: "FlyweightRepeater", name: "clubList", onSetupItem: "setupClubItem", components: [
 						{kind: "onyx.Item", name: "clubItem", ontap: "clubTapped"}

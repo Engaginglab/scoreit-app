@@ -8,6 +8,9 @@ enyo.kind({
         "getStartedView": 1,
         "mainView": 2
     },
+    handlers: {
+        ontap: "tapHandler"
+    },
     create: function() {
         this.inherited(arguments);
         this.loadUser();
@@ -92,6 +95,14 @@ enyo.kind({
         this.deleteUser();
         this.userChanged();
     },
+    tapHandler: function(sender, event) {
+        if (!event.dispatchTarget.isDescendantOf(this.$.bottomBar)) {
+            this.closeBottomBar();
+        }
+    },
+    closeBottomBar: function() {
+        this.$.bottomBar.close();
+    },
     components: [
         {kind: "TopBar", onLogin: "loginHandler", onLogout: "logoutHandler"},
         {kind: "Panels", fit: true, draggable: false, classes: "app-panels", components: [
@@ -99,6 +110,7 @@ enyo.kind({
             {kind: "GetStartedView", onDone: "showMainView"},
             {kind: "MainView"}
         ]},
+        {kind: "BottomBar"},
         {kind: "LoadingPopup"},
         {kind: "AlertPopup"}
     ]

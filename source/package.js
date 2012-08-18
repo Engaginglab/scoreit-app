@@ -35,5 +35,6 @@ enyo.depends(
 	"GroupList.js",
 	"GroupView.js",
 	"CollapsibleGroupbox.js",
+	"BottomBar.js",
 	"report/"
 );
