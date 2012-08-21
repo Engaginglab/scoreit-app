@@ -1,13 +1,22 @@
 .timer {
 	text-align: center;
+	background-color: #333;
+	padding: 10px;
+	border-radius: 10px;
+	box-shadow: inset 0 0 30px #222;
+	border: solid 3px #444;
 }
 
-.timer.off {
+.timer.off .timer-digit {
 	opacity: 0.5;
 }
 
 .timer-digit {
 	display: inline;
-	font-size: 45pt;
+	font-size: 40pt;
 	padding: 5px;
+	font-family: "Bank Gothic", "Futura", "Arial";
+	opacity: .9;
+	color: rgb(255, 255, 255);
+	text-shadow: 0 0 30px rgb(0, 200, 255);
 }

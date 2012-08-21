@@ -1,6 +1,6 @@
 .alert-popup {
 	padding: 20px;
-	max-width: 350px;
+	width: 300px;
 }
 
 .alert-popup-message {
@@ -10,5 +10,5 @@
 
 .alert-popup-icon {
 	float: left;
-	margin: 10px 10px 0px 10px;
+	margin: 10px;
 }

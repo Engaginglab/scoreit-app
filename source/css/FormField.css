@@ -12,15 +12,15 @@
 	right: 5px;
 }
 
-.formfield.valid {
+/*.formfield.valid {
 	background-color: #91BA07;
-}
+}*/
 
 .formfield.invalid {
 	background-color: #C51616;
 }
 
-.formfield.valid > input,
+/*.formfield.valid > input,*/
 .formfield.invalid > input {
 	color: #F1F1F1;
 }

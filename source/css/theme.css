@@ -51,11 +51,10 @@
 }
 
 .scoreit .onyx-item {
-	border-top: solid 1px #bbb;
-	/*border: solid 1px #bbb;
+	border: solid 1px #bbb;
 	border-radius: 3px;
-	margin: 3px 0;*/
-	/*box-shadow: 2px 2px 2px #000000;*/
+	margin: 3px 0;
+	/*box-shadow: 0 0 8px #888;*/
 }
 
 /*.scoreit .onyx-groupbox .onyx-item {
@@ -64,6 +63,11 @@
 	border-top: solid 1px #bbb;
 	border-radius: 0;
 }*/
+
+.scoreit .onyx-groupbox {
+	box-shadow: 0 0 8px #888;
+	border-radius: 4px;
+}
 
 .scoreit .onyx-groupbox-header {
 	font-family: inherit;
@@ -75,9 +79,12 @@
 	font-weight: normal;
 }
 
-/*.scoreit .onyx-item.onyx-last {
+.scoreit .onyx-groupbox .onyx-item {
 	border: none;
-}*/
+	margin: 0;
+	border-top: solid 1px #bbb;
+	border-radius: 0;
+}
 
 .scoreit .onyx-item.active {
 	background-color: #BDE515;
@@ -101,4 +108,15 @@
 
 .align-right {
 	float: right;
+}
+
+.scoreit .onyx-toolbar {
+	background-color: #333;
+	padding: 5px;
+    box-shadow: 0 -2px 8px #777;
+}
+
+.scoreit .onyx-toolbar .onyx-radiobutton:not(.active) {
+	color: #ddd;
+	box-shadow: inset 0 1px 0 #444;
 }

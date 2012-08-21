@@ -111,7 +111,7 @@ body > * {
 .onyx-button.row-button {
 	width: 100%;
 	padding: 10px;
-	margin: 2px 0;
+	margin-top: 5px;
 }
 
 .centered-content {
@@ -155,4 +155,10 @@ body > * {
 
 .shadow-left {
     box-shadow: -4px -4px 20px #111;
+}
+
+.search-icon {
+	background: url("../../assets/images/search-input-search.png") no-repeat center center;
+	width: 20px;
+	height: 20px; 
 }
