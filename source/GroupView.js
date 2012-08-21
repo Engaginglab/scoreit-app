@@ -20,10 +20,10 @@ enyo.kind({
 			}
 
 			if (this.group.district) {
-				this.$.unionBox.show();
+				this.$.districtBox.show();
 				this.$.districtItem.setContent(this.group.district.name);
 			} else {
-				this.$.unionBox.hide();
+				this.$.districtBox.hide();
 			}
 
 			this.loadTeams();
@@ -37,7 +37,7 @@ enyo.kind({
 	},
 	refreshLadder: function() {
 		this.teamRelations.sort(function(a, b) {
-			return a.score - b.score;
+			return b.score - a.score;
 		});
 		this.$.ladder.setCount(this.teamRelations.length);
 		this.$.ladder.render();
