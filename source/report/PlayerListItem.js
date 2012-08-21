@@ -30,9 +30,8 @@ enyo.kind({
 	},
 	warningsChanged: function() {
 		this.$.card1.setShowing(this.warnings >= 1);
-		this.$.card2.setShowing(this.warnings >= 2);
 
-		if (this.warnings >= 3) {
+		if (this.warnings >= 2) {
 			this.disqualify();
 		}
 	},
@@ -40,7 +39,6 @@ enyo.kind({
 		this.setDisabled(this.disqualified);
 		if (this.disqualified) {
 			this.$.card1.hide();
-			this.$.card2.hide();
 			this.$.time1.hide();
 			this.$.time2.hide();
 		} else {
@@ -48,7 +46,7 @@ enyo.kind({
 			this.warningsChanged();
 		}
 
-		this.$.card3.setShowing(this.disqualified);
+		this.$.card2.setShowing(this.disqualified);
 	},
 	goalsChanged: function() {
 		this.$.goals.setShowing(this.goals);
@@ -109,15 +107,14 @@ enyo.kind({
 	components: [
 		{name: "shirtNumber", classes: "player-list-item-number"},
 		{name: "goals", classes: "player-list-item-goals", showing: false, components: [
-			{kind: "Image", src: "assets/images/ball.png"},
+			{kind: "Image", src: "../assets/images/ball.png"},
 			{name: "goalsCounter", classes: "player-list-item-goals-text"}
 		]},
 		{name: "pen", classes: "player-list-item-cards", components: [
-			{kind: "Image", src: "assets/images/stopwatch.png", name: "time1", showing: false},
-			{kind: "Image", src: "assets/images/stopwatch.png", name: "time2", showing: false},
-			{kind: "Image", src: "assets/images/yellow_card_24x24.png", name: "card1", showing: false},
-			{kind: "Image", src: "assets/images/yellow_card_24x24.png", name: "card2", showing: false},
-			{kind: "Image", src: "assets/images/red_card_24x24.png", name: "card3", showing: false}
+			{kind: "Image", src: "../assets/images/stopwatch.png", name: "time1", showing: false},
+			{kind: "Image", src: "../assets/images/stopwatch.png", name: "time2", showing: false},
+			{kind: "Image", src: "../assets/images/yellow_card_24x24.png", name: "card1", showing: false},
+			{kind: "Image", src: "../assets/images/red_card_24x24.png", name: "card2", showing: false}
 		]},
 		{name: "timer", classes: "player-list-item-timer", showing: false},
 		{name: "playerName", classes: "player-list-item-name ellipsis"}
