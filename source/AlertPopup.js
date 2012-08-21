@@ -19,16 +19,16 @@ enyo.kind({
     iconChanged: function() {
         switch (this.icon) {
             case "info":
-                this.$.icon.setAttribute("src", "assets/images/info_64x64.png");
+                this.$.icon.setSrc("assets/images/info_64x64.png");
                 break;
             case "warning":
-                this.$.icon.setAttribute("src", "assets/images/warning_64x64.png");
+                this.$.icon.setSrc("assets/images/warning_64x64.png");
                 break;
             case "error":
-                this.$.icon.setAttribute("src", "assets/images/error_64x64.png");
+                this.$.icon.setSrc("assets/images/error_64x64.png");
                 break;
             default:
-                this.$.icon.setAttribute("src", this.icon);
+                this.$.icon.setSrc(this.icon);
                 break;
         }
     },
@@ -43,7 +43,7 @@ enyo.kind({
         this.hide();
     },
     components: [
-        {tag: "img", name: "icon", classes: "alert-popup-icon"},
+        {kind: "Image", name: "icon", classes: "alert-popup-icon"},
         {name: "message", allowHtml: true, classes: "alert-popup-message"},
         {kind: "onyx.Button", content: "OK", ontap: "dismiss", style: "width: 100%;"}
     ]
