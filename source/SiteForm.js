@@ -17,6 +17,10 @@ enyo.kind({
 			this.$.city.setValue("");
 		}
 	},
+	clear: function() {
+		this.setSite(null);
+		this.siteChanged();
+	},
 	getData: function() {
 		var address = this.$.address.getValue();
 		var number = this.$.siteNumber.getValue();
