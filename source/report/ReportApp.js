@@ -4,10 +4,10 @@ enyo.kind({
     classes: "reportapp",
     rendered: function() {
         this.inherited(arguments);
+        this.$.reportForm.reset();
         this.showDetailsView();
     },
     showDetailsView: function() {
-        this.$.reportForm.reset();
         this.$.panels.setIndex(0);
     },
     showGameView: function() {
@@ -39,6 +39,7 @@ enyo.kind({
             delete player.display_name;
         });
 
+        delete data.site.display_name;
         for (var x in data) {
             if (data[x]) {
                 data[x] = data[x].resource_uri || data[x];
@@ -81,6 +82,7 @@ enyo.kind({
         }));
     },
     components: [
+        {kind: "TopBar"},
         {kind: "Panels", arrangerKind: "CarouselArranger", fit: true, components: [
             {kind: "Scroller", classes: "enyo-fill", components: [
                 {classes: "centered-content", components: [
@@ -93,11 +95,11 @@ enyo.kind({
         ]},
         {kind: "onyx.Toolbar", components: [
             {kind: "onyx.RadioGroup", components: [
-                {content: "Details", name: "detailsButton", active: true, ontap: "showDetailsView"},
-                {content: "Spiel", name: "gameButton", ontap: "showGameView"},
-                {content: "Vorschau", name: "previewButton", ontap: "showPreview"}
+                {content: "Details", name: "detailsButton", active: true, ontap: "showDetailsView", classes: "onyx-dark"},
+                {content: "Spiel", name: "gameButton", ontap: "showGameView", classes: "onyx-dark"},
+                {content: "Vorschau", name: "previewButton", ontap: "showPreview", classes: "onyx-dark"}
             ]},
-            {kind: "onyx.Button", content: "Abschicken", ontap: "send", classes: "onyx-affirmative align-right"}
+            {kind: "onyx.Button", content: "Abschicken", ontap: "send", classes: "onyx-affirmative align-right", style: "margin-top: 4px;"}
         ]}
     ]
 });

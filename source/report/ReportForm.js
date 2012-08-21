@@ -2,6 +2,9 @@ enyo.kind({
     name: "ReportForm",
     classes: "scoreit-form",
     reset: function() {
+        this.$.siteSelector.setSelectedItem(null);
+        this.$.homeTeamSelector.setSelectedItem(null);
+        this.$.awayTeamSelector.setSelectedItem(null);
         this.setupTimePicker();
         this.loadSites();
         this.loadUnions();
@@ -88,9 +91,11 @@ enyo.kind({
         var district = this.$.districtPicker.getSelected() ? this.$.districtPicker.getSelected().value : null;
         var unionFilter = union ? ["union", union.id] : ["union", true, "isnull"];
         var districtFilter = district ? ["district", district.id] : ["district", true, "isnull"];
+        var ageGroup = this.$.ageGroupPicker.getSelected() ? this.$.ageGroupPicker.getSelected().value : "adults";
+        var gender = this.$.genderPicker.getActive() ? this.$.genderPicker.getActive().value : "male";
+        var gameType = this.$.gameTypePicker.getActive() ? this.$.gameTypePicker.getActive().value : "league";
         scoreit.handball.group.list([unionFilter, districtFilter,
-            ["age_group", this.$.ageGroupPicker.getSelected().value],
-            ["gender", this.$.genderPicker.getActive().value]], enyo.bind(this, function(sender, response) {
+            ["age_group", ageGroup], ["gender", gender], ["kind", gameType]], enyo.bind(this, function(sender, response) {
             this.populatePicker(this.$.groupPicker, response.objects, "name");
             this.$.groupPickerButton.setDisabled(false);
         }));
@@ -120,13 +125,17 @@ enyo.kind({
 
         this.$[side + "PlayerSelector"].setItems(team.players);
         this.$[side + "PlayerSelector"].setSelectedItems(team.players);
+
+        if (side == "home" && team.club.home_site) {
+            this.$.siteSelector.setSelectedItem(team.club.home_site);
+        }
     },
     newSite: function() {
-        this.$.siteForm.setSite(null);
-        this.$.siteForm.siteChanged();
+        this.$.siteForm.clear();
         this.$.sitePopup.show();
     },
     newSiteConfirm: function() {
+        this.$.sitePopup.hide();
         var site = this.$.siteForm.getData();
         this.$.siteSelector.setSelectedItem(site);
     },
@@ -212,14 +221,14 @@ enyo.kind({
                 {kind: "onyx.Picker", name: "minutePicker"}
             ]}
         ]},
-        {kind: "onyx.RadioGroup", components: [
+        {kind: "onyx.RadioGroup", name: "gameTypePicker", onActivate: "loadGroups", components: [
             {content: "Meisterschaftsspiel", value: "league", style: "width: 33.3%; height: 40px; box-sizing: border-box;", active: true},
             {content: "Freundschaftspiel", value: "friendly", style: "width: 33.3%; height: 40px; box-sizing: border-box;"},
             {content: "Pokalspiel", value: "cup", style: "width: 33.4%; height: 40px; box-sizing: border-box;"}
         ]},
         {kind: "onyx.PickerDecorator", components: [
             {content: "Altersgruppe auswählen..."},
-            {kind: "onyx.Picker", name: "ageGroupPicker", onChange: "ageGroupSelected", components: [
+            {kind: "onyx.Picker", name: "ageGroupPicker", onChange: "loadGroups", components: [
                 {content: "Erwachsene", value: "adults", active: true},
                 {content: "Jugend A", value: "juniors_a"},
                 {content: "Jugend B", value: "juniors_b"},
@@ -228,7 +237,7 @@ enyo.kind({
                 {content: "Jugend E", value: "juniors_e"}
             ]}
         ]},
-        {kind: "onyx.RadioGroup", name: "genderPicker", components: [
+        {kind: "onyx.RadioGroup", onActivate: "loadGroups", name: "genderPicker", components: [
             {content: "männlich", value: "male", style: "width: 50%; height: 40px; box-sizing: border-box;", active: true},
             {content: "weiblich", value: "female", style: "width: 50%; height: 40px; box-sizing: border-box;"}
         ]},

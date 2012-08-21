@@ -23,12 +23,12 @@ enyo.kind({
     components: [
         {kind: "Scroller", style: "display: block; max-height: 200px; width: 100%; box-sizing: border-box;", components: [
             {kind: "Repeater", name: "selectedRepeater", onSetupItem: "setupSelectedItem", components: [
-                {kind: "onyx.Item", tapHighlight: true, style: "display: block; width: 100%; box-sizing: border-box; padding: 5px;", components: [
+                {kind: "onyx.Item", tapHighlight: false, style: "display: block; width: 100%; box-sizing: border-box; padding: 5px;", components: [
                     {kind: "onyx.InputDecorator", components: [
                         {kind: "onyx.Input", placeholder: "Tr.#", style: "width: 40px;", onchange: "shirtNumberChanged", name: "shirtNumber"}
                     ]},
-                    {name: "selectedPlayerName", classes: "enyo-inline", style: "padding: 5px;"},
-                    {content: "x", style: "float: right;", ontap: "removeItemTapped"}
+                    {name: "selectedPlayerName", classes: "enyo-inline", style: "padding: 8px;"},
+                    {content: "x", style: "float: right; padding: 5px; font-size: 15pt;", ontap: "removeItemTapped"}
                 ]}
             ]}
         ]},

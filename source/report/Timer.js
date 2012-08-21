@@ -13,7 +13,7 @@ enyo.kind({
 	events: {
 		onTimeout: ""
 	},
-	rendered: function() {
+	create: function() {
 		this.inherited(arguments);
 		this.timeChanged();
 		this.runningChanged();
@@ -71,10 +71,10 @@ enyo.kind({
 		this.setRunning(!this.running);
 	},
 	components: [
-		{classes: "timer-digit", name: "minute1"},
-		{classes: "timer-digit", name: "minute2"},
+		{classes: "timer-digit", name: "minute1", content: "0"},
+		{classes: "timer-digit", name: "minute2", content: "0"},
 		{classes: "timer-digit", content: ":"},
-		{classes: "timer-digit", name: "second1"},
-		{classes: "timer-digit", name: "second2"}
+		{classes: "timer-digit", name: "second1", content: "0"},
+		{classes: "timer-digit", name: "second2", content: "0"}
 	]
 });

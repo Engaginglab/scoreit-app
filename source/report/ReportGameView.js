@@ -47,6 +47,9 @@ enyo.kind({
         this.setRunning(!this.running);
     },
     runningChanged: function() {
+        if (this.running) {
+            this.$.timer.setBlinking(false);
+        }
         this.$.timer.setRunning(this.running);
         this.$.toggleTimerButton.addRemoveClass("pause", this.running);
         var homePlayerItems = this.$.homeTeamList.getControls();
@@ -216,13 +219,15 @@ enyo.kind({
     },
     timerTimeout: function() {
         this.$.toggleTimerButton.removeClass("pause");
-        this.freezeGame(true);
+        this.setRunning(false);
+        this.$.timer.setBlinking(true);
         if (this.$.timer.getTime() == 1800000) {
             this.$.timer.setMaxTime(3600000);
-            this.$.halfTimePopup.show();
+            this.$.alertPopup.setMessage("Halbzeit!");
+            this.$.alertPopup.show();
         } else {
-            this.$.doneButton.setDisabled(false);
-            this.$.endPopup.show();
+            this.$.alertPopup.setMessage("Spielzeit abgelaufen!");
+            this.$.alertPopup.show();
         }
     },
     getData: function() {
@@ -278,11 +283,11 @@ enyo.kind({
                 ]}
             ]},
             {classes: "centercolumn", fit: true, components: [
-                {kind: "Timer", name: "timer", maxTime: 1800000, blinking: true, classes: "timer", onTimeout: "timerTimeout"},
+                {kind: "Timer", name: "timer", maxTime: 1800000, classes: "timer", onTimeout: "timerTimeout"},
                 {classes: "timer-controls enyo-center", components: [
                     {kind: "onyx.Button", name: "toggleTimerButton", classes: "timer-controls-toggle", ontap: "toggleTimer", components: [
-                        {kind: "Image", src: "../assets/images/play.png", name: "playImage", classes: "play-image"},
-                        {kind: "Image", src: "../assets/images/pause.png", name: "pauseImage", classes: "pause-image"}
+                        {kind: "Image", src: "assets/images/play.png", name: "playImage", classes: "play-image"},
+                        {kind: "Image", src: "assets/images/pause.png", name: "pauseImage", classes: "pause-image"}
                     ]},
                     {kind: "onyx.Button", classes: "timer-controls-reset", allowHtml: true, content: "0:00", ontap: "resetTimer"}
                 ]},
@@ -302,17 +307,17 @@ enyo.kind({
                     ]}
                 ]},
                 {kind: "onyx.Button", classes: "goal-button enyo-center", content: "TOR!", ontap: "goalClicked", components: [
-                    {kind: "Image", src: "../assets/images/ball.png"}
+                    {kind: "Image", src: "assets/images/ball.png"}
                 ]},
                 {classes: "penalty-controls", components: [
                     {kind: "onyx.Button", ontap: "penaltyClicked", components: [
-                        {kind: "Image", style: "height: 32px", src: "../assets/images/stopwatch@2x.png"}
+                        {kind: "Image", style: "height: 32px", src: "assets/images/stopwatch@2x.png"}
                     ]},
                     {kind: "onyx.Button", ontap: "warningClicked", components: [
-                        {kind: "Image", src: "../assets/images/yellow_card_32x32.png"}
+                        {kind: "Image", src: "assets/images/yellow_card_32x32.png"}
                     ]},
                     {kind: "onyx.Button", ontap: "disClicked", components: [
-                        {kind: "Image", src: "../assets/images/red_card_32x32.png"}
+                        {kind: "Image", src: "assets/images/red_card_32x32.png"}
                     ]}
                 ]}
             ]},
@@ -333,11 +338,6 @@ enyo.kind({
             {classes: "onyx-menu-item", content: "Verwarnung", ontap: "contextWarning"},
             {classes: "onyx-menu-item", content: "Disqualifikation", ontap: "contextDis"}
         ]},
-        {kind: "onyx.Popup", floating: false, name: "halfTimePopup", classes: "notification-popup", centered: true, components: [
-            {content: "Erste Halbzeit vorbei!"}
-        ]},
-        {kind: "onyx.Popup", floating: false, name: "endPopup", classes: "notification-popup", centered: true, components: [
-            {content: "Spiel vorbei!"}
-        ]}
+        {kind: "AlertPopup"}
     ]
 });
