@@ -16,7 +16,7 @@ enyo.kind({
 		this.doDetail();
 	},
 	report: function() {
-		window.open("report/debug.html", "_blank",
+		window.open("report.html", "report",
 			"location=no,menubar=no,resizable=no,status=no,titlebar=no,toolbar=no,width=1024,height=768");
 	},
 	components: [
