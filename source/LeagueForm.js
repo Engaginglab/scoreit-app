@@ -104,6 +104,7 @@ enyo.kind({
             gender: this.$.genderPicker.getActive().value,
             age_group: this.$.ageGroupPicker.getSelected() ? this.$.ageGroupPicker.getSelected().value : null,
             level: level,
+            kind: "league",
             union: union,
             district: district
         };
