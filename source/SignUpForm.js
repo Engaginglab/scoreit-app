@@ -31,7 +31,7 @@ enyo.kind({
 		this.$.lastName.setValid(this.$.lastName.getValue() !== "");
 	},
 	checkUsername: function() {
-		if (!this.$.username.getValue) {
+		if (!this.$.username.getValue()) {
 			this.$.username.setValid(false);
 			this.$.username.setErrorMessage("Bitte gib einen Benutzernamen ein!");
 		} else {
@@ -69,42 +69,58 @@ enyo.kind({
 		}
 	},
 	checkPassword: function() {
-		var same = this.$.password1.getValue() == this.$.password2.getValue();
-
-		if (!this.$.password1.getValue()) {
-			this.$.password1.setValid(false);
-			this.$.password2.setValid(false);
-			this.$.password1.setErrorMessage("Bitte ein Passwort eingeben!");
-		} else if (this.$.password1.getValue() && this.$.password2.getValue() && !same) {
-			this.$.password1.setValid(false);
-			this.$.password2.setValid(false);
-			this.$.password1.setErrorMessage("Passwörter stimmen nicht überein!");
+		if (!this.$.password.getValue()) {
+			this.$.password.setValid(false);
+			this.$.password.setErrorMessage("Bitte gib ein Passwort ein!");
+		} else if (this.$.password.getValue().length < 6) {
+			this.$.password.setValid(false);
+			this.$.password.setErrorMessage("Das Passwort muss mindestens 6 Zeichen lang sein!");
 		} else {
-			this.$.password1.setValid(true);
-			this.$.password2.setValid(true);
+			this.$.password.setValid(true);
 		}
+		// var same = this.$.password1.getValue() == this.$.password2.getValue();
+
+		// if (!this.$.password1.getValue()) {
+		// 	this.$.password1.setValid(false);
+		// 	this.$.password2.setValid(false);
+		// 	this.$.password1.setErrorMessage("Bitte ein Passwort eingeben!");
+		// } else if (this.$.password1.getValue() && this.$.password2.getValue() && !same) {
+		// 	this.$.password1.setValid(false);
+		// 	this.$.password2.setValid(false);
+		// 	this.$.password1.setErrorMessage("Passwörter stimmen nicht überein!");
+		// } else {
+		// 	this.$.password1.setValid(true);
+		// 	this.$.password2.setValid(true);
+		// }
 	},
 	allValid: function() {
-		return usernameValid && emailValid && passNumberValid && checkPassword();
+		this.checkFirstName();
+		this.checkLastName();
+		this.checkUsername();
+		this.checkEmail();
+		this.checkPassword();
+		return this.$.firstName.getValid() && this.$.lastName.getValid() && this.$.email.getValid() && this.$.username.getValid() && this.$.password1.getValid();
 	},
 	submit: function() {
-		var data = {
-			username: this.$.username.getValue(),
-			password: this.$.password1.getValue(),
-			email: this.$.email.getValue(),
-			first_name: this.$.firstName.getValue(),
-			last_name: this.$.lastName.getValue()
-		};
-		this.doSubmit({data: data});
-		this.clear();
+		if (this.allValid()) {
+			var data = {
+				username: this.$.username.getValue(),
+				password: this.$.password1.getValue(),
+				email: this.$.email.getValue(),
+				first_name: this.$.firstName.getValue(),
+				last_name: this.$.lastName.getValue()
+			};
+			this.doSubmit({data: data});
+			this.clear();
+		}
 	},
 	components: [
 		{kind: "FormField", name: "firstName", placeholder: "Vorname", required: true, onchange: "checkFirstName", errorMessage: "Bitte gib deinen Namen ein!"},
 		{kind: "FormField", name: "lastName", placeholder: "Nachname", required: true, onchange: "checkLastName", errorMessage: "Bitte gib deinen Namen ein!"},
 		{kind: "FormField", name: "email", placeholder: "Email", required: true, onchange: "checkEmail"},
 		{kind: "FormField", name: "username", placeholder: "Benutzername", required: true, onchange: "checkUsername"},
-		{kind: "FormField", name: "password1", type: "password", placeholder: "Passwort", required: true, onchange: "checkPassword"},
-		{kind: "FormField", name: "password2", type: "password", placeholder: "Passwort wiederholen", required: true, onchange: "checkPassword"},
+		{kind: "FormField", name: "password", type: "password", placeholder: "Passwort", required: true, onchange: "checkPassword"},
+		// {kind: "FormField", name: "password2", type: "password", placeholder: "Passwort wiederholen", required: true, onchange: "checkPassword"},
 		{kind: "onyx.Button", content: "Abschicken", ontap: "submit", classes: "onyx-affirmative", style: "width: 100%;"}
 	]
 });
