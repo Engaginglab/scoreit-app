@@ -17,7 +17,7 @@ enyo.kind({
 		}
 	},
 	loadClubs: function() {
-		scoreit.handball.club.list(["district", this.district.id], enyo.bind(this, function(sender, response) {
+		scoreit.handball.club.list([["district", this.district.id]], enyo.bind(this, function(sender, response) {
 			this.clubs = response.objects;
 			this.refreshClubList();
 		}));
