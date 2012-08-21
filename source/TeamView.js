@@ -31,6 +31,12 @@ enyo.kind({
 		this.removeClass("coach");
 		if (this.user && this.user.handball_profile && this.team) {
 			var profile = this.user.handball_profile;
+			scoreit.handball.clubmanagerrelation.list([["manager", profile.id], ["club", this.team.club.id], ["validated", true]], enyo.bind(this, function(sender, response) {
+				if (response.objects.length) {
+					this.addClass("manager");
+					this.addClass("member");
+				}
+			}));
 			scoreit.handball.teammanagerrelation.list([["manager", profile.id], ["team", this.team.id], ["validated", true]], enyo.bind(this, function(sender, response) {
 				if (response.objects.length) {
 					this.addClass("manager");
