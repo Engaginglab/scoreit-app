@@ -1,10 +1,15 @@
 .frontmatter-content {
 	box-sizing: border-box;
-	margin: 0 auto;
-	background: url(../../assets/images/player_red.png) no-repeat left 50px;
+	margin: 50px auto;
+	background: url(../../assets/images/scoreit_athlete_green.png) no-repeat left 50px;
 	background-size: 400px;
 	padding: 30px;
 	position: relative;
 	width: 850px;
 	height: 450px;
+}
+
+.frontmatter-slogan {
+	text-shadow: 0 0 3px #777;
+	color: #444;
 }
