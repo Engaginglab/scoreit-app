@@ -15,7 +15,6 @@ enyo.depends(
 	"MultiSelector.js",
 	"TextFieldSelector.js",
 	"ProfileForm.js",
-	"LoginView.js",
 	"TopBar.js",
 	"FrontMatter.js",
 	"LoadingPopup.js",

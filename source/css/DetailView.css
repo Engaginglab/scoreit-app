@@ -15,11 +15,13 @@
 	display: block;
 }
 
-.clubview.manager .manager-control {
+.clubview.manager .manager-control,
+.teamview.manager .manager-control {
 	display: block;
 }
 
-.clubview.member .member-control {
+.clubview.member .member-control,
+.teamview.member .member-control {
 	display: block;
 }
 
