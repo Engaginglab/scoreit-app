@@ -1,17 +1,26 @@
+/**
+	Selector popup with a input field to filter choices
+*/
 enyo.kind({
 	name: "FilteredSelector",
 	kind: "onyx.Button",
 	classes: "filteredselector",
 	events: {
+		//* Gets fired when the user has selected an item
 		onItemSelected: ""
 	},
 	published: {
+		//* Items to select from
 		items: [],
+		//* Properties the items are filtered by
 		filterProperties: [],
-		caption: "",
+		//* Property that is used for display in the list item and the button caption once an item is selected
 		displayProperty: "",
+		//* Unique property to determine, which item has been selected. If not specified displayProperty is used
 		uniqueProperty: "",
+		//* The selected item
 		selectedItem: null,
+		//* Placeholder that is shown if no item is selected
 		placeholder: "Tap to select an item..."
 	},
 	handlers: {
@@ -53,10 +62,6 @@ enyo.kind({
 		this.$.filteredList.render();
 	},
 	components: [
-		// {classes: "label", components: [
-		// 	{name: "caption", style: "float:left"},
-		// 	{classes: "filteredselector-arrow"}
-		// ]},
 		{name: "label", classes: "filteredselector-value"},
 		{kind: "onyx.Popup", classes: "onyx-menu onyx-picker filteredselector-popup", name: "selectPopup", components: [
 			{kind: "FilteredList", onSetupItem: "setupItem", onItemSelected: "itemSelected", components: [

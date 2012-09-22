@@ -1,12 +1,19 @@
+/**
+	View showing club details
+*/
 enyo.kind({
 	name: "ClubView",
 	classes: "clubview",
 	published: {
+		//* The club to be shown
 		club: null,
+		//* The current user.
 		user: null
 	},
 	events: {
+		//* Fired when the user taps selects a team of the club
 		onShowTeam: "",
+		//* Fired when the user selects the clubs district
 		onShowDistrict: ""
 	},
 	userChanged: function() {
@@ -31,6 +38,9 @@ enyo.kind({
 			this.refreshManagerList();
 		}
 	},
+	/**
+		Check the users permissions for this club and adjust UI accordingly
+	*/
 	checkPermissions: function() {
 		this.removeClass("manager");
 		this.removeClass("member");
@@ -220,6 +230,9 @@ enyo.kind({
 			this.checkPermissions();
 		}));
 	},
+	/**
+		Populate the selector for adding new managers with club members minus already existing managers
+	*/
 	populateManagerSelector: function() {
 		var members = [];
 		if (this.memberships) {

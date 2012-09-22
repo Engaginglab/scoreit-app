@@ -1,3 +1,6 @@
+/**
+	View featuring all detail views and ways to nevigate between them
+*/
 enyo.kind({
 	name: "DetailView",
 	published: {

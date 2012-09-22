@@ -1,3 +1,6 @@
+/**
+	Shows a list of groups and groups them into different league levels, genders and age groups.
+*/
 enyo.kind({
 	name: "GroupList",
 	ageGroups: [
@@ -12,6 +15,7 @@ enyo.kind({
 		groups: []
 	},
 	events: {
+		//* Gets fired when a user selects a group
 		onShowGroup: ""
 	},
 	groupsChanged: function() {

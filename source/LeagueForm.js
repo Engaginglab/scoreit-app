@@ -1,7 +1,11 @@
+/**
+    Form for editing leagues
+*/
 enyo.kind({
     name: "LeagueForm",
     classes: "scoreit-form",
     published: {
+        //* Group object associated with league
         group: null
     },
     create: function() {
@@ -10,6 +14,9 @@ enyo.kind({
         this.loadUnions();
         this.loadLeagueLevels();
     },
+    /**
+        Clear form
+    */
     clear: function() {
         this.setGroup(null);
         this.groupChanged();
@@ -34,6 +41,9 @@ enyo.kind({
             this.updateUnions();
         }));
     },
+    /**
+        Update union picker
+    */
     updateUnions: function() {
         this.$.unionPicker.destroyClientControls();
         if (this.unions) {
@@ -57,6 +67,9 @@ enyo.kind({
             this.updateDistricts();
         }));
     },
+    /**
+        Update ditrict picker
+    */
     updateDistricts: function() {
         this.$.districtPicker.destroyClientControls();
         if (this.districts) {
@@ -76,6 +89,9 @@ enyo.kind({
             this.updateLeagueLevels();
         }));
     },
+    /**
+        Update league level picker
+    */
     updateLeagueLevels: function() {
         this.$.leagueLevelPicker.destroyClientControls();
         if (this.leagueLevels) {
@@ -94,6 +110,9 @@ enyo.kind({
         this.$.unionPickerButton.setDisabled(!leaguelevel.union_specific);
         this.$.districtPickerButton.setDisabled(!leaguelevel.district_specific);
     },
+    /**
+        Get the form data
+    */
     getData: function() {
         var level = this.$.leagueLevelPicker.getSelected() ? this.$.leagueLevelPicker.getSelected().value : null;
         var union = level && level.union_specific && this.$.unionPicker.getSelected() ? this.$.unionPicker.getSelected().value : null;

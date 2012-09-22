@@ -1,7 +1,11 @@
+/**
+	Front page. Is shown if no user is logged in.
+*/
 enyo.kind({
 	name: "FrontMatter",
 	classes: "frontmatter bg-light",
 	events: {
+		//* Gets fired when the user signs in.
 		onSignUp: ""
 	},
 	signUpHandler: function(sender, event) {

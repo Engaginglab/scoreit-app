@@ -1,3 +1,6 @@
+/**
+    View that is shown the first time a user signs in. Leads him through filling out some profile info and selecting a club and team
+*/
 enyo.kind({
     name: "GetStartedView",
     classes: "bg-light",
@@ -6,6 +9,7 @@ enyo.kind({
         user: null
     },
     events: {
+        //* Gets fired when the user has completed all steps
         onDone: ""
     },
     create: function() {
@@ -15,6 +19,9 @@ enyo.kind({
     userChanged: function() {
         this.checkCompletionStatus();
     },
+    /**
+        Check if the user has completed all steps
+    */
     checkCompletionStatus: function() {
         if (!this.user.handball_profile) {
             this.openProfilesSelection();
@@ -26,6 +33,9 @@ enyo.kind({
             }
         }
     },
+    /**
+        Check if the user has selected a team yet
+    */
     checkForTeams: function() {
         this.$.loadingPopup.setText("Lade Mannschaften...");
         this.$.loadingPopup.show();

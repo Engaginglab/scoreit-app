@@ -1,13 +1,21 @@
+/**
+	Detail view for Team objects
+*/
 enyo.kind({
 	name: "TeamView",
 	classes: "teamview",
 	published: {
+		//* The team object
 		team: null,
+		//* The currently signed in user
 		user: null
 	},
 	events: {
+		//* Fired when the user selects a person in the team
 		onShowPerson: "",
+		//* Fired when the user selects the club the team belongs to
 		onShowClub: "",
+		//* Fired when the user selects a group the team is in
 		onShowGroup: ""
 	},
 	userChanged: function() {
@@ -25,6 +33,9 @@ enyo.kind({
 			this.loadGroups();
 		}
 	},
+	/**
+		Check the user permissions based on team and club membership and manager status and adjust UI accordingly
+	*/
 	checkPermissions: function() {
 		this.removeClass("manager");
 		this.removeClass("member");
@@ -129,7 +140,7 @@ enyo.kind({
 		this.$.loadingPopup.show();
 		scoreit.handball.teamplayerrelation.remove(playerRelation.id, enyo.bind(this, function(sender, response) {
 			this.$.loadingPopup.hide();
-			this.loadMembers();
+			this.loadPlayers();
 		}));
 	},
 	confirmPlayerRelation: function(sender, event) {

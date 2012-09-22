@@ -1,7 +1,11 @@
+/**
+    Section (usually) at the bottom of the page featuring information such as the impressum and other meta data.
+    Slides up when a topic is selected and back down when the user taps/clicks outside
+*/
 enyo.kind({
     name: "BottomBar",
     kind: "Slideable",
-    classes: "bottombar", 
+    classes: "bottombar",
     min: -200,
     max: 0,
     axis: "v",

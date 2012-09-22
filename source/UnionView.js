@@ -1,10 +1,16 @@
+/**
+	Detail view for union objects
+*/
 enyo.kind({
 	name: "UnionView",
 	published: {
+		//* Union object to be displayed
 		union: null
 	},
 	events: {
+		//* Fired when the user selects one of the districts in this union
 		onShowDistrict: "",
+		//* Fired when the user selects one of this union's groups
 		onShowGroup: ""
 	},
 	unionChanged: function() {

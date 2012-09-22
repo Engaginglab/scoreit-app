@@ -1,11 +1,17 @@
+/**
+	Detail view for districts
+*/
 enyo.kind({
 	name: "DistrictView",
 	published: {
 		district: null
 	},
 	events: {
+		//* Fired when the user selects on of the clubs in this district
 		onShowClub: "",
+		//* Fired when the user selects the union this district belongs to
 		onShowUnion: "",
+		//* Fired when the user selects one of the groups belonging to this district
 		onShowGroup: ""
 	},
 	districtChanged: function() {

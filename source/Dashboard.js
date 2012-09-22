@@ -1,3 +1,6 @@
+/**
+	Compound view which combines most important functions.
+*/
 enyo.kind({
 	name: "Dashboard",
 	events: {
@@ -50,6 +53,10 @@ enyo.kind({
 		this.$.clubList.setCount(this.clubs.length);
 		this.$.clubList.render();
 	},
+	/**
+		Assemble a list from clubs the user is a member and clubs the user is manager at.
+		Set flags specifying if the user is a member, a manager or both for each club
+	*/
 	assembleClubArray: function() {
 		this.clubs = [];
 
@@ -159,6 +166,10 @@ enyo.kind({
 		this.$.teamList.setCount(this.teams.length);
 		this.$.teamList.render();
 	},
+	/**
+		Assemble a list from teams the user is a coach, player or manager at.
+		Set flags specifying if the user is either of a player, coach or manager for each team
+	*/
 	assembleTeamArray: function() {
 		this.teams = [];
 

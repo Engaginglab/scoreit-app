@@ -1,3 +1,8 @@
+/**
+    Lightweight control for selecting multiple items from a large number of choices.
+    As the user types a query string into an input field, he is presented a list of choices matching his query.
+    Selected items are shown as boxes within the text field which makes it very compact and good to use inside forms
+*/
 enyo.kind({
     name: "TextFieldSelector",
     kind: "MultiSelector",

@@ -1,3 +1,6 @@
+/**
+	A popup used to prompt a user to confirm or decline an action
+*/
 enyo.kind({
 	name: "ConfirmPopup",
 	kind: "onyx.Popup",
@@ -5,18 +8,25 @@ enyo.kind({
 	centered: true,
 	floating: true,
 	published: {
+		//* Title on top of the popup
 		title: "",
+		//* Message inside the popup
 		message: "",
+		//* Caption of the accept button
 		acceptButtonCaption: "OK",
+		//* Caption of the cancel/decline button
 		cancelButtonCaption: "Abbrechen",
+		//* Function that gets called after the user has made a decision. The single argument is true if the user accepts, false if he declines
 		callback: null,
+		//* Action type the user is asked to accept. Available types are 'default' and 'destructive'
 		action: "default"
 	},
 	events: {
+		//* Gets fired when the user clicks the accept button
 		onAccept: "",
+		//* Gets fired when the user clicks the cancel button
 		onCancel: ""
 	},
-	//* @protected
 	components: [
 		{name: "title", classes: "confirmpopup-title"},
 		{components: [

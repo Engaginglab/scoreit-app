@@ -1,8 +1,13 @@
+/**
+    Form for editing a persons handball profile
+*/
 enyo.kind({
     name: "ProfileForm",
     classes: "scoreit-form",
     published: {
+        //* The currently signed in user
         user: null,
+        //* Optional person object for prefilling the form
         profile: null
     },
     userChanged: function() {
@@ -54,6 +59,9 @@ enyo.kind({
     //         this.$.clubSelector.setItems(response.objects);
     //     }));
     // },
+    /**
+        Check if the pass number is valid
+    */
     checkPassNumber: function() {
         var passNumber = this.$.passNumber.getValue();
 
@@ -85,6 +93,9 @@ enyo.kind({
     //     this.$.clubSelector.setItems(this.$.clubSelector.getItems().concat([club]));
     //     this.$.clubSelector.setSelectedItem(club);
     // },
+    /**
+        Get the form data
+    */
     getData: function() {
         return {
             id: this.profile ? this.profile.id : undefined,

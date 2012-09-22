@@ -1,3 +1,6 @@
+/**
+    Root component and entry point of the app
+*/
 enyo.kind({
     name: "App",
     kind: "FittableRows",
@@ -26,6 +29,9 @@ enyo.kind({
     showReportView: function() {
         this.showView("reportView");
     },
+    /**
+        Load current users data
+    */
     loadUser: function() {
         var user = this.fetchUser();
         if (user) {
@@ -42,6 +48,9 @@ enyo.kind({
             this.userChanged();
         }
     },
+    /**
+        Fetch user data from local storage
+    */
     fetchUser: function() {
         var user = null;
         try {
@@ -50,9 +59,15 @@ enyo.kind({
         }
         return user;
     },
+    /**
+        Save user data to local storage
+    */
     saveUser: function() {
         localStorage.setItem("user", JSON.stringify(scoreit.user));
     },
+    /**
+        Delete user from local storage
+    */
     deleteUser: function() {
         localStorage.removeItem("user");
     },

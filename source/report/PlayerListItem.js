@@ -107,14 +107,14 @@ enyo.kind({
 	components: [
 		{name: "shirtNumber", classes: "player-list-item-number"},
 		{name: "goals", classes: "player-list-item-goals", showing: false, components: [
-			{kind: "Image", src: "../assets/images/ball.png"},
+			{kind: "Image", src: "assets/images/ball.png"},
 			{name: "goalsCounter", classes: "player-list-item-goals-text"}
 		]},
 		{name: "pen", classes: "player-list-item-cards", components: [
-			{kind: "Image", src: "../assets/images/stopwatch.png", name: "time1", showing: false},
-			{kind: "Image", src: "../assets/images/stopwatch.png", name: "time2", showing: false},
-			{kind: "Image", src: "../assets/images/yellow_card_24x24.png", name: "card1", showing: false},
-			{kind: "Image", src: "../assets/images/red_card_24x24.png", name: "card2", showing: false}
+			{kind: "Image", src: "assets/images/stopwatch.png", name: "time1", showing: false},
+			{kind: "Image", src: "assets/images/stopwatch.png", name: "time2", showing: false},
+			{kind: "Image", src: "assets/images/yellow_card_24x24.png", name: "card1", showing: false},
+			{kind: "Image", src: "assets/images/red_card_24x24.png", name: "card2", showing: false}
 		]},
 		{name: "timer", classes: "player-list-item-timer", showing: false},
 		{name: "playerName", classes: "player-list-item-name ellipsis"}

@@ -1,3 +1,6 @@
+/**
+    Main view that is shown after the user has signed in. Contains all the subviews and a side menu.
+*/
 enyo.kind({
     name: "MainView",
     kind: "FittableColumns",
@@ -13,6 +16,9 @@ enyo.kind({
     userChanged: function() {
         this.$.detail.setUser(this.user);
     },
+    /**
+        Show a specific view by name
+    */
     showView: function(view) {
         this.$.panels.setIndex(this.views[view]);
         // this.$.panels.resized();

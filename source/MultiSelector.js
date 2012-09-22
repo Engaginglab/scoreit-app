@@ -1,14 +1,25 @@
+/**
+	A control optimized for selecting multiple items from a large number of choices.
+	NOT FUNCTIONAL AS A STANDALONE COMPONENT. Should be used as base kind for other controls.
+*/
 enyo.kind({
 	name: "MultiSelector",
 	events: {
+		//* Gets fired whenever the user indicates that he wants to create a new item. Only works if the allowNewItem property is set to true.
 		onNewItem: ""
 	},
 	published: {
+		//* The items to choose from
 		items: [],
+		//*	Unique property for checking if a item has allready be selected
 		uniqueProperty: "",
+		//* Display property
 		displayProperty: "",
+		//* Properties to use for filtering
 		filterProperties: [],
+		//* Placeholder that is shown if the filterin ginput is empty
 		hint: "Type to select an item!",
+		//* Whether or not the user can choose to create a new item
 		allowNewItem: false
 	},
 	create: function() {
@@ -23,6 +34,9 @@ enyo.kind({
 	getKeyProp: function(item) {
 		return (this.uniqueProperty && item[this.uniqueProperty]) ? this.uniqueProperty : this.displayProperty;
 	},
+	/**
+		Select a list of items
+	*/
 	setSelectedItems: function(items) {
 		this.selectedItems = {};
 		for (var i=0; i<items.length; i++) {
@@ -31,6 +45,9 @@ enyo.kind({
 		}
 		this.refreshSelectedItems();
 	},
+	/**
+		Get all selected items
+	*/
 	getSelectedItems: function() {
 		var items = [];
 		for (var x in this.selectedItems) {
@@ -38,6 +55,9 @@ enyo.kind({
 		}
 		return items;
 	},
+	/**
+		Check if an item is selected
+	*/
 	isSelected: function(item) {
 		var keyProp = this.getKeyProp(item);
 		var found = this.selectedItems[item[keyProp]];
@@ -114,6 +134,9 @@ enyo.kind({
 		this.selectItem(this.filteredItems[event.index]);
 		this.$.searchInput.focus();
 	},
+	/**
+		Select an item
+	*/
 	selectItem: function(item) {
 		var keyProp = this.getKeyProp(item);
 		this.selectedItems[item[keyProp]] = item;
@@ -121,11 +144,17 @@ enyo.kind({
 		this.$.popup.hide();
 		this.$.searchInput.setValue("");
 	},
+	/**
+		Deselect an item
+	*/
 	deselectItem: function(item) {
 		var keyProp = this.getKeyProp(item);
 		delete this.selectedItems[item[keyProp]];
 		this.refreshSelectedItems();
 	},
+	/**
+		Deselect the last selected item
+	*/
 	popItem: function() {
 		var selectedItems = this.getSelectedItems();
 		var item = selectedItems[selectedItems.length-1];

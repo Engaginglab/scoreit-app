@@ -1,6 +1,11 @@
+/**
+	Root detail view. Shows a list of unions and union-spanning groups.
+	TODO: Show union spanning groups
+*/
 enyo.kind({
 	name: "RootView",
 	events: {
+		//* Gets fired when a user selects a union
 		onShowUnion: ""
 	},
 	create: function() {

@@ -1,3 +1,6 @@
+/**
+	Detail view for groups
+*/
 enyo.kind({
 	name: "GroupView",
 	published: {

@@ -1,8 +1,13 @@
+/**
+	Vertical menu for selecting subviews
+*/
 enyo.kind({
 	name: "SideMenu",
 	classes: "sidemenu",
 	events: {
+		//* Gets fired when the user selects the dashboard menu item
 		onDashboard: "",
+		//* Gets fired when the user selects the detail menu item
 		onDetail: ""
 	},
 	dashboard: function() {
@@ -15,8 +20,11 @@ enyo.kind({
 		this.$.detailMenuItem.addClass("selected");
 		this.doDetail();
 	},
+	/**
+		Show report app in new window
+	*/
 	report: function() {
-		window.open("report.html", "report",
+		window.open("report_debug.html", "report",
 			"location=no,menubar=no,resizable=no,status=no,titlebar=no,toolbar=no,width=1024,height=768");
 	},
 	components: [

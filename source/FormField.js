@@ -1,13 +1,20 @@
+/**
+	Field to be used in forms. Changes style based on the valid property and can show an error message.
+*/
 enyo.kind({
 	name: "FormField",
 	kind: "onyx.InputDecorator",
 	classes: "formfield input-fill",
 	published: {
+		//* Type of the input field. Get mapped directly to the underlying onyx.Input kind
 		type: "",
+		//* Whether or not this field has to be filled
 		required: false,
-		//label: "",
+		//* Whether or not this fields content is considered valid
 		valid: null,
+		//* Error message that is shown if the fields content is not valid
 		errorMessage: "",
+		//* Placeholder that is shwon if the field is empty
 		placeholder: ""
 	},
 	requiredChanged: function() {

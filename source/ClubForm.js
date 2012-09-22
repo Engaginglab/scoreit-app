@@ -1,7 +1,11 @@
+/**
+    Form for editing club data
+*/
 enyo.kind({
     name: "ClubForm",
     classes: "scoreit-form",
     published: {
+        //* Specify to prefill form
         club: null
     },
     events: {
@@ -60,9 +64,5 @@ enyo.kind({
             {style: "width: 100%; text-align: left;", content: "Bezirk auswählen..."},
             {kind: "onyx.Picker", name: "districtPicker"}
         ]}
-        // {kind: "onyx.Groupbox", name: "managerSelectorGroup", components: [
-        //     {kind: "onyx.GroupboxHeader", content: "Manager"},
-        //     {kind: "TextFieldSelector", hint: "Namen eingeben...", displayProperty: "display_name", uniqueProperty: "id", name: "managerSelector", filterProperties: ["first_name", "last_name", "pass_number"]}
-        // ]}
     ]
 });

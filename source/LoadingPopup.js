@@ -1,3 +1,6 @@
+/**
+	A popup with a spinner and text massage for indicating that the page is loading.
+*/
 enyo.kind({
 	name: "LoadingPopup",
 	kind: "onyx.Popup",
@@ -6,6 +9,9 @@ enyo.kind({
 	autoDismiss: false,
 	classes: "loadingpopup",
 	published: {
+		/**
+			Loading message to be shown
+		*/
 		text: "Loading..."
 	},
 	textChanged: function() {

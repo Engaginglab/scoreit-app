@@ -1,7 +1,11 @@
+/**
+    Lightweight form for the person object. Only contains most essential fields.
+*/
 enyo.kind({
     name: "LightweightPersonForm",
     classes: "scoreit-form",
     published: {
+        //* The person objects for preffilling the form
         person: null
     },
     personChanged: function() {
@@ -20,6 +24,9 @@ enyo.kind({
             this.$.passNumber.setValue("");
         }
     },
+    /**
+        Clear the form
+    */
     clear: function() {
         this.setPerson(null);
         this.personChanged();
@@ -28,6 +35,9 @@ enyo.kind({
         this.inherited(arguments);
         this.personChanged();
     },
+    /**
+        Check if the pass number is valid
+    */
     checkPassNumber: function() {
         var passNumber = this.$.passNumber.getValue();
 
@@ -48,6 +58,9 @@ enyo.kind({
             }));
         }
     },
+    /**
+        Get the form data
+    */
     getData: function() {
         return {
             id: this.person ? this.person.id : undefined,

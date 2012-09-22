@@ -1,11 +1,17 @@
+/**
+	Header bar usually  shown at the top of the page. Contains score.it logo and signin/signout controls.
+*/
 enyo.kind({
 	name: "TopBar",
 	classes: "scoreit-topbar",
 	published: {
+		//* Currently signed in user
 		user: null
 	},
 	events: {
+		//* Fired when the user signs in
 		onLogin: "",
+		//* Fired when the user signs out
 		onLogout: ""
 	},
 	userChanged: function() {

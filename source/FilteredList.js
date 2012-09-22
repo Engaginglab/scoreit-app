@@ -1,14 +1,20 @@
+/**
+	A list with an input field that allows filtering items based on certain properties
+*/
 enyo.kind({
 	name: "FilteredList",
 	kind: "FittableRows",
 	filteredItems: [],
 	events: {
+		//* Specify for a custom filter function
 		onFilter: "",
+		//* Specify for customizing the item appearance
 		onSetupItem: ""
 	},
 	published: {
+		//* Items in this list
 		items: [],
-		multiSelect: false,
+		//* Properties that are searched for the filter string
 		filterProperties: []
 	},
 	itemsChanged: function() {

@@ -1,3 +1,6 @@
+/**
+	Form for signup info
+*/
 enyo.kind({
 	name: "SignUpForm",
 	classes: "scoreit-form",
@@ -10,6 +13,9 @@ enyo.kind({
 		this.emailValid = false;
 		this.passNumberValid = false;
 	},
+	/**
+		Clear form
+	*/
 	clear: function() {
 		this.$.username.setValue("");
 		this.$.username.setValid(null);
@@ -24,12 +30,21 @@ enyo.kind({
 		this.$.password2.setValue("");
 		this.$.password2.setValid(null);
 	},
+	/**
+		Check if first name is valid
+	*/
 	checkFirstName: function() {
 		this.$.firstName.setValid(this.$.firstName.getValue() !== "");
 	},
+	/**
+		Check if last name is valid
+	*/
 	checkLastName: function() {
 		this.$.lastName.setValid(this.$.lastName.getValue() !== "");
 	},
+	/**
+		Check if username is valid
+	*/
 	checkUsername: function() {
 		if (!this.$.username.getValue()) {
 			this.$.username.setValid(false);
@@ -46,6 +61,9 @@ enyo.kind({
 			}));
 		}
 	},
+	/**
+		Check if email is valid
+	*/
 	checkEmail: function() {
 		var pattern = /^([\w\d\-\.]+)@{1}(([\w\d\-]{1,67})|([\w\d\-]+\.[\w\d\-]{1,67}))\.(([a-zA-Z\d]{2,4})(\.[a-zA-Z\d]{2})?)$/;
 		var email = this.$.email.getValue();
@@ -68,6 +86,9 @@ enyo.kind({
 			}));
 		}
 	},
+	/**
+		Check if password is valid
+	*/
 	checkPassword: function() {
 		if (!this.$.password.getValue()) {
 			this.$.password.setValid(false);
@@ -93,6 +114,9 @@ enyo.kind({
 		// 	this.$.password2.setValid(true);
 		// }
 	},
+	/**
+		Perfom validation on all fields return true if all fields are valid, false otherwise.
+	*/
 	allValid: function() {
 		this.checkFirstName();
 		this.checkLastName();
@@ -101,6 +125,9 @@ enyo.kind({
 		this.checkPassword();
 		return this.$.firstName.getValid() && this.$.lastName.getValid() && this.$.email.getValid() && this.$.username.getValid() && this.$.password1.getValid();
 	},
+	/**
+		Check if all fields are valid. If so, fire submit event with form data and clear form
+	*/
 	submit: function() {
 		if (this.allValid()) {
 			var data = {

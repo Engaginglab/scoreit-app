@@ -1,7 +1,11 @@
+/**
+	Form for editing Site objects
+*/
 enyo.kind({
 	name: "SiteForm",
 	classes: "scoreit-form",
 	published: {
+		//* Optional site object for prefilling the form
 		site: null
 	},
 	siteChanged: function() {
@@ -17,10 +21,16 @@ enyo.kind({
 			this.$.city.setValue("");
 		}
 	},
+	/**
+		Clear the form
+	*/
 	clear: function() {
 		this.setSite(null);
 		this.siteChanged();
 	},
+	/**
+		Get the form data
+	*/
 	getData: function() {
 		var address = this.$.address.getValue();
 		var number = this.$.siteNumber.getValue();
@@ -48,5 +58,5 @@ enyo.kind({
 		{kind: "onyx.InputDecorator", components: [
 			{kind: "onyx.Input", placeholder: "Stadt", name: "city"}
 		]}
-	] 
+	]
 });
